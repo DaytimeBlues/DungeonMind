@@ -6,6 +6,8 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import '../../providers/database_provider.dart';
 import '../../providers/entity_providers.dart';
 import '../../data/models/entity_types.dart';
+import '../../core/utils/wikilink_utils.dart';
+import '../../core/services/ai_service.dart';
 import '../../core/theme/catppuccin_colors.dart';
 
 /// Detail screen for viewing and editing a single entity
@@ -20,30 +22,46 @@ class EntityDetailScreen extends ConsumerStatefulWidget {
 
 class _EntityDetailScreenState extends ConsumerState<EntityDetailScreen>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  final _bodyController = TextEditingController();
-  final _publicDescController = TextEditingController();
+  // State for form
   bool _isEditing = false;
   bool _hasChanges = false;
+  late TextEditingController _bodyController;
+  late TextEditingController _publicDescController;
+  late TabController _tabController;
+  
+  // Track current entity to reset form when navigating
+  String? _currentEntityId;
+  bool _isRevealed = false;
 
   @override
   void initState() {
     super.initState();
+    // Controllers initialized empty, populated in build
+    _bodyController = TextEditingController();
+    _publicDescController = TextEditingController();
     _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     _bodyController.dispose();
     _publicDescController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final entityAsync = ref.watch(selectedEntityProvider);
-
+    // Watch selected entity
+    final id = ref.watch(selectedEntityIdProvider);
+    // If no ID selected, show placeholder or redirect?
+    // Handled by parent usually, but safe to check.
+    
+    // Watch entity stream
+    final entityAsync = id != null 
+        ? ref.watch(entityProvider(id)) 
+        : const AsyncValue.loading();
+        
     return entityAsync.when(
       data: (entity) {
         if (entity == null) {
@@ -53,42 +71,56 @@ class _EntityDetailScreenState extends ConsumerState<EntityDetailScreen>
           );
         }
 
-        // Initialize controllers if not editing
-        if (!_isEditing) {
+        // If entity changed, update controllers
+        if (_currentEntityId != entity.id) {
+          _currentEntityId = entity.id;
           _bodyController.text = entity.bodyContent ?? '';
           _publicDescController.text = entity.publicDescription ?? '';
+          _isRevealed = entity.isRevealed;
         }
-
+        
         final entityType = EntityType.fromString(entity.type);
-        final metadata = entity.metadata != null
-            ? jsonDecode(entity.metadata!) as Map<String, dynamic>
-            : <String, dynamic>{};
+        final metadata = ref.read(entityRepositoryProvider).parseMetadata(entity);
 
         return Scaffold(
           appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                if (Navigator.canPop(context)) {
+                   Navigator.pop(context);
+                } else {
+                   context.go('/entities'); 
+                }
+              },
+            ),
             title: Text(entity.title),
             actions: [
-              if (_isEditing)
-                TextButton.icon(
-                  onPressed: _hasChanges ? () => _saveChanges(entity.id) : null,
-                  icon: const Icon(Icons.check),
-                  label: const Text('Save'),
-                )
-              else
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () => setState(() => _isEditing = true),
-                  tooltip: 'Edit',
-                ),
+               // Analyze Logic Button
+               IconButton(
+                 icon: const Icon(Icons.auto_awesome, color: CatppuccinColors.mauve),
+                 tooltip: 'Analyze Logic',
+                 onPressed: () => _analyzeEntity(entity),
+               ),
+               // Edit/Save Button
+              _isEditing
+                  ? IconButton(
+                      icon: const Icon(Icons.save),
+                      onPressed: () => _saveChanges(entity.id),
+                    )
+                  : IconButton(
+                      icon: const Icon(Icons.edit),
+                      onPressed: () => setState(() => _isEditing = true),
+                    ),
               PopupMenuButton<String>(
                 itemBuilder: (context) => [
-                  const PopupMenuItem(
+                   PopupMenuItem(
                     value: 'delete',
                     child: Row(
-                      children: [
-                        Icon(Icons.delete, color: CatppuccinColors.red),
-                        SizedBox(width: 8),
-                        Text('Delete'),
+                      children: const [
+                        Icon(Icons.delete, color: Colors.red),
+                         SizedBox(width: 8),
+                        Text('Delete Entity', style: TextStyle(color: Colors.red)),
                       ],
                     ),
                   ),
@@ -119,7 +151,11 @@ class _EntityDetailScreenState extends ConsumerState<EntityDetailScreen>
                 publicDescController: _publicDescController,
                 bodyContent: entity.bodyContent,
                 publicDescription: entity.publicDescription,
+                campaignId: entity.campaignId,
+                isRevealed: _isRevealed,
                 onChanged: () => setState(() => _hasChanges = true),
+                onRevealChanged: (val) => _saveRevealState(entity.id, val),
+                onLinkTap: (href) => _handleLinkTap(href, entity.campaignId),
               ),
               // Stats tab
               _StatsTab(entityType: entityType, metadata: metadata),
@@ -139,12 +175,24 @@ class _EntityDetailScreenState extends ConsumerState<EntityDetailScreen>
     );
   }
 
+  Future<void> _saveRevealState(String entityId, bool value) async {
+     setState(() => _isRevealed = value);
+     final repo = ref.read(entityRepositoryProvider);
+     await repo.updateEntity(id: entityId, isRevealed: value);
+     if (mounted) {
+       ScaffoldMessenger.of(context).showSnackBar(
+         SnackBar(content: Text(value ? 'Entity Marked as Known' : 'Entity Marked as Unknown')),
+       );
+     }
+  }
+
   Future<void> _saveChanges(String entityId) async {
     final repo = ref.read(entityRepositoryProvider);
     await repo.updateEntity(
       id: entityId,
       bodyContent: _bodyController.text,
       publicDescription: _publicDescController.text,
+      isRevealed: _isRevealed,
     );
     setState(() {
       _isEditing = false;
@@ -154,6 +202,141 @@ class _EntityDetailScreenState extends ConsumerState<EntityDetailScreen>
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Changes saved')),
       );
+    }
+  }
+
+  void _showApiKeyDialog() {
+    final controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Gemini API Key'),
+        content: TextField(
+          controller: controller,
+          decoration: const InputDecoration(hintText: 'Enter your API key'),
+          obscureText: true,
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
+          FilledButton(
+            onPressed: () {
+              ref.read(aiServiceProvider).saveApiKey(controller.text.trim());
+              Navigator.pop(context);
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Key Saved')));
+              }
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _analyzeEntity(Entity entity) async {
+    final aiService = ref.read(aiServiceProvider);
+    final key = await aiService.getApiKey();
+    if (key == null || key.isEmpty) {
+      if (mounted) _showApiKeyDialog();
+      return;
+    }
+
+    if (!mounted) return;
+    
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => DraggableScrollableSheet(
+        initialChildSize: 0.6,
+        minChildSize: 0.4,
+        maxChildSize: 0.9,
+        expand: false,
+        builder: (context, scrollController) => Container(
+          color: Theme.of(context).canvasColor,
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+               Row(children: [
+                 const Icon(Icons.auto_awesome, color: CatppuccinColors.mauve),
+                 const SizedBox(width: 8),
+                 Text('AI Analysis', style: Theme.of(context).textTheme.titleLarge),
+                 const Spacer(),
+                 IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
+               ]),
+               const Divider(),
+               Expanded(
+                 child: FutureBuilder<String>(
+                  future: aiService.checkEntityLogic(jsonEncode(entity.toJson())),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CircularProgressIndicator(),
+                          SizedBox(height: 16),
+                          Text('Consulting the weave...'),
+                        ],
+                      ));
+                    }
+                    if (snapshot.hasError) {
+                      return Center(child: SelectableText('Error: ${snapshot.error}'));
+                    }
+                    return SingleChildScrollView(
+                      controller: scrollController,
+                      child: MarkdownBody(
+                        data: snapshot.data ?? 'No insight provided.',
+                        styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
+                      ),
+                    );
+                  },
+                ),
+               ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _handleLinkTap(String? href, String campaignId) async {
+    if (href == null) return;
+    
+    if (href.startsWith('wikilink:')) {
+      final targetName = href.substring(9);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Looking for "$targetName"...'), duration: const Duration(seconds: 1)),
+      );
+
+      final repo = ref.read(entityRepositoryProvider);
+      try {
+        final results = await repo.searchEntities(campaignId, targetName).first;
+        Entity? target;
+        try {
+          target = results.firstWhere((e) => e.title.toLowerCase() == targetName.toLowerCase());
+        } catch (_) {
+          if (results.isNotEmpty) target = results.first;
+        }
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          if (target != null) {
+            ref.read(selectedEntityIdProvider.notifier).state = target.id;
+            context.pushNamed('entity-detail', pathParameters: {'id': target.id});
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Entity "$targetName" not found.'), behavior: SnackBarBehavior.floating),
+            );
+          }
+        }
+      } catch (e) {
+        if (mounted) {
+           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Error: $e')));
+        }
+      }
+    } else {
+      debugPrint('Tapped link: $href');
     }
   }
 
@@ -176,8 +359,8 @@ class _EntityDetailScreenState extends ConsumerState<EntityDetailScreen>
               final repo = ref.read(entityRepositoryProvider);
               await repo.deleteEntity(entityId);
               if (context.mounted) {
-                Navigator.pop(context);
-                Navigator.pop(context);
+                Navigator.pop(context); // Dialog
+                Navigator.pop(context); // Screen
               }
             },
             child: const Text('Delete'),
@@ -195,7 +378,11 @@ class _ContentTab extends StatelessWidget {
   final TextEditingController publicDescController;
   final String? bodyContent;
   final String? publicDescription;
+  final String campaignId;
+  final bool isRevealed;
   final VoidCallback onChanged;
+  final ValueChanged<bool> onRevealChanged;
+  final Function(String?) onLinkTap;
 
   const _ContentTab({
     required this.isEditing,
@@ -203,126 +390,156 @@ class _ContentTab extends StatelessWidget {
     required this.publicDescController,
     required this.bodyContent,
     required this.publicDescription,
+    required this.campaignId,
+    required this.isRevealed,
     required this.onChanged,
+    required this.onRevealChanged,
+    required this.onLinkTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (isEditing) {
-      return ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          Text(
-            'DM Notes',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 8),
-          TextField(
-            controller: bodyController,
-            maxLines: null,
-            minLines: 8,
-            decoration: InputDecoration(
-              hintText: 'Your private notes... Use [[Entity Name]] to create links',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            onChanged: (_) => onChanged(),
-          ),
-          const SizedBox(height: 24),
-          Text(
-            'Player Description',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 8),
-          TextField(
-            controller: publicDescController,
-            maxLines: null,
-            minLines: 4,
-            decoration: InputDecoration(
-              hintText: 'What players can see...',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            onChanged: (_) => onChanged(),
-          ),
-        ],
-      );
-    }
-
-    return ListView(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
-      children: [
-        if (bodyContent?.isNotEmpty == true) ...[
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Known/Unknown Toggle
+          Card(
+            margin: const EdgeInsets.only(bottom: 16),
+            child: SwitchListTile(
+              title: Text(
+                isRevealed ? 'Known to Party' : 'Unknown to Party',
+                style: TextStyle(
+                  color: isRevealed ? CatppuccinColors.green : CatppuccinColors.overlay1,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              subtitle: Text(isRevealed 
+                  ? 'Showing full details' 
+                  : 'Showing limited information'),
+              value: isRevealed,
+              onChanged: onRevealChanged,
+              secondary: Icon(
+                isRevealed ? Icons.visibility : Icons.visibility_off,
+                color: isRevealed ? CatppuccinColors.green : CatppuccinColors.overlay0,
+              ),
+            ),
+          ),
+
+          // DM Content (Body)
           Row(
             children: [
-              const Icon(Icons.visibility_off, size: 16, color: CatppuccinColors.overlay1),
+              const Icon(Icons.security, size: 16, color: CatppuccinColors.red),
               const SizedBox(width: 8),
               Text(
                 'DM Notes',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: CatppuccinColors.red,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              if (!isRevealed) ...[
+                const SizedBox(width: 8),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: CatppuccinColors.red.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: const Text('HIDDEN FROM PLAYERS', style: TextStyle(fontSize: 10, color: CatppuccinColors.red)),
+                ),
+              ],
             ],
           ),
           const SizedBox(height: 8),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
+          if (isEditing)
+            TextField(
+              controller: bodyController,
+              maxLines: null,
+              decoration: const InputDecoration(
+                hintText: 'Enter secret DM notes here... Use [[Entity Name]] for links.',
+                border: OutlineInputBorder(),
+              ),
+              onChanged: (_) => onChanged(),
+            )
+          else
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: CatppuccinColors.surface1),
+              ),
               child: MarkdownBody(
-                data: bodyContent!,
-                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
+                data: bodyContent?.isNotEmpty == true 
+                    ? WikilinkUtils.processWikilinks(bodyContent!) 
+                    : '*No private content*',
+                onTapLink: (text, href, title) => onLinkTap(href),
+                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+                  p: const TextStyle(height: 1.5),
+                ),
               ),
             ),
-          ),
+          
           const SizedBox(height: 24),
-        ],
-        if (publicDescription?.isNotEmpty == true) ...[
+          
+          // Public Description
           Row(
             children: [
-              const Icon(Icons.visibility, size: 16, color: CatppuccinColors.green),
+              const Icon(Icons.public, size: 16, color: CatppuccinColors.blue),
               const SizedBox(width: 8),
               Text(
                 'Player Description',
-                style: Theme.of(context).textTheme.titleMedium,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: CatppuccinColors.blue,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
+              const SizedBox(width: 8),
+               Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: CatppuccinColors.green.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: const Text('VISIBLE', style: TextStyle(fontSize: 10, color: CatppuccinColors.green)),
+                ),
             ],
           ),
           const SizedBox(height: 8),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
+          if (isEditing)
+            TextField(
+              controller: publicDescController,
+              maxLines: null,
+              decoration: const InputDecoration(
+                hintText: 'Enter public description here...',
+                border: OutlineInputBorder(),
+              ),
+              onChanged: (_) => onChanged(),
+            )
+          else
+             Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: CatppuccinColors.surface1),
+              ),
               child: MarkdownBody(
-                data: publicDescription!,
-                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)),
+                data: publicDescription?.isNotEmpty == true 
+                    ? WikilinkUtils.processWikilinks(publicDescription!) 
+                    : '*No public description*',
+                onTapLink: (text, href, title) => onLinkTap(href),
+                styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+                  p: const TextStyle(height: 1.5),
+                ),
               ),
             ),
-          ),
         ],
-        if ((bodyContent?.isEmpty ?? true) && (publicDescription?.isEmpty ?? true))
-          Center(
-            child: Column(
-              children: [
-                const SizedBox(height: 64),
-                Icon(
-                  Icons.edit_note,
-                  size: 48,
-                  color: CatppuccinColors.overlay0,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'No content yet',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Tap the edit button to add notes',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
-            ),
-          ),
-      ],
+      ),
     );
   }
 }

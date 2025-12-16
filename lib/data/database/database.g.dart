@@ -10,99 +10,70 @@ class Campaigns extends Table with TableInfo<Campaigns, Campaign> {
   Campaigns(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-    'id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL PRIMARY KEY',
-  );
+      'id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL PRIMARY KEY');
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
-    'title',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  static const VerificationMeta _descriptionMeta = const VerificationMeta(
-    'description',
-  );
+      'title', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
   late final GeneratedColumn<String> description = GeneratedColumn<String>(
-    'description',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    $customConstraints: '',
-  );
-  static const VerificationMeta _calendarSystemMeta = const VerificationMeta(
-    'calendarSystem',
-  );
+      'description', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _calendarSystemMeta =
+      const VerificationMeta('calendarSystem');
   late final GeneratedColumn<String> calendarSystem = GeneratedColumn<String>(
-    'calendar_system',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    $customConstraints: 'NOT NULL DEFAULT \'gregorian\'',
-    defaultValue: const CustomExpression('\'gregorian\''),
-  );
-  static const VerificationMeta _currentInGameDateMeta = const VerificationMeta(
-    'currentInGameDate',
-  );
+      'calendar_system', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT \'gregorian\'',
+      defaultValue: const CustomExpression('\'gregorian\''));
+  static const VerificationMeta _currentInGameDateMeta =
+      const VerificationMeta('currentInGameDate');
   late final GeneratedColumn<String> currentInGameDate =
-      GeneratedColumn<String>(
-        'current_in_game_date',
-        aliasedName,
-        true,
-        type: DriftSqlType.string,
-        requiredDuringInsert: false,
-        $customConstraints: '',
-      );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
+      GeneratedColumn<String>('current_in_game_date', aliasedName, true,
+          type: DriftSqlType.string,
+          requiredDuringInsert: false,
+          $customConstraints: '');
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
   late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
-    'updatedAt',
-  );
+      'created_at', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
   late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
-    'updated_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   @override
   List<GeneratedColumn> get $columns => [
-    id,
-    title,
-    description,
-    calendarSystem,
-    currentInGameDate,
-    createdAt,
-    updatedAt,
-  ];
+        id,
+        title,
+        description,
+        calendarSystem,
+        currentInGameDate,
+        createdAt,
+        updatedAt
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'campaigns';
   @override
-  VerificationContext validateIntegrity(
-    Insertable<Campaign> instance, {
-    bool isInserting = false,
-  }) {
+  VerificationContext validateIntegrity(Insertable<Campaign> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -112,52 +83,37 @@ class Campaigns extends Table with TableInfo<Campaigns, Campaign> {
     }
     if (data.containsKey('title')) {
       context.handle(
-        _titleMeta,
-        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
-      );
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
     if (data.containsKey('description')) {
       context.handle(
-        _descriptionMeta,
-        description.isAcceptableOrUnknown(
-          data['description']!,
           _descriptionMeta,
-        ),
-      );
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
     }
     if (data.containsKey('calendar_system')) {
       context.handle(
-        _calendarSystemMeta,
-        calendarSystem.isAcceptableOrUnknown(
-          data['calendar_system']!,
           _calendarSystemMeta,
-        ),
-      );
+          calendarSystem.isAcceptableOrUnknown(
+              data['calendar_system']!, _calendarSystemMeta));
     }
     if (data.containsKey('current_in_game_date')) {
       context.handle(
-        _currentInGameDateMeta,
-        currentInGameDate.isAcceptableOrUnknown(
-          data['current_in_game_date']!,
           _currentInGameDateMeta,
-        ),
-      );
+          currentInGameDate.isAcceptableOrUnknown(
+              data['current_in_game_date']!, _currentInGameDateMeta));
     }
     if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
     if (data.containsKey('updated_at')) {
-      context.handle(
-        _updatedAtMeta,
-        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
-      );
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
     } else if (isInserting) {
       context.missing(_updatedAtMeta);
     }
@@ -170,34 +126,20 @@ class Campaigns extends Table with TableInfo<Campaigns, Campaign> {
   Campaign map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Campaign(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}id'],
-      )!,
-      title: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}title'],
-      )!,
-      description: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}description'],
-      ),
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      title: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
       calendarSystem: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}calendar_system'],
-      )!,
+          DriftSqlType.string, data['${effectivePrefix}calendar_system'])!,
       currentInGameDate: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}current_in_game_date'],
-      ),
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}created_at'],
-      )!,
-      updatedAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}updated_at'],
-      )!,
+          DriftSqlType.string, data['${effectivePrefix}current_in_game_date']),
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
     );
   }
 
@@ -218,15 +160,14 @@ class Campaign extends DataClass implements Insertable<Campaign> {
   final String? currentInGameDate;
   final int createdAt;
   final int updatedAt;
-  const Campaign({
-    required this.id,
-    required this.title,
-    this.description,
-    required this.calendarSystem,
-    this.currentInGameDate,
-    required this.createdAt,
-    required this.updatedAt,
-  });
+  const Campaign(
+      {required this.id,
+      required this.title,
+      this.description,
+      required this.calendarSystem,
+      this.currentInGameDate,
+      required this.createdAt,
+      required this.updatedAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -260,19 +201,16 @@ class Campaign extends DataClass implements Insertable<Campaign> {
     );
   }
 
-  factory Campaign.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory Campaign.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Campaign(
       id: serializer.fromJson<String>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       description: serializer.fromJson<String?>(json['description']),
       calendarSystem: serializer.fromJson<String>(json['calendar_system']),
-      currentInGameDate: serializer.fromJson<String?>(
-        json['current_in_game_date'],
-      ),
+      currentInGameDate:
+          serializer.fromJson<String?>(json['current_in_game_date']),
       createdAt: serializer.fromJson<int>(json['created_at']),
       updatedAt: serializer.fromJson<int>(json['updated_at']),
     );
@@ -291,32 +229,31 @@ class Campaign extends DataClass implements Insertable<Campaign> {
     };
   }
 
-  Campaign copyWith({
-    String? id,
-    String? title,
-    Value<String?> description = const Value.absent(),
-    String? calendarSystem,
-    Value<String?> currentInGameDate = const Value.absent(),
-    int? createdAt,
-    int? updatedAt,
-  }) => Campaign(
-    id: id ?? this.id,
-    title: title ?? this.title,
-    description: description.present ? description.value : this.description,
-    calendarSystem: calendarSystem ?? this.calendarSystem,
-    currentInGameDate: currentInGameDate.present
-        ? currentInGameDate.value
-        : this.currentInGameDate,
-    createdAt: createdAt ?? this.createdAt,
-    updatedAt: updatedAt ?? this.updatedAt,
-  );
+  Campaign copyWith(
+          {String? id,
+          String? title,
+          Value<String?> description = const Value.absent(),
+          String? calendarSystem,
+          Value<String?> currentInGameDate = const Value.absent(),
+          int? createdAt,
+          int? updatedAt}) =>
+      Campaign(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        description: description.present ? description.value : this.description,
+        calendarSystem: calendarSystem ?? this.calendarSystem,
+        currentInGameDate: currentInGameDate.present
+            ? currentInGameDate.value
+            : this.currentInGameDate,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
   Campaign copyWithCompanion(CampaignsCompanion data) {
     return Campaign(
       id: data.id.present ? data.id.value : this.id,
       title: data.title.present ? data.title.value : this.title,
-      description: data.description.present
-          ? data.description.value
-          : this.description,
+      description:
+          data.description.present ? data.description.value : this.description,
       calendarSystem: data.calendarSystem.present
           ? data.calendarSystem.value
           : this.calendarSystem,
@@ -343,15 +280,8 @@ class Campaign extends DataClass implements Insertable<Campaign> {
   }
 
   @override
-  int get hashCode => Object.hash(
-    id,
-    title,
-    description,
-    calendarSystem,
-    currentInGameDate,
-    createdAt,
-    updatedAt,
-  );
+  int get hashCode => Object.hash(id, title, description, calendarSystem,
+      currentInGameDate, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -393,10 +323,10 @@ class CampaignsCompanion extends UpdateCompanion<Campaign> {
     required int createdAt,
     required int updatedAt,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       title = Value(title),
-       createdAt = Value(createdAt),
-       updatedAt = Value(updatedAt);
+  })  : id = Value(id),
+        title = Value(title),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt);
   static Insertable<Campaign> custom({
     Expression<String>? id,
     Expression<String>? title,
@@ -419,16 +349,15 @@ class CampaignsCompanion extends UpdateCompanion<Campaign> {
     });
   }
 
-  CampaignsCompanion copyWith({
-    Value<String>? id,
-    Value<String>? title,
-    Value<String?>? description,
-    Value<String>? calendarSystem,
-    Value<String?>? currentInGameDate,
-    Value<int>? createdAt,
-    Value<int>? updatedAt,
-    Value<int>? rowid,
-  }) {
+  CampaignsCompanion copyWith(
+      {Value<String>? id,
+      Value<String>? title,
+      Value<String?>? description,
+      Value<String>? calendarSystem,
+      Value<String?>? currentInGameDate,
+      Value<int>? createdAt,
+      Value<int>? updatedAt,
+      Value<int>? rowid}) {
     return CampaignsCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
@@ -494,154 +423,116 @@ class Entities extends Table with TableInfo<Entities, Entity> {
   Entities(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-    'id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL PRIMARY KEY',
-  );
-  static const VerificationMeta _campaignIdMeta = const VerificationMeta(
-    'campaignId',
-  );
+      'id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL PRIMARY KEY');
+  static const VerificationMeta _campaignIdMeta =
+      const VerificationMeta('campaignId');
   late final GeneratedColumn<String> campaignId = GeneratedColumn<String>(
-    'campaign_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL REFERENCES campaigns(id)ON DELETE CASCADE',
-  );
+      'campaign_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL REFERENCES campaigns(id)ON DELETE CASCADE');
   static const VerificationMeta _typeMeta = const VerificationMeta('type');
   late final GeneratedColumn<String> type = GeneratedColumn<String>(
-    'type',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
+      'type', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
-    'title',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
+      'title', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _slugMeta = const VerificationMeta('slug');
   late final GeneratedColumn<String> slug = GeneratedColumn<String>(
-    'slug',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  static const VerificationMeta _bodyContentMeta = const VerificationMeta(
-    'bodyContent',
-  );
+      'slug', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _bodyContentMeta =
+      const VerificationMeta('bodyContent');
   late final GeneratedColumn<String> bodyContent = GeneratedColumn<String>(
-    'body_content',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    $customConstraints: '',
-  );
-  static const VerificationMeta _publicDescriptionMeta = const VerificationMeta(
-    'publicDescription',
-  );
+      'body_content', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _publicDescriptionMeta =
+      const VerificationMeta('publicDescription');
   late final GeneratedColumn<String> publicDescription =
-      GeneratedColumn<String>(
-        'public_description',
-        aliasedName,
-        true,
-        type: DriftSqlType.string,
-        requiredDuringInsert: false,
-        $customConstraints: '',
-      );
-  static const VerificationMeta _metadataMeta = const VerificationMeta(
-    'metadata',
-  );
+      GeneratedColumn<String>('public_description', aliasedName, true,
+          type: DriftSqlType.string,
+          requiredDuringInsert: false,
+          $customConstraints: '');
+  static const VerificationMeta _metadataMeta =
+      const VerificationMeta('metadata');
   late final GeneratedColumn<String> metadata = GeneratedColumn<String>(
-    'metadata',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    $customConstraints: '',
-  );
+      'metadata', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
   static const VerificationMeta _tagsMeta = const VerificationMeta('tags');
   late final GeneratedColumn<String> tags = GeneratedColumn<String>(
-    'tags',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    $customConstraints: '',
-  );
-  static const VerificationMeta _completenessScoreMeta = const VerificationMeta(
-    'completenessScore',
-  );
+      'tags', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _completenessScoreMeta =
+      const VerificationMeta('completenessScore');
   late final GeneratedColumn<double> completenessScore =
-      GeneratedColumn<double>(
-        'completeness_score',
-        aliasedName,
-        false,
-        type: DriftSqlType.double,
-        requiredDuringInsert: false,
-        $customConstraints: 'NOT NULL DEFAULT 0.0',
-        defaultValue: const CustomExpression('0.0'),
-      );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
+      GeneratedColumn<double>('completeness_score', aliasedName, false,
+          type: DriftSqlType.double,
+          requiredDuringInsert: false,
+          $customConstraints: 'NOT NULL DEFAULT 0.0',
+          defaultValue: const CustomExpression('0.0'));
+  static const VerificationMeta _isRevealedMeta =
+      const VerificationMeta('isRevealed');
+  late final GeneratedColumn<bool> isRevealed = GeneratedColumn<bool>(
+      'is_revealed', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT FALSE',
+      defaultValue: const CustomExpression('FALSE'));
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
   late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
-    'updatedAt',
-  );
+      'created_at', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
   late final GeneratedColumn<int> updatedAt = GeneratedColumn<int>(
-    'updated_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   @override
   List<GeneratedColumn> get $columns => [
-    id,
-    campaignId,
-    type,
-    title,
-    slug,
-    bodyContent,
-    publicDescription,
-    metadata,
-    tags,
-    completenessScore,
-    createdAt,
-    updatedAt,
-  ];
+        id,
+        campaignId,
+        type,
+        title,
+        slug,
+        bodyContent,
+        publicDescription,
+        metadata,
+        tags,
+        completenessScore,
+        isRevealed,
+        createdAt,
+        updatedAt
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'entities';
   @override
-  VerificationContext validateIntegrity(
-    Insertable<Entity> instance, {
-    bool isInserting = false,
-  }) {
+  VerificationContext validateIntegrity(Insertable<Entity> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -651,88 +542,71 @@ class Entities extends Table with TableInfo<Entities, Entity> {
     }
     if (data.containsKey('campaign_id')) {
       context.handle(
-        _campaignIdMeta,
-        campaignId.isAcceptableOrUnknown(data['campaign_id']!, _campaignIdMeta),
-      );
+          _campaignIdMeta,
+          campaignId.isAcceptableOrUnknown(
+              data['campaign_id']!, _campaignIdMeta));
     } else if (isInserting) {
       context.missing(_campaignIdMeta);
     }
     if (data.containsKey('type')) {
       context.handle(
-        _typeMeta,
-        type.isAcceptableOrUnknown(data['type']!, _typeMeta),
-      );
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
     } else if (isInserting) {
       context.missing(_typeMeta);
     }
     if (data.containsKey('title')) {
       context.handle(
-        _titleMeta,
-        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
-      );
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
     if (data.containsKey('slug')) {
       context.handle(
-        _slugMeta,
-        slug.isAcceptableOrUnknown(data['slug']!, _slugMeta),
-      );
+          _slugMeta, slug.isAcceptableOrUnknown(data['slug']!, _slugMeta));
     } else if (isInserting) {
       context.missing(_slugMeta);
     }
     if (data.containsKey('body_content')) {
       context.handle(
-        _bodyContentMeta,
-        bodyContent.isAcceptableOrUnknown(
-          data['body_content']!,
           _bodyContentMeta,
-        ),
-      );
+          bodyContent.isAcceptableOrUnknown(
+              data['body_content']!, _bodyContentMeta));
     }
     if (data.containsKey('public_description')) {
       context.handle(
-        _publicDescriptionMeta,
-        publicDescription.isAcceptableOrUnknown(
-          data['public_description']!,
           _publicDescriptionMeta,
-        ),
-      );
+          publicDescription.isAcceptableOrUnknown(
+              data['public_description']!, _publicDescriptionMeta));
     }
     if (data.containsKey('metadata')) {
-      context.handle(
-        _metadataMeta,
-        metadata.isAcceptableOrUnknown(data['metadata']!, _metadataMeta),
-      );
+      context.handle(_metadataMeta,
+          metadata.isAcceptableOrUnknown(data['metadata']!, _metadataMeta));
     }
     if (data.containsKey('tags')) {
       context.handle(
-        _tagsMeta,
-        tags.isAcceptableOrUnknown(data['tags']!, _tagsMeta),
-      );
+          _tagsMeta, tags.isAcceptableOrUnknown(data['tags']!, _tagsMeta));
     }
     if (data.containsKey('completeness_score')) {
       context.handle(
-        _completenessScoreMeta,
-        completenessScore.isAcceptableOrUnknown(
-          data['completeness_score']!,
           _completenessScoreMeta,
-        ),
-      );
+          completenessScore.isAcceptableOrUnknown(
+              data['completeness_score']!, _completenessScoreMeta));
+    }
+    if (data.containsKey('is_revealed')) {
+      context.handle(
+          _isRevealedMeta,
+          isRevealed.isAcceptableOrUnknown(
+              data['is_revealed']!, _isRevealedMeta));
     }
     if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
     if (data.containsKey('updated_at')) {
-      context.handle(
-        _updatedAtMeta,
-        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
-      );
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
     } else if (isInserting) {
       context.missing(_updatedAtMeta);
     }
@@ -745,54 +619,32 @@ class Entities extends Table with TableInfo<Entities, Entity> {
   Entity map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Entity(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}id'],
-      )!,
-      campaignId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}campaign_id'],
-      )!,
-      type: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}type'],
-      )!,
-      title: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}title'],
-      )!,
-      slug: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}slug'],
-      )!,
-      bodyContent: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}body_content'],
-      ),
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      campaignId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}campaign_id'])!,
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
+      title: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      slug: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}slug'])!,
+      bodyContent: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}body_content']),
       publicDescription: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}public_description'],
-      ),
-      metadata: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}metadata'],
-      ),
-      tags: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}tags'],
-      ),
+          DriftSqlType.string, data['${effectivePrefix}public_description']),
+      metadata: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}metadata']),
+      tags: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}tags']),
       completenessScore: attachedDatabase.typeMapping.read(
-        DriftSqlType.double,
-        data['${effectivePrefix}completeness_score'],
-      )!,
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}created_at'],
-      )!,
-      updatedAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}updated_at'],
-      )!,
+          DriftSqlType.double, data['${effectivePrefix}completeness_score'])!,
+      isRevealed: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_revealed'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}updated_at'])!,
     );
   }
 
@@ -816,22 +668,23 @@ class Entity extends DataClass implements Insertable<Entity> {
   final String? metadata;
   final String? tags;
   final double completenessScore;
+  final bool isRevealed;
   final int createdAt;
   final int updatedAt;
-  const Entity({
-    required this.id,
-    required this.campaignId,
-    required this.type,
-    required this.title,
-    required this.slug,
-    this.bodyContent,
-    this.publicDescription,
-    this.metadata,
-    this.tags,
-    required this.completenessScore,
-    required this.createdAt,
-    required this.updatedAt,
-  });
+  const Entity(
+      {required this.id,
+      required this.campaignId,
+      required this.type,
+      required this.title,
+      required this.slug,
+      this.bodyContent,
+      this.publicDescription,
+      this.metadata,
+      this.tags,
+      required this.completenessScore,
+      required this.isRevealed,
+      required this.createdAt,
+      required this.updatedAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -853,6 +706,7 @@ class Entity extends DataClass implements Insertable<Entity> {
       map['tags'] = Variable<String>(tags);
     }
     map['completeness_score'] = Variable<double>(completenessScore);
+    map['is_revealed'] = Variable<bool>(isRevealed);
     map['created_at'] = Variable<int>(createdAt);
     map['updated_at'] = Variable<int>(updatedAt);
     return map;
@@ -876,15 +730,14 @@ class Entity extends DataClass implements Insertable<Entity> {
           : Value(metadata),
       tags: tags == null && nullToAbsent ? const Value.absent() : Value(tags),
       completenessScore: Value(completenessScore),
+      isRevealed: Value(isRevealed),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
     );
   }
 
-  factory Entity.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory Entity.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Entity(
       id: serializer.fromJson<String>(json['id']),
@@ -893,14 +746,13 @@ class Entity extends DataClass implements Insertable<Entity> {
       title: serializer.fromJson<String>(json['title']),
       slug: serializer.fromJson<String>(json['slug']),
       bodyContent: serializer.fromJson<String?>(json['body_content']),
-      publicDescription: serializer.fromJson<String?>(
-        json['public_description'],
-      ),
+      publicDescription:
+          serializer.fromJson<String?>(json['public_description']),
       metadata: serializer.fromJson<String?>(json['metadata']),
       tags: serializer.fromJson<String?>(json['tags']),
-      completenessScore: serializer.fromJson<double>(
-        json['completeness_score'],
-      ),
+      completenessScore:
+          serializer.fromJson<double>(json['completeness_score']),
+      isRevealed: serializer.fromJson<bool>(json['is_revealed']),
       createdAt: serializer.fromJson<int>(json['created_at']),
       updatedAt: serializer.fromJson<int>(json['updated_at']),
     );
@@ -919,52 +771,53 @@ class Entity extends DataClass implements Insertable<Entity> {
       'metadata': serializer.toJson<String?>(metadata),
       'tags': serializer.toJson<String?>(tags),
       'completeness_score': serializer.toJson<double>(completenessScore),
+      'is_revealed': serializer.toJson<bool>(isRevealed),
       'created_at': serializer.toJson<int>(createdAt),
       'updated_at': serializer.toJson<int>(updatedAt),
     };
   }
 
-  Entity copyWith({
-    String? id,
-    String? campaignId,
-    String? type,
-    String? title,
-    String? slug,
-    Value<String?> bodyContent = const Value.absent(),
-    Value<String?> publicDescription = const Value.absent(),
-    Value<String?> metadata = const Value.absent(),
-    Value<String?> tags = const Value.absent(),
-    double? completenessScore,
-    int? createdAt,
-    int? updatedAt,
-  }) => Entity(
-    id: id ?? this.id,
-    campaignId: campaignId ?? this.campaignId,
-    type: type ?? this.type,
-    title: title ?? this.title,
-    slug: slug ?? this.slug,
-    bodyContent: bodyContent.present ? bodyContent.value : this.bodyContent,
-    publicDescription: publicDescription.present
-        ? publicDescription.value
-        : this.publicDescription,
-    metadata: metadata.present ? metadata.value : this.metadata,
-    tags: tags.present ? tags.value : this.tags,
-    completenessScore: completenessScore ?? this.completenessScore,
-    createdAt: createdAt ?? this.createdAt,
-    updatedAt: updatedAt ?? this.updatedAt,
-  );
+  Entity copyWith(
+          {String? id,
+          String? campaignId,
+          String? type,
+          String? title,
+          String? slug,
+          Value<String?> bodyContent = const Value.absent(),
+          Value<String?> publicDescription = const Value.absent(),
+          Value<String?> metadata = const Value.absent(),
+          Value<String?> tags = const Value.absent(),
+          double? completenessScore,
+          bool? isRevealed,
+          int? createdAt,
+          int? updatedAt}) =>
+      Entity(
+        id: id ?? this.id,
+        campaignId: campaignId ?? this.campaignId,
+        type: type ?? this.type,
+        title: title ?? this.title,
+        slug: slug ?? this.slug,
+        bodyContent: bodyContent.present ? bodyContent.value : this.bodyContent,
+        publicDescription: publicDescription.present
+            ? publicDescription.value
+            : this.publicDescription,
+        metadata: metadata.present ? metadata.value : this.metadata,
+        tags: tags.present ? tags.value : this.tags,
+        completenessScore: completenessScore ?? this.completenessScore,
+        isRevealed: isRevealed ?? this.isRevealed,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
   Entity copyWithCompanion(EntitiesCompanion data) {
     return Entity(
       id: data.id.present ? data.id.value : this.id,
-      campaignId: data.campaignId.present
-          ? data.campaignId.value
-          : this.campaignId,
+      campaignId:
+          data.campaignId.present ? data.campaignId.value : this.campaignId,
       type: data.type.present ? data.type.value : this.type,
       title: data.title.present ? data.title.value : this.title,
       slug: data.slug.present ? data.slug.value : this.slug,
-      bodyContent: data.bodyContent.present
-          ? data.bodyContent.value
-          : this.bodyContent,
+      bodyContent:
+          data.bodyContent.present ? data.bodyContent.value : this.bodyContent,
       publicDescription: data.publicDescription.present
           ? data.publicDescription.value
           : this.publicDescription,
@@ -973,6 +826,8 @@ class Entity extends DataClass implements Insertable<Entity> {
       completenessScore: data.completenessScore.present
           ? data.completenessScore.value
           : this.completenessScore,
+      isRevealed:
+          data.isRevealed.present ? data.isRevealed.value : this.isRevealed,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
@@ -991,6 +846,7 @@ class Entity extends DataClass implements Insertable<Entity> {
           ..write('metadata: $metadata, ')
           ..write('tags: $tags, ')
           ..write('completenessScore: $completenessScore, ')
+          ..write('isRevealed: $isRevealed, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -999,19 +855,19 @@ class Entity extends DataClass implements Insertable<Entity> {
 
   @override
   int get hashCode => Object.hash(
-    id,
-    campaignId,
-    type,
-    title,
-    slug,
-    bodyContent,
-    publicDescription,
-    metadata,
-    tags,
-    completenessScore,
-    createdAt,
-    updatedAt,
-  );
+      id,
+      campaignId,
+      type,
+      title,
+      slug,
+      bodyContent,
+      publicDescription,
+      metadata,
+      tags,
+      completenessScore,
+      isRevealed,
+      createdAt,
+      updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1026,6 +882,7 @@ class Entity extends DataClass implements Insertable<Entity> {
           other.metadata == this.metadata &&
           other.tags == this.tags &&
           other.completenessScore == this.completenessScore &&
+          other.isRevealed == this.isRevealed &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -1041,6 +898,7 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
   final Value<String?> metadata;
   final Value<String?> tags;
   final Value<double> completenessScore;
+  final Value<bool> isRevealed;
   final Value<int> createdAt;
   final Value<int> updatedAt;
   final Value<int> rowid;
@@ -1055,6 +913,7 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
     this.metadata = const Value.absent(),
     this.tags = const Value.absent(),
     this.completenessScore = const Value.absent(),
+    this.isRevealed = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.rowid = const Value.absent(),
@@ -1070,16 +929,17 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
     this.metadata = const Value.absent(),
     this.tags = const Value.absent(),
     this.completenessScore = const Value.absent(),
+    this.isRevealed = const Value.absent(),
     required int createdAt,
     required int updatedAt,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       campaignId = Value(campaignId),
-       type = Value(type),
-       title = Value(title),
-       slug = Value(slug),
-       createdAt = Value(createdAt),
-       updatedAt = Value(updatedAt);
+  })  : id = Value(id),
+        campaignId = Value(campaignId),
+        type = Value(type),
+        title = Value(title),
+        slug = Value(slug),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt);
   static Insertable<Entity> custom({
     Expression<String>? id,
     Expression<String>? campaignId,
@@ -1091,6 +951,7 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
     Expression<String>? metadata,
     Expression<String>? tags,
     Expression<double>? completenessScore,
+    Expression<bool>? isRevealed,
     Expression<int>? createdAt,
     Expression<int>? updatedAt,
     Expression<int>? rowid,
@@ -1106,27 +967,28 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
       if (metadata != null) 'metadata': metadata,
       if (tags != null) 'tags': tags,
       if (completenessScore != null) 'completeness_score': completenessScore,
+      if (isRevealed != null) 'is_revealed': isRevealed,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
-  EntitiesCompanion copyWith({
-    Value<String>? id,
-    Value<String>? campaignId,
-    Value<String>? type,
-    Value<String>? title,
-    Value<String>? slug,
-    Value<String?>? bodyContent,
-    Value<String?>? publicDescription,
-    Value<String?>? metadata,
-    Value<String?>? tags,
-    Value<double>? completenessScore,
-    Value<int>? createdAt,
-    Value<int>? updatedAt,
-    Value<int>? rowid,
-  }) {
+  EntitiesCompanion copyWith(
+      {Value<String>? id,
+      Value<String>? campaignId,
+      Value<String>? type,
+      Value<String>? title,
+      Value<String>? slug,
+      Value<String?>? bodyContent,
+      Value<String?>? publicDescription,
+      Value<String?>? metadata,
+      Value<String?>? tags,
+      Value<double>? completenessScore,
+      Value<bool>? isRevealed,
+      Value<int>? createdAt,
+      Value<int>? updatedAt,
+      Value<int>? rowid}) {
     return EntitiesCompanion(
       id: id ?? this.id,
       campaignId: campaignId ?? this.campaignId,
@@ -1138,6 +1000,7 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
       metadata: metadata ?? this.metadata,
       tags: tags ?? this.tags,
       completenessScore: completenessScore ?? this.completenessScore,
+      isRevealed: isRevealed ?? this.isRevealed,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       rowid: rowid ?? this.rowid,
@@ -1177,6 +1040,9 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
     if (completenessScore.present) {
       map['completeness_score'] = Variable<double>(completenessScore.value);
     }
+    if (isRevealed.present) {
+      map['is_revealed'] = Variable<bool>(isRevealed.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<int>(createdAt.value);
     }
@@ -1202,6 +1068,7 @@ class EntitiesCompanion extends UpdateCompanion<Entity> {
           ..write('metadata: $metadata, ')
           ..write('tags: $tags, ')
           ..write('completenessScore: $completenessScore, ')
+          ..write('isRevealed: $isRevealed, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('rowid: $rowid')
@@ -1217,75 +1084,49 @@ class Edges extends Table with TableInfo<Edges, Edge> {
   Edges(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-    'id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL PRIMARY KEY',
-  );
-  static const VerificationMeta _sourceIdMeta = const VerificationMeta(
-    'sourceId',
-  );
+      'id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL PRIMARY KEY');
+  static const VerificationMeta _sourceIdMeta =
+      const VerificationMeta('sourceId');
   late final GeneratedColumn<String> sourceId = GeneratedColumn<String>(
-    'source_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL REFERENCES entities(id)ON DELETE CASCADE',
-  );
-  static const VerificationMeta _targetIdMeta = const VerificationMeta(
-    'targetId',
-  );
+      'source_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL REFERENCES entities(id)ON DELETE CASCADE');
+  static const VerificationMeta _targetIdMeta =
+      const VerificationMeta('targetId');
   late final GeneratedColumn<String> targetId = GeneratedColumn<String>(
-    'target_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL REFERENCES entities(id)ON DELETE CASCADE',
-  );
-  static const VerificationMeta _edgeTypeMeta = const VerificationMeta(
-    'edgeType',
-  );
+      'target_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL REFERENCES entities(id)ON DELETE CASCADE');
+  static const VerificationMeta _edgeTypeMeta =
+      const VerificationMeta('edgeType');
   late final GeneratedColumn<String> edgeType = GeneratedColumn<String>(
-    'edge_type',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
+      'edge_type', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
   late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
+      'created_at', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    sourceId,
-    targetId,
-    edgeType,
-    createdAt,
-  ];
+  List<GeneratedColumn> get $columns =>
+      [id, sourceId, targetId, edgeType, createdAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'edges';
   @override
-  VerificationContext validateIntegrity(
-    Insertable<Edge> instance, {
-    bool isInserting = false,
-  }) {
+  VerificationContext validateIntegrity(Insertable<Edge> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -1294,34 +1135,26 @@ class Edges extends Table with TableInfo<Edges, Edge> {
       context.missing(_idMeta);
     }
     if (data.containsKey('source_id')) {
-      context.handle(
-        _sourceIdMeta,
-        sourceId.isAcceptableOrUnknown(data['source_id']!, _sourceIdMeta),
-      );
+      context.handle(_sourceIdMeta,
+          sourceId.isAcceptableOrUnknown(data['source_id']!, _sourceIdMeta));
     } else if (isInserting) {
       context.missing(_sourceIdMeta);
     }
     if (data.containsKey('target_id')) {
-      context.handle(
-        _targetIdMeta,
-        targetId.isAcceptableOrUnknown(data['target_id']!, _targetIdMeta),
-      );
+      context.handle(_targetIdMeta,
+          targetId.isAcceptableOrUnknown(data['target_id']!, _targetIdMeta));
     } else if (isInserting) {
       context.missing(_targetIdMeta);
     }
     if (data.containsKey('edge_type')) {
-      context.handle(
-        _edgeTypeMeta,
-        edgeType.isAcceptableOrUnknown(data['edge_type']!, _edgeTypeMeta),
-      );
+      context.handle(_edgeTypeMeta,
+          edgeType.isAcceptableOrUnknown(data['edge_type']!, _edgeTypeMeta));
     } else if (isInserting) {
       context.missing(_edgeTypeMeta);
     }
     if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
@@ -1334,26 +1167,16 @@ class Edges extends Table with TableInfo<Edges, Edge> {
   Edge map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return Edge(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}id'],
-      )!,
-      sourceId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}source_id'],
-      )!,
-      targetId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}target_id'],
-      )!,
-      edgeType: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}edge_type'],
-      )!,
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}created_at'],
-      )!,
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      sourceId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}source_id'])!,
+      targetId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}target_id'])!,
+      edgeType: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}edge_type'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
     );
   }
 
@@ -1372,13 +1195,12 @@ class Edge extends DataClass implements Insertable<Edge> {
   final String targetId;
   final String edgeType;
   final int createdAt;
-  const Edge({
-    required this.id,
-    required this.sourceId,
-    required this.targetId,
-    required this.edgeType,
-    required this.createdAt,
-  });
+  const Edge(
+      {required this.id,
+      required this.sourceId,
+      required this.targetId,
+      required this.edgeType,
+      required this.createdAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1400,10 +1222,8 @@ class Edge extends DataClass implements Insertable<Edge> {
     );
   }
 
-  factory Edge.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory Edge.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return Edge(
       id: serializer.fromJson<String>(json['id']),
@@ -1425,19 +1245,19 @@ class Edge extends DataClass implements Insertable<Edge> {
     };
   }
 
-  Edge copyWith({
-    String? id,
-    String? sourceId,
-    String? targetId,
-    String? edgeType,
-    int? createdAt,
-  }) => Edge(
-    id: id ?? this.id,
-    sourceId: sourceId ?? this.sourceId,
-    targetId: targetId ?? this.targetId,
-    edgeType: edgeType ?? this.edgeType,
-    createdAt: createdAt ?? this.createdAt,
-  );
+  Edge copyWith(
+          {String? id,
+          String? sourceId,
+          String? targetId,
+          String? edgeType,
+          int? createdAt}) =>
+      Edge(
+        id: id ?? this.id,
+        sourceId: sourceId ?? this.sourceId,
+        targetId: targetId ?? this.targetId,
+        edgeType: edgeType ?? this.edgeType,
+        createdAt: createdAt ?? this.createdAt,
+      );
   Edge copyWithCompanion(EdgesCompanion data) {
     return Edge(
       id: data.id.present ? data.id.value : this.id,
@@ -1495,11 +1315,11 @@ class EdgesCompanion extends UpdateCompanion<Edge> {
     required String edgeType,
     required int createdAt,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       sourceId = Value(sourceId),
-       targetId = Value(targetId),
-       edgeType = Value(edgeType),
-       createdAt = Value(createdAt);
+  })  : id = Value(id),
+        sourceId = Value(sourceId),
+        targetId = Value(targetId),
+        edgeType = Value(edgeType),
+        createdAt = Value(createdAt);
   static Insertable<Edge> custom({
     Expression<String>? id,
     Expression<String>? sourceId,
@@ -1518,14 +1338,13 @@ class EdgesCompanion extends UpdateCompanion<Edge> {
     });
   }
 
-  EdgesCompanion copyWith({
-    Value<String>? id,
-    Value<String>? sourceId,
-    Value<String>? targetId,
-    Value<String>? edgeType,
-    Value<int>? createdAt,
-    Value<int>? rowid,
-  }) {
+  EdgesCompanion copyWith(
+      {Value<String>? id,
+      Value<String>? sourceId,
+      Value<String>? targetId,
+      Value<String>? edgeType,
+      Value<int>? createdAt,
+      Value<int>? rowid}) {
     return EdgesCompanion(
       id: id ?? this.id,
       sourceId: sourceId ?? this.sourceId,
@@ -1574,112 +1393,74 @@ class EdgesCompanion extends UpdateCompanion<Edge> {
   }
 }
 
-class Maps extends Table with TableInfo<Maps, Map> {
+class GameMaps extends Table with TableInfo<GameMaps, GameMap> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  Maps(this.attachedDatabase, [this._alias]);
+  GameMaps(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-    'id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL PRIMARY KEY',
-  );
-  static const VerificationMeta _campaignIdMeta = const VerificationMeta(
-    'campaignId',
-  );
+      'id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL PRIMARY KEY');
+  static const VerificationMeta _campaignIdMeta =
+      const VerificationMeta('campaignId');
   late final GeneratedColumn<String> campaignId = GeneratedColumn<String>(
-    'campaign_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL REFERENCES campaigns(id)ON DELETE CASCADE',
-  );
+      'campaign_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL REFERENCES campaigns(id)ON DELETE CASCADE');
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
-    'title',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  static const VerificationMeta _imagePathMeta = const VerificationMeta(
-    'imagePath',
-  );
+      'title', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _imagePathMeta =
+      const VerificationMeta('imagePath');
   late final GeneratedColumn<String> imagePath = GeneratedColumn<String>(
-    'image_path',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
+      'image_path', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _widthMeta = const VerificationMeta('width');
   late final GeneratedColumn<int> width = GeneratedColumn<int>(
-    'width',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
+      'width', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _heightMeta = const VerificationMeta('height');
   late final GeneratedColumn<int> height = GeneratedColumn<int>(
-    'height',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  static const VerificationMeta _fogMaskMeta = const VerificationMeta(
-    'fogMask',
-  );
+      'height', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _fogMaskMeta =
+      const VerificationMeta('fogMask');
   late final GeneratedColumn<String> fogMask = GeneratedColumn<String>(
-    'fog_mask',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    $customConstraints: '',
-  );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
+      'fog_mask', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
   late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
+      'created_at', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    campaignId,
-    title,
-    imagePath,
-    width,
-    height,
-    fogMask,
-    createdAt,
-  ];
+  List<GeneratedColumn> get $columns =>
+      [id, campaignId, title, imagePath, width, height, fogMask, createdAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'maps';
+  static const String $name = 'game_maps';
   @override
-  VerificationContext validateIntegrity(
-    Insertable<Map> instance, {
-    bool isInserting = false,
-  }) {
+  VerificationContext validateIntegrity(Insertable<GameMap> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -1689,55 +1470,43 @@ class Maps extends Table with TableInfo<Maps, Map> {
     }
     if (data.containsKey('campaign_id')) {
       context.handle(
-        _campaignIdMeta,
-        campaignId.isAcceptableOrUnknown(data['campaign_id']!, _campaignIdMeta),
-      );
+          _campaignIdMeta,
+          campaignId.isAcceptableOrUnknown(
+              data['campaign_id']!, _campaignIdMeta));
     } else if (isInserting) {
       context.missing(_campaignIdMeta);
     }
     if (data.containsKey('title')) {
       context.handle(
-        _titleMeta,
-        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
-      );
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
     if (data.containsKey('image_path')) {
-      context.handle(
-        _imagePathMeta,
-        imagePath.isAcceptableOrUnknown(data['image_path']!, _imagePathMeta),
-      );
+      context.handle(_imagePathMeta,
+          imagePath.isAcceptableOrUnknown(data['image_path']!, _imagePathMeta));
     } else if (isInserting) {
       context.missing(_imagePathMeta);
     }
     if (data.containsKey('width')) {
       context.handle(
-        _widthMeta,
-        width.isAcceptableOrUnknown(data['width']!, _widthMeta),
-      );
+          _widthMeta, width.isAcceptableOrUnknown(data['width']!, _widthMeta));
     } else if (isInserting) {
       context.missing(_widthMeta);
     }
     if (data.containsKey('height')) {
-      context.handle(
-        _heightMeta,
-        height.isAcceptableOrUnknown(data['height']!, _heightMeta),
-      );
+      context.handle(_heightMeta,
+          height.isAcceptableOrUnknown(data['height']!, _heightMeta));
     } else if (isInserting) {
       context.missing(_heightMeta);
     }
     if (data.containsKey('fog_mask')) {
-      context.handle(
-        _fogMaskMeta,
-        fogMask.isAcceptableOrUnknown(data['fog_mask']!, _fogMaskMeta),
-      );
+      context.handle(_fogMaskMeta,
+          fogMask.isAcceptableOrUnknown(data['fog_mask']!, _fogMaskMeta));
     }
     if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
@@ -1747,54 +1516,38 @@ class Maps extends Table with TableInfo<Maps, Map> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Map map(Map<String, dynamic> data, {String? tablePrefix}) {
+  GameMap map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Map(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}id'],
-      )!,
-      campaignId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}campaign_id'],
-      )!,
-      title: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}title'],
-      )!,
-      imagePath: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}image_path'],
-      )!,
-      width: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}width'],
-      )!,
-      height: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}height'],
-      )!,
-      fogMask: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}fog_mask'],
-      ),
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}created_at'],
-      )!,
+    return GameMap(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      campaignId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}campaign_id'])!,
+      title: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      imagePath: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}image_path'])!,
+      width: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}width'])!,
+      height: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}height'])!,
+      fogMask: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}fog_mask']),
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
     );
   }
 
   @override
-  Maps createAlias(String alias) {
-    return Maps(attachedDatabase, alias);
+  GameMaps createAlias(String alias) {
+    return GameMaps(attachedDatabase, alias);
   }
 
   @override
   bool get dontWriteConstraints => true;
 }
 
-class Map extends DataClass implements Insertable<Map> {
+class GameMap extends DataClass implements Insertable<GameMap> {
   final String id;
   final String campaignId;
   final String title;
@@ -1803,16 +1556,15 @@ class Map extends DataClass implements Insertable<Map> {
   final int height;
   final String? fogMask;
   final int createdAt;
-  const Map({
-    required this.id,
-    required this.campaignId,
-    required this.title,
-    required this.imagePath,
-    required this.width,
-    required this.height,
-    this.fogMask,
-    required this.createdAt,
-  });
+  const GameMap(
+      {required this.id,
+      required this.campaignId,
+      required this.title,
+      required this.imagePath,
+      required this.width,
+      required this.height,
+      this.fogMask,
+      required this.createdAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1829,8 +1581,8 @@ class Map extends DataClass implements Insertable<Map> {
     return map;
   }
 
-  MapsCompanion toCompanion(bool nullToAbsent) {
-    return MapsCompanion(
+  GameMapsCompanion toCompanion(bool nullToAbsent) {
+    return GameMapsCompanion(
       id: Value(id),
       campaignId: Value(campaignId),
       title: Value(title),
@@ -1844,12 +1596,10 @@ class Map extends DataClass implements Insertable<Map> {
     );
   }
 
-  factory Map.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory GameMap.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Map(
+    return GameMap(
       id: serializer.fromJson<String>(json['id']),
       campaignId: serializer.fromJson<String>(json['campaign_id']),
       title: serializer.fromJson<String>(json['title']),
@@ -1875,31 +1625,30 @@ class Map extends DataClass implements Insertable<Map> {
     };
   }
 
-  Map copyWith({
-    String? id,
-    String? campaignId,
-    String? title,
-    String? imagePath,
-    int? width,
-    int? height,
-    Value<String?> fogMask = const Value.absent(),
-    int? createdAt,
-  }) => Map(
-    id: id ?? this.id,
-    campaignId: campaignId ?? this.campaignId,
-    title: title ?? this.title,
-    imagePath: imagePath ?? this.imagePath,
-    width: width ?? this.width,
-    height: height ?? this.height,
-    fogMask: fogMask.present ? fogMask.value : this.fogMask,
-    createdAt: createdAt ?? this.createdAt,
-  );
-  Map copyWithCompanion(MapsCompanion data) {
-    return Map(
+  GameMap copyWith(
+          {String? id,
+          String? campaignId,
+          String? title,
+          String? imagePath,
+          int? width,
+          int? height,
+          Value<String?> fogMask = const Value.absent(),
+          int? createdAt}) =>
+      GameMap(
+        id: id ?? this.id,
+        campaignId: campaignId ?? this.campaignId,
+        title: title ?? this.title,
+        imagePath: imagePath ?? this.imagePath,
+        width: width ?? this.width,
+        height: height ?? this.height,
+        fogMask: fogMask.present ? fogMask.value : this.fogMask,
+        createdAt: createdAt ?? this.createdAt,
+      );
+  GameMap copyWithCompanion(GameMapsCompanion data) {
+    return GameMap(
       id: data.id.present ? data.id.value : this.id,
-      campaignId: data.campaignId.present
-          ? data.campaignId.value
-          : this.campaignId,
+      campaignId:
+          data.campaignId.present ? data.campaignId.value : this.campaignId,
       title: data.title.present ? data.title.value : this.title,
       imagePath: data.imagePath.present ? data.imagePath.value : this.imagePath,
       width: data.width.present ? data.width.value : this.width,
@@ -1911,7 +1660,7 @@ class Map extends DataClass implements Insertable<Map> {
 
   @override
   String toString() {
-    return (StringBuffer('Map(')
+    return (StringBuffer('GameMap(')
           ..write('id: $id, ')
           ..write('campaignId: $campaignId, ')
           ..write('title: $title, ')
@@ -1926,19 +1675,11 @@ class Map extends DataClass implements Insertable<Map> {
 
   @override
   int get hashCode => Object.hash(
-    id,
-    campaignId,
-    title,
-    imagePath,
-    width,
-    height,
-    fogMask,
-    createdAt,
-  );
+      id, campaignId, title, imagePath, width, height, fogMask, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Map &&
+      (other is GameMap &&
           other.id == this.id &&
           other.campaignId == this.campaignId &&
           other.title == this.title &&
@@ -1949,7 +1690,7 @@ class Map extends DataClass implements Insertable<Map> {
           other.createdAt == this.createdAt);
 }
 
-class MapsCompanion extends UpdateCompanion<Map> {
+class GameMapsCompanion extends UpdateCompanion<GameMap> {
   final Value<String> id;
   final Value<String> campaignId;
   final Value<String> title;
@@ -1959,7 +1700,7 @@ class MapsCompanion extends UpdateCompanion<Map> {
   final Value<String?> fogMask;
   final Value<int> createdAt;
   final Value<int> rowid;
-  const MapsCompanion({
+  const GameMapsCompanion({
     this.id = const Value.absent(),
     this.campaignId = const Value.absent(),
     this.title = const Value.absent(),
@@ -1970,7 +1711,7 @@ class MapsCompanion extends UpdateCompanion<Map> {
     this.createdAt = const Value.absent(),
     this.rowid = const Value.absent(),
   });
-  MapsCompanion.insert({
+  GameMapsCompanion.insert({
     required String id,
     required String campaignId,
     required String title,
@@ -1980,14 +1721,14 @@ class MapsCompanion extends UpdateCompanion<Map> {
     this.fogMask = const Value.absent(),
     required int createdAt,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       campaignId = Value(campaignId),
-       title = Value(title),
-       imagePath = Value(imagePath),
-       width = Value(width),
-       height = Value(height),
-       createdAt = Value(createdAt);
-  static Insertable<Map> custom({
+  })  : id = Value(id),
+        campaignId = Value(campaignId),
+        title = Value(title),
+        imagePath = Value(imagePath),
+        width = Value(width),
+        height = Value(height),
+        createdAt = Value(createdAt);
+  static Insertable<GameMap> custom({
     Expression<String>? id,
     Expression<String>? campaignId,
     Expression<String>? title,
@@ -2011,18 +1752,17 @@ class MapsCompanion extends UpdateCompanion<Map> {
     });
   }
 
-  MapsCompanion copyWith({
-    Value<String>? id,
-    Value<String>? campaignId,
-    Value<String>? title,
-    Value<String>? imagePath,
-    Value<int>? width,
-    Value<int>? height,
-    Value<String?>? fogMask,
-    Value<int>? createdAt,
-    Value<int>? rowid,
-  }) {
-    return MapsCompanion(
+  GameMapsCompanion copyWith(
+      {Value<String>? id,
+      Value<String>? campaignId,
+      Value<String>? title,
+      Value<String>? imagePath,
+      Value<int>? width,
+      Value<int>? height,
+      Value<String?>? fogMask,
+      Value<int>? createdAt,
+      Value<int>? rowid}) {
+    return GameMapsCompanion(
       id: id ?? this.id,
       campaignId: campaignId ?? this.campaignId,
       title: title ?? this.title,
@@ -2070,7 +1810,7 @@ class MapsCompanion extends UpdateCompanion<Map> {
 
   @override
   String toString() {
-    return (StringBuffer('MapsCompanion(')
+    return (StringBuffer('GameMapsCompanion(')
           ..write('id: $id, ')
           ..write('campaignId: $campaignId, ')
           ..write('title: $title, ')
@@ -2092,92 +1832,60 @@ class MapPins extends Table with TableInfo<MapPins, MapPin> {
   MapPins(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-    'id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL PRIMARY KEY',
-  );
+      'id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL PRIMARY KEY');
   static const VerificationMeta _mapIdMeta = const VerificationMeta('mapId');
   late final GeneratedColumn<String> mapId = GeneratedColumn<String>(
-    'map_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL REFERENCES maps(id)ON DELETE CASCADE',
-  );
-  static const VerificationMeta _entityIdMeta = const VerificationMeta(
-    'entityId',
-  );
+      'map_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL REFERENCES game_maps(id)ON DELETE CASCADE');
+  static const VerificationMeta _entityIdMeta =
+      const VerificationMeta('entityId');
   late final GeneratedColumn<String> entityId = GeneratedColumn<String>(
-    'entity_id',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    $customConstraints: 'REFERENCES entities(id)ON DELETE SET NULL',
-  );
+      'entity_id', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: 'REFERENCES entities(id)ON DELETE SET NULL');
   static const VerificationMeta _xMeta = const VerificationMeta('x');
   late final GeneratedColumn<double> x = GeneratedColumn<double>(
-    'x',
-    aliasedName,
-    false,
-    type: DriftSqlType.double,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
+      'x', aliasedName, false,
+      type: DriftSqlType.double,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _yMeta = const VerificationMeta('y');
   late final GeneratedColumn<double> y = GeneratedColumn<double>(
-    'y',
-    aliasedName,
-    false,
-    type: DriftSqlType.double,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
+      'y', aliasedName, false,
+      type: DriftSqlType.double,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _iconMeta = const VerificationMeta('icon');
   late final GeneratedColumn<String> icon = GeneratedColumn<String>(
-    'icon',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    $customConstraints: 'NOT NULL DEFAULT \'default\'',
-    defaultValue: const CustomExpression('\'default\''),
-  );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
+      'icon', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT \'default\'',
+      defaultValue: const CustomExpression('\'default\''));
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
   late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
+      'created_at', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   @override
-  List<GeneratedColumn> get $columns => [
-    id,
-    mapId,
-    entityId,
-    x,
-    y,
-    icon,
-    createdAt,
-  ];
+  List<GeneratedColumn> get $columns =>
+      [id, mapId, entityId, x, y, icon, createdAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'map_pins';
   @override
-  VerificationContext validateIntegrity(
-    Insertable<MapPin> instance, {
-    bool isInserting = false,
-  }) {
+  VerificationContext validateIntegrity(Insertable<MapPin> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -2187,17 +1895,13 @@ class MapPins extends Table with TableInfo<MapPins, MapPin> {
     }
     if (data.containsKey('map_id')) {
       context.handle(
-        _mapIdMeta,
-        mapId.isAcceptableOrUnknown(data['map_id']!, _mapIdMeta),
-      );
+          _mapIdMeta, mapId.isAcceptableOrUnknown(data['map_id']!, _mapIdMeta));
     } else if (isInserting) {
       context.missing(_mapIdMeta);
     }
     if (data.containsKey('entity_id')) {
-      context.handle(
-        _entityIdMeta,
-        entityId.isAcceptableOrUnknown(data['entity_id']!, _entityIdMeta),
-      );
+      context.handle(_entityIdMeta,
+          entityId.isAcceptableOrUnknown(data['entity_id']!, _entityIdMeta));
     }
     if (data.containsKey('x')) {
       context.handle(_xMeta, x.isAcceptableOrUnknown(data['x']!, _xMeta));
@@ -2211,15 +1915,11 @@ class MapPins extends Table with TableInfo<MapPins, MapPin> {
     }
     if (data.containsKey('icon')) {
       context.handle(
-        _iconMeta,
-        icon.isAcceptableOrUnknown(data['icon']!, _iconMeta),
-      );
+          _iconMeta, icon.isAcceptableOrUnknown(data['icon']!, _iconMeta));
     }
     if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
@@ -2232,34 +1932,20 @@ class MapPins extends Table with TableInfo<MapPins, MapPin> {
   MapPin map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return MapPin(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}id'],
-      )!,
-      mapId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}map_id'],
-      )!,
-      entityId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}entity_id'],
-      ),
-      x: attachedDatabase.typeMapping.read(
-        DriftSqlType.double,
-        data['${effectivePrefix}x'],
-      )!,
-      y: attachedDatabase.typeMapping.read(
-        DriftSqlType.double,
-        data['${effectivePrefix}y'],
-      )!,
-      icon: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}icon'],
-      )!,
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}created_at'],
-      )!,
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      mapId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}map_id'])!,
+      entityId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}entity_id']),
+      x: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}x'])!,
+      y: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}y'])!,
+      icon: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}icon'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
     );
   }
 
@@ -2280,15 +1966,14 @@ class MapPin extends DataClass implements Insertable<MapPin> {
   final double y;
   final String icon;
   final int createdAt;
-  const MapPin({
-    required this.id,
-    required this.mapId,
-    this.entityId,
-    required this.x,
-    required this.y,
-    required this.icon,
-    required this.createdAt,
-  });
+  const MapPin(
+      {required this.id,
+      required this.mapId,
+      this.entityId,
+      required this.x,
+      required this.y,
+      required this.icon,
+      required this.createdAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -2318,10 +2003,8 @@ class MapPin extends DataClass implements Insertable<MapPin> {
     );
   }
 
-  factory MapPin.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory MapPin.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return MapPin(
       id: serializer.fromJson<String>(json['id']),
@@ -2347,23 +2030,23 @@ class MapPin extends DataClass implements Insertable<MapPin> {
     };
   }
 
-  MapPin copyWith({
-    String? id,
-    String? mapId,
-    Value<String?> entityId = const Value.absent(),
-    double? x,
-    double? y,
-    String? icon,
-    int? createdAt,
-  }) => MapPin(
-    id: id ?? this.id,
-    mapId: mapId ?? this.mapId,
-    entityId: entityId.present ? entityId.value : this.entityId,
-    x: x ?? this.x,
-    y: y ?? this.y,
-    icon: icon ?? this.icon,
-    createdAt: createdAt ?? this.createdAt,
-  );
+  MapPin copyWith(
+          {String? id,
+          String? mapId,
+          Value<String?> entityId = const Value.absent(),
+          double? x,
+          double? y,
+          String? icon,
+          int? createdAt}) =>
+      MapPin(
+        id: id ?? this.id,
+        mapId: mapId ?? this.mapId,
+        entityId: entityId.present ? entityId.value : this.entityId,
+        x: x ?? this.x,
+        y: y ?? this.y,
+        icon: icon ?? this.icon,
+        createdAt: createdAt ?? this.createdAt,
+      );
   MapPin copyWithCompanion(MapPinsCompanion data) {
     return MapPin(
       id: data.id.present ? data.id.value : this.id,
@@ -2433,11 +2116,11 @@ class MapPinsCompanion extends UpdateCompanion<MapPin> {
     this.icon = const Value.absent(),
     required int createdAt,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       mapId = Value(mapId),
-       x = Value(x),
-       y = Value(y),
-       createdAt = Value(createdAt);
+  })  : id = Value(id),
+        mapId = Value(mapId),
+        x = Value(x),
+        y = Value(y),
+        createdAt = Value(createdAt);
   static Insertable<MapPin> custom({
     Expression<String>? id,
     Expression<String>? mapId,
@@ -2460,16 +2143,15 @@ class MapPinsCompanion extends UpdateCompanion<MapPin> {
     });
   }
 
-  MapPinsCompanion copyWith({
-    Value<String>? id,
-    Value<String>? mapId,
-    Value<String?>? entityId,
-    Value<double>? x,
-    Value<double>? y,
-    Value<String>? icon,
-    Value<int>? createdAt,
-    Value<int>? rowid,
-  }) {
+  MapPinsCompanion copyWith(
+      {Value<String>? id,
+      Value<String>? mapId,
+      Value<String?>? entityId,
+      Value<double>? x,
+      Value<double>? y,
+      Value<String>? icon,
+      Value<int>? createdAt,
+      Value<int>? rowid}) {
     return MapPinsCompanion(
       id: id ?? this.id,
       mapId: mapId ?? this.mapId,
@@ -2535,99 +2217,70 @@ class SessionLogs extends Table with TableInfo<SessionLogs, SessionLog> {
   SessionLogs(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   late final GeneratedColumn<String> id = GeneratedColumn<String>(
-    'id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL PRIMARY KEY',
-  );
-  static const VerificationMeta _campaignIdMeta = const VerificationMeta(
-    'campaignId',
-  );
+      'id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL PRIMARY KEY');
+  static const VerificationMeta _campaignIdMeta =
+      const VerificationMeta('campaignId');
   late final GeneratedColumn<String> campaignId = GeneratedColumn<String>(
-    'campaign_id',
-    aliasedName,
-    false,
-    type: DriftSqlType.string,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL REFERENCES campaigns(id)ON DELETE CASCADE',
-  );
-  static const VerificationMeta _sessionNumberMeta = const VerificationMeta(
-    'sessionNumber',
-  );
+      'campaign_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL REFERENCES campaigns(id)ON DELETE CASCADE');
+  static const VerificationMeta _sessionNumberMeta =
+      const VerificationMeta('sessionNumber');
   late final GeneratedColumn<int> sessionNumber = GeneratedColumn<int>(
-    'session_number',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
-  static const VerificationMeta _inGameDateMeta = const VerificationMeta(
-    'inGameDate',
-  );
+      'session_number', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _inGameDateMeta =
+      const VerificationMeta('inGameDate');
   late final GeneratedColumn<String> inGameDate = GeneratedColumn<String>(
-    'in_game_date',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    $customConstraints: '',
-  );
-  static const VerificationMeta _rawNotesMeta = const VerificationMeta(
-    'rawNotes',
-  );
+      'in_game_date', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _rawNotesMeta =
+      const VerificationMeta('rawNotes');
   late final GeneratedColumn<String> rawNotes = GeneratedColumn<String>(
-    'raw_notes',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    $customConstraints: '',
-  );
-  static const VerificationMeta _formattedSummaryMeta = const VerificationMeta(
-    'formattedSummary',
-  );
+      'raw_notes', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _formattedSummaryMeta =
+      const VerificationMeta('formattedSummary');
   late final GeneratedColumn<String> formattedSummary = GeneratedColumn<String>(
-    'formatted_summary',
-    aliasedName,
-    true,
-    type: DriftSqlType.string,
-    requiredDuringInsert: false,
-    $customConstraints: '',
-  );
-  static const VerificationMeta _createdAtMeta = const VerificationMeta(
-    'createdAt',
-  );
+      'formatted_summary', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
   late final GeneratedColumn<int> createdAt = GeneratedColumn<int>(
-    'created_at',
-    aliasedName,
-    false,
-    type: DriftSqlType.int,
-    requiredDuringInsert: true,
-    $customConstraints: 'NOT NULL',
-  );
+      'created_at', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   @override
   List<GeneratedColumn> get $columns => [
-    id,
-    campaignId,
-    sessionNumber,
-    inGameDate,
-    rawNotes,
-    formattedSummary,
-    createdAt,
-  ];
+        id,
+        campaignId,
+        sessionNumber,
+        inGameDate,
+        rawNotes,
+        formattedSummary,
+        createdAt
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
   static const String $name = 'session_logs';
   @override
-  VerificationContext validateIntegrity(
-    Insertable<SessionLog> instance, {
-    bool isInserting = false,
-  }) {
+  VerificationContext validateIntegrity(Insertable<SessionLog> instance,
+      {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
@@ -2637,52 +2290,39 @@ class SessionLogs extends Table with TableInfo<SessionLogs, SessionLog> {
     }
     if (data.containsKey('campaign_id')) {
       context.handle(
-        _campaignIdMeta,
-        campaignId.isAcceptableOrUnknown(data['campaign_id']!, _campaignIdMeta),
-      );
+          _campaignIdMeta,
+          campaignId.isAcceptableOrUnknown(
+              data['campaign_id']!, _campaignIdMeta));
     } else if (isInserting) {
       context.missing(_campaignIdMeta);
     }
     if (data.containsKey('session_number')) {
       context.handle(
-        _sessionNumberMeta,
-        sessionNumber.isAcceptableOrUnknown(
-          data['session_number']!,
           _sessionNumberMeta,
-        ),
-      );
+          sessionNumber.isAcceptableOrUnknown(
+              data['session_number']!, _sessionNumberMeta));
     } else if (isInserting) {
       context.missing(_sessionNumberMeta);
     }
     if (data.containsKey('in_game_date')) {
       context.handle(
-        _inGameDateMeta,
-        inGameDate.isAcceptableOrUnknown(
-          data['in_game_date']!,
           _inGameDateMeta,
-        ),
-      );
+          inGameDate.isAcceptableOrUnknown(
+              data['in_game_date']!, _inGameDateMeta));
     }
     if (data.containsKey('raw_notes')) {
-      context.handle(
-        _rawNotesMeta,
-        rawNotes.isAcceptableOrUnknown(data['raw_notes']!, _rawNotesMeta),
-      );
+      context.handle(_rawNotesMeta,
+          rawNotes.isAcceptableOrUnknown(data['raw_notes']!, _rawNotesMeta));
     }
     if (data.containsKey('formatted_summary')) {
       context.handle(
-        _formattedSummaryMeta,
-        formattedSummary.isAcceptableOrUnknown(
-          data['formatted_summary']!,
           _formattedSummaryMeta,
-        ),
-      );
+          formattedSummary.isAcceptableOrUnknown(
+              data['formatted_summary']!, _formattedSummaryMeta));
     }
     if (data.containsKey('created_at')) {
-      context.handle(
-        _createdAtMeta,
-        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
-      );
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
     } else if (isInserting) {
       context.missing(_createdAtMeta);
     }
@@ -2695,34 +2335,20 @@ class SessionLogs extends Table with TableInfo<SessionLogs, SessionLog> {
   SessionLog map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return SessionLog(
-      id: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}id'],
-      )!,
-      campaignId: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}campaign_id'],
-      )!,
-      sessionNumber: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}session_number'],
-      )!,
-      inGameDate: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}in_game_date'],
-      ),
-      rawNotes: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}raw_notes'],
-      ),
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      campaignId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}campaign_id'])!,
+      sessionNumber: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}session_number'])!,
+      inGameDate: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}in_game_date']),
+      rawNotes: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}raw_notes']),
       formattedSummary: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
-        data['${effectivePrefix}formatted_summary'],
-      ),
-      createdAt: attachedDatabase.typeMapping.read(
-        DriftSqlType.int,
-        data['${effectivePrefix}created_at'],
-      )!,
+          DriftSqlType.string, data['${effectivePrefix}formatted_summary']),
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}created_at'])!,
     );
   }
 
@@ -2743,15 +2369,14 @@ class SessionLog extends DataClass implements Insertable<SessionLog> {
   final String? rawNotes;
   final String? formattedSummary;
   final int createdAt;
-  const SessionLog({
-    required this.id,
-    required this.campaignId,
-    required this.sessionNumber,
-    this.inGameDate,
-    this.rawNotes,
-    this.formattedSummary,
-    required this.createdAt,
-  });
+  const SessionLog(
+      {required this.id,
+      required this.campaignId,
+      required this.sessionNumber,
+      this.inGameDate,
+      this.rawNotes,
+      this.formattedSummary,
+      required this.createdAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -2789,10 +2414,8 @@ class SessionLog extends DataClass implements Insertable<SessionLog> {
     );
   }
 
-  factory SessionLog.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory SessionLog.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SessionLog(
       id: serializer.fromJson<String>(json['id']),
@@ -2818,37 +2441,35 @@ class SessionLog extends DataClass implements Insertable<SessionLog> {
     };
   }
 
-  SessionLog copyWith({
-    String? id,
-    String? campaignId,
-    int? sessionNumber,
-    Value<String?> inGameDate = const Value.absent(),
-    Value<String?> rawNotes = const Value.absent(),
-    Value<String?> formattedSummary = const Value.absent(),
-    int? createdAt,
-  }) => SessionLog(
-    id: id ?? this.id,
-    campaignId: campaignId ?? this.campaignId,
-    sessionNumber: sessionNumber ?? this.sessionNumber,
-    inGameDate: inGameDate.present ? inGameDate.value : this.inGameDate,
-    rawNotes: rawNotes.present ? rawNotes.value : this.rawNotes,
-    formattedSummary: formattedSummary.present
-        ? formattedSummary.value
-        : this.formattedSummary,
-    createdAt: createdAt ?? this.createdAt,
-  );
+  SessionLog copyWith(
+          {String? id,
+          String? campaignId,
+          int? sessionNumber,
+          Value<String?> inGameDate = const Value.absent(),
+          Value<String?> rawNotes = const Value.absent(),
+          Value<String?> formattedSummary = const Value.absent(),
+          int? createdAt}) =>
+      SessionLog(
+        id: id ?? this.id,
+        campaignId: campaignId ?? this.campaignId,
+        sessionNumber: sessionNumber ?? this.sessionNumber,
+        inGameDate: inGameDate.present ? inGameDate.value : this.inGameDate,
+        rawNotes: rawNotes.present ? rawNotes.value : this.rawNotes,
+        formattedSummary: formattedSummary.present
+            ? formattedSummary.value
+            : this.formattedSummary,
+        createdAt: createdAt ?? this.createdAt,
+      );
   SessionLog copyWithCompanion(SessionLogsCompanion data) {
     return SessionLog(
       id: data.id.present ? data.id.value : this.id,
-      campaignId: data.campaignId.present
-          ? data.campaignId.value
-          : this.campaignId,
+      campaignId:
+          data.campaignId.present ? data.campaignId.value : this.campaignId,
       sessionNumber: data.sessionNumber.present
           ? data.sessionNumber.value
           : this.sessionNumber,
-      inGameDate: data.inGameDate.present
-          ? data.inGameDate.value
-          : this.inGameDate,
+      inGameDate:
+          data.inGameDate.present ? data.inGameDate.value : this.inGameDate,
       rawNotes: data.rawNotes.present ? data.rawNotes.value : this.rawNotes,
       formattedSummary: data.formattedSummary.present
           ? data.formattedSummary.value
@@ -2872,15 +2493,8 @@ class SessionLog extends DataClass implements Insertable<SessionLog> {
   }
 
   @override
-  int get hashCode => Object.hash(
-    id,
-    campaignId,
-    sessionNumber,
-    inGameDate,
-    rawNotes,
-    formattedSummary,
-    createdAt,
-  );
+  int get hashCode => Object.hash(id, campaignId, sessionNumber, inGameDate,
+      rawNotes, formattedSummary, createdAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2922,10 +2536,10 @@ class SessionLogsCompanion extends UpdateCompanion<SessionLog> {
     this.formattedSummary = const Value.absent(),
     required int createdAt,
     this.rowid = const Value.absent(),
-  }) : id = Value(id),
-       campaignId = Value(campaignId),
-       sessionNumber = Value(sessionNumber),
-       createdAt = Value(createdAt);
+  })  : id = Value(id),
+        campaignId = Value(campaignId),
+        sessionNumber = Value(sessionNumber),
+        createdAt = Value(createdAt);
   static Insertable<SessionLog> custom({
     Expression<String>? id,
     Expression<String>? campaignId,
@@ -2948,16 +2562,15 @@ class SessionLogsCompanion extends UpdateCompanion<SessionLog> {
     });
   }
 
-  SessionLogsCompanion copyWith({
-    Value<String>? id,
-    Value<String>? campaignId,
-    Value<int>? sessionNumber,
-    Value<String?>? inGameDate,
-    Value<String?>? rawNotes,
-    Value<String?>? formattedSummary,
-    Value<int>? createdAt,
-    Value<int>? rowid,
-  }) {
+  SessionLogsCompanion copyWith(
+      {Value<String>? id,
+      Value<String>? campaignId,
+      Value<int>? sessionNumber,
+      Value<String?>? inGameDate,
+      Value<String?>? rawNotes,
+      Value<String?>? formattedSummary,
+      Value<int>? createdAt,
+      Value<int>? rowid}) {
     return SessionLogsCompanion(
       id: id ?? this.id,
       campaignId: campaignId ?? this.campaignId,
@@ -3021,148 +2634,165 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final Campaigns campaigns = Campaigns(this);
   late final Entities entities = Entities(this);
-  late final Index idxEntitiesCampaign = Index(
-    'idx_entities_campaign',
-    'CREATE INDEX idx_entities_campaign ON entities (campaign_id)',
-  );
+  late final Index idxEntitiesCampaign = Index('idx_entities_campaign',
+      'CREATE INDEX idx_entities_campaign ON entities (campaign_id)');
   late final Index idxEntitiesSlug = Index(
-    'idx_entities_slug',
-    'CREATE INDEX idx_entities_slug ON entities (slug)',
-  );
+      'idx_entities_slug', 'CREATE INDEX idx_entities_slug ON entities (slug)');
   late final Index idxEntitiesType = Index(
-    'idx_entities_type',
-    'CREATE INDEX idx_entities_type ON entities (type)',
-  );
+      'idx_entities_type', 'CREATE INDEX idx_entities_type ON entities (type)');
   late final Edges edges = Edges(this);
   late final Index idxEdgesSource = Index(
-    'idx_edges_source',
-    'CREATE INDEX idx_edges_source ON edges (source_id)',
-  );
+      'idx_edges_source', 'CREATE INDEX idx_edges_source ON edges (source_id)');
   late final Index idxEdgesTarget = Index(
-    'idx_edges_target',
-    'CREATE INDEX idx_edges_target ON edges (target_id)',
-  );
-  late final Maps maps = Maps(this);
+      'idx_edges_target', 'CREATE INDEX idx_edges_target ON edges (target_id)');
+  late final GameMaps gameMaps = GameMaps(this);
   late final MapPins mapPins = MapPins(this);
   late final SessionLogs sessionLogs = SessionLogs(this);
   Selectable<Campaign> allCampaigns() {
-    return customSelect(
-      'SELECT * FROM campaigns ORDER BY updated_at DESC',
-      variables: [],
-      readsFrom: {campaigns},
-    ).asyncMap(campaigns.mapFromRow);
+    return customSelect('SELECT * FROM campaigns ORDER BY updated_at DESC',
+        variables: [],
+        readsFrom: {
+          campaigns,
+        }).asyncMap(campaigns.mapFromRow);
   }
 
   Selectable<Campaign> campaignById(String id) {
-    return customSelect(
-      'SELECT * FROM campaigns WHERE id = ?1',
-      variables: [Variable<String>(id)],
-      readsFrom: {campaigns},
-    ).asyncMap(campaigns.mapFromRow);
+    return customSelect('SELECT * FROM campaigns WHERE id = ?1', variables: [
+      Variable<String>(id)
+    ], readsFrom: {
+      campaigns,
+    }).asyncMap(campaigns.mapFromRow);
   }
 
   Selectable<Entity> entitiesByCampaign(String campaignId) {
     return customSelect(
-      'SELECT * FROM entities WHERE campaign_id = ?1 ORDER BY title',
-      variables: [Variable<String>(campaignId)],
-      readsFrom: {entities},
-    ).asyncMap(entities.mapFromRow);
+        'SELECT * FROM entities WHERE campaign_id = ?1 ORDER BY title',
+        variables: [
+          Variable<String>(campaignId)
+        ],
+        readsFrom: {
+          entities,
+        }).asyncMap(entities.mapFromRow);
   }
 
   Selectable<Entity> entitiesByCampaignAndType(String campaignId, String type) {
     return customSelect(
-      'SELECT * FROM entities WHERE campaign_id = ?1 AND type = ?2 ORDER BY title',
-      variables: [Variable<String>(campaignId), Variable<String>(type)],
-      readsFrom: {entities},
-    ).asyncMap(entities.mapFromRow);
+        'SELECT * FROM entities WHERE campaign_id = ?1 AND type = ?2 ORDER BY title',
+        variables: [
+          Variable<String>(campaignId),
+          Variable<String>(type)
+        ],
+        readsFrom: {
+          entities,
+        }).asyncMap(entities.mapFromRow);
   }
 
   Selectable<Entity> entityById(String id) {
-    return customSelect(
-      'SELECT * FROM entities WHERE id = ?1',
-      variables: [Variable<String>(id)],
-      readsFrom: {entities},
-    ).asyncMap(entities.mapFromRow);
+    return customSelect('SELECT * FROM entities WHERE id = ?1', variables: [
+      Variable<String>(id)
+    ], readsFrom: {
+      entities,
+    }).asyncMap(entities.mapFromRow);
   }
 
   Selectable<Entity> entityBySlug(String campaignId, String slug) {
     return customSelect(
-      'SELECT * FROM entities WHERE campaign_id = ?1 AND slug = ?2',
-      variables: [Variable<String>(campaignId), Variable<String>(slug)],
-      readsFrom: {entities},
-    ).asyncMap(entities.mapFromRow);
+        'SELECT * FROM entities WHERE campaign_id = ?1 AND slug = ?2',
+        variables: [
+          Variable<String>(campaignId),
+          Variable<String>(slug)
+        ],
+        readsFrom: {
+          entities,
+        }).asyncMap(entities.mapFromRow);
   }
 
   Selectable<Entity> searchEntities(String campaignId, String query) {
     return customSelect(
-      'SELECT * FROM entities WHERE campaign_id = ?1 AND(title LIKE \'%\' || ?2 || \'%\' OR body_content LIKE \'%\' || ?2 || \'%\')ORDER BY title',
-      variables: [Variable<String>(campaignId), Variable<String>(query)],
-      readsFrom: {entities},
-    ).asyncMap(entities.mapFromRow);
+        'SELECT * FROM entities WHERE campaign_id = ?1 AND(title LIKE \'%\' || ?2 || \'%\' OR body_content LIKE \'%\' || ?2 || \'%\')ORDER BY title',
+        variables: [
+          Variable<String>(campaignId),
+          Variable<String>(query)
+        ],
+        readsFrom: {
+          entities,
+        }).asyncMap(entities.mapFromRow);
   }
 
   Selectable<Edge> edgesBySource(String sourceId) {
-    return customSelect(
-      'SELECT * FROM edges WHERE source_id = ?1',
-      variables: [Variable<String>(sourceId)],
-      readsFrom: {edges},
-    ).asyncMap(edges.mapFromRow);
+    return customSelect('SELECT * FROM edges WHERE source_id = ?1', variables: [
+      Variable<String>(sourceId)
+    ], readsFrom: {
+      edges,
+    }).asyncMap(edges.mapFromRow);
   }
 
   Selectable<Edge> edgesByTarget(String targetId) {
-    return customSelect(
-      'SELECT * FROM edges WHERE target_id = ?1',
-      variables: [Variable<String>(targetId)],
-      readsFrom: {edges},
-    ).asyncMap(edges.mapFromRow);
+    return customSelect('SELECT * FROM edges WHERE target_id = ?1', variables: [
+      Variable<String>(targetId)
+    ], readsFrom: {
+      edges,
+    }).asyncMap(edges.mapFromRow);
   }
 
   Selectable<Edge> edgesBetween(String id1, String id2) {
     return customSelect(
-      'SELECT * FROM edges WHERE(source_id = ?1 AND target_id = ?2)OR(source_id = ?2 AND target_id = ?1)',
-      variables: [Variable<String>(id1), Variable<String>(id2)],
-      readsFrom: {edges},
-    ).asyncMap(edges.mapFromRow);
+        'SELECT * FROM edges WHERE(source_id = ?1 AND target_id = ?2)OR(source_id = ?2 AND target_id = ?1)',
+        variables: [
+          Variable<String>(id1),
+          Variable<String>(id2)
+        ],
+        readsFrom: {
+          edges,
+        }).asyncMap(edges.mapFromRow);
   }
 
-  Selectable<Map> mapsByCampaign(String campaignId) {
+  Selectable<GameMap> mapsByCampaign(String campaignId) {
     return customSelect(
-      'SELECT * FROM maps WHERE campaign_id = ?1 ORDER BY title',
-      variables: [Variable<String>(campaignId)],
-      readsFrom: {maps},
-    ).asyncMap(maps.mapFromRow);
+        'SELECT * FROM game_maps WHERE campaign_id = ?1 ORDER BY title',
+        variables: [
+          Variable<String>(campaignId)
+        ],
+        readsFrom: {
+          gameMaps,
+        }).asyncMap(gameMaps.mapFromRow);
   }
 
-  Selectable<Map> mapById(String id) {
-    return customSelect(
-      'SELECT * FROM maps WHERE id = ?1',
-      variables: [Variable<String>(id)],
-      readsFrom: {maps},
-    ).asyncMap(maps.mapFromRow);
+  Selectable<GameMap> mapById(String id) {
+    return customSelect('SELECT * FROM game_maps WHERE id = ?1', variables: [
+      Variable<String>(id)
+    ], readsFrom: {
+      gameMaps,
+    }).asyncMap(gameMaps.mapFromRow);
   }
 
   Selectable<MapPin> pinsByMap(String mapId) {
-    return customSelect(
-      'SELECT * FROM map_pins WHERE map_id = ?1',
-      variables: [Variable<String>(mapId)],
-      readsFrom: {mapPins},
-    ).asyncMap(mapPins.mapFromRow);
+    return customSelect('SELECT * FROM map_pins WHERE map_id = ?1', variables: [
+      Variable<String>(mapId)
+    ], readsFrom: {
+      mapPins,
+    }).asyncMap(mapPins.mapFromRow);
   }
 
   Selectable<MapPin> pinsByEntity(String? entityId) {
-    return customSelect(
-      'SELECT * FROM map_pins WHERE entity_id = ?1',
-      variables: [Variable<String>(entityId)],
-      readsFrom: {mapPins},
-    ).asyncMap(mapPins.mapFromRow);
+    return customSelect('SELECT * FROM map_pins WHERE entity_id = ?1',
+        variables: [
+          Variable<String>(entityId)
+        ],
+        readsFrom: {
+          mapPins,
+        }).asyncMap(mapPins.mapFromRow);
   }
 
   Selectable<SessionLog> sessionLogsByCampaign(String campaignId) {
     return customSelect(
-      'SELECT * FROM session_logs WHERE campaign_id = ?1 ORDER BY session_number DESC',
-      variables: [Variable<String>(campaignId)],
-      readsFrom: {sessionLogs},
-    ).asyncMap(sessionLogs.mapFromRow);
+        'SELECT * FROM session_logs WHERE campaign_id = ?1 ORDER BY session_number DESC',
+        variables: [
+          Variable<String>(campaignId)
+        ],
+        readsFrom: {
+          sessionLogs,
+        }).asyncMap(sessionLogs.mapFromRow);
   }
 
   @override
@@ -3170,153 +2800,142 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
-    campaigns,
-    entities,
-    idxEntitiesCampaign,
-    idxEntitiesSlug,
-    idxEntitiesType,
-    edges,
-    idxEdgesSource,
-    idxEdgesTarget,
-    maps,
-    mapPins,
-    sessionLogs,
-  ];
+        campaigns,
+        entities,
+        idxEntitiesCampaign,
+        idxEntitiesSlug,
+        idxEntitiesType,
+        edges,
+        idxEdgesSource,
+        idxEdgesTarget,
+        gameMaps,
+        mapPins,
+        sessionLogs
+      ];
   @override
-  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
-    WritePropagation(
-      on: TableUpdateQuery.onTableName(
-        'campaigns',
-        limitUpdateKind: UpdateKind.delete,
-      ),
-      result: [TableUpdate('entities', kind: UpdateKind.delete)],
-    ),
-    WritePropagation(
-      on: TableUpdateQuery.onTableName(
-        'entities',
-        limitUpdateKind: UpdateKind.delete,
-      ),
-      result: [TableUpdate('edges', kind: UpdateKind.delete)],
-    ),
-    WritePropagation(
-      on: TableUpdateQuery.onTableName(
-        'entities',
-        limitUpdateKind: UpdateKind.delete,
-      ),
-      result: [TableUpdate('edges', kind: UpdateKind.delete)],
-    ),
-    WritePropagation(
-      on: TableUpdateQuery.onTableName(
-        'campaigns',
-        limitUpdateKind: UpdateKind.delete,
-      ),
-      result: [TableUpdate('maps', kind: UpdateKind.delete)],
-    ),
-    WritePropagation(
-      on: TableUpdateQuery.onTableName(
-        'maps',
-        limitUpdateKind: UpdateKind.delete,
-      ),
-      result: [TableUpdate('map_pins', kind: UpdateKind.delete)],
-    ),
-    WritePropagation(
-      on: TableUpdateQuery.onTableName(
-        'entities',
-        limitUpdateKind: UpdateKind.delete,
-      ),
-      result: [TableUpdate('map_pins', kind: UpdateKind.update)],
-    ),
-    WritePropagation(
-      on: TableUpdateQuery.onTableName(
-        'campaigns',
-        limitUpdateKind: UpdateKind.delete,
-      ),
-      result: [TableUpdate('session_logs', kind: UpdateKind.delete)],
-    ),
-  ]);
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
+        [
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('campaigns',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('entities', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('entities',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('edges', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('entities',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('edges', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('campaigns',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('game_maps', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('game_maps',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('map_pins', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('entities',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('map_pins', kind: UpdateKind.update),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('campaigns',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('session_logs', kind: UpdateKind.delete),
+            ],
+          ),
+        ],
+      );
 }
 
-typedef $CampaignsCreateCompanionBuilder =
-    CampaignsCompanion Function({
-      required String id,
-      required String title,
-      Value<String?> description,
-      Value<String> calendarSystem,
-      Value<String?> currentInGameDate,
-      required int createdAt,
-      required int updatedAt,
-      Value<int> rowid,
-    });
-typedef $CampaignsUpdateCompanionBuilder =
-    CampaignsCompanion Function({
-      Value<String> id,
-      Value<String> title,
-      Value<String?> description,
-      Value<String> calendarSystem,
-      Value<String?> currentInGameDate,
-      Value<int> createdAt,
-      Value<int> updatedAt,
-      Value<int> rowid,
-    });
+typedef $CampaignsCreateCompanionBuilder = CampaignsCompanion Function({
+  required String id,
+  required String title,
+  Value<String?> description,
+  Value<String> calendarSystem,
+  Value<String?> currentInGameDate,
+  required int createdAt,
+  required int updatedAt,
+  Value<int> rowid,
+});
+typedef $CampaignsUpdateCompanionBuilder = CampaignsCompanion Function({
+  Value<String> id,
+  Value<String> title,
+  Value<String?> description,
+  Value<String> calendarSystem,
+  Value<String?> currentInGameDate,
+  Value<int> createdAt,
+  Value<int> updatedAt,
+  Value<int> rowid,
+});
 
 final class $CampaignsReferences
     extends BaseReferences<_$AppDatabase, Campaigns, Campaign> {
   $CampaignsReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static MultiTypedResultKey<Entities, List<Entity>> _entitiesRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.entities,
-    aliasName: $_aliasNameGenerator(db.campaigns.id, db.entities.campaignId),
-  );
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.entities,
+          aliasName:
+              $_aliasNameGenerator(db.campaigns.id, db.entities.campaignId));
 
   $EntitiesProcessedTableManager get entitiesRefs {
-    final manager = $EntitiesTableManager(
-      $_db,
-      $_db.entities,
-    ).filter((f) => f.campaignId.id.sqlEquals($_itemColumn<String>('id')!));
+    final manager = $EntitiesTableManager($_db, $_db.entities)
+        .filter((f) => f.campaignId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_entitiesRefsTable($_db));
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
+        manager.$state.copyWith(prefetchedData: cache));
   }
 
-  static MultiTypedResultKey<Maps, List<Map>> _mapsRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.maps,
-    aliasName: $_aliasNameGenerator(db.campaigns.id, db.maps.campaignId),
-  );
+  static MultiTypedResultKey<GameMaps, List<GameMap>> _gameMapsRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.gameMaps,
+          aliasName:
+              $_aliasNameGenerator(db.campaigns.id, db.gameMaps.campaignId));
 
-  $MapsProcessedTableManager get mapsRefs {
-    final manager = $MapsTableManager(
-      $_db,
-      $_db.maps,
-    ).filter((f) => f.campaignId.id.sqlEquals($_itemColumn<String>('id')!));
+  $GameMapsProcessedTableManager get gameMapsRefs {
+    final manager = $GameMapsTableManager($_db, $_db.gameMaps)
+        .filter((f) => f.campaignId.id.sqlEquals($_itemColumn<String>('id')!));
 
-    final cache = $_typedResult.readTableOrNull(_mapsRefsTable($_db));
+    final cache = $_typedResult.readTableOrNull(_gameMapsRefsTable($_db));
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
+        manager.$state.copyWith(prefetchedData: cache));
   }
 
   static MultiTypedResultKey<SessionLogs, List<SessionLog>>
-  _sessionLogsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-    db.sessionLogs,
-    aliasName: $_aliasNameGenerator(db.campaigns.id, db.sessionLogs.campaignId),
-  );
+      _sessionLogsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+          db.sessionLogs,
+          aliasName:
+              $_aliasNameGenerator(db.campaigns.id, db.sessionLogs.campaignId));
 
   $SessionLogsProcessedTableManager get sessionLogsRefs {
-    final manager = $SessionLogsTableManager(
-      $_db,
-      $_db.sessionLogs,
-    ).filter((f) => f.campaignId.id.sqlEquals($_itemColumn<String>('id')!));
+    final manager = $SessionLogsTableManager($_db, $_db.sessionLogs)
+        .filter((f) => f.campaignId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_sessionLogsRefsTable($_db));
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
+        manager.$state.copyWith(prefetchedData: cache));
   }
 }
 
@@ -3329,112 +2948,88 @@ class $CampaignsFilterComposer extends Composer<_$AppDatabase, Campaigns> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get title => $composableBuilder(
-    column: $table.title,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.title, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get description => $composableBuilder(
-    column: $table.description,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.description, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get calendarSystem => $composableBuilder(
-    column: $table.calendarSystem,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.calendarSystem,
+      builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get currentInGameDate => $composableBuilder(
-    column: $table.currentInGameDate,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.currentInGameDate,
+      builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get updatedAt => $composableBuilder(
-    column: $table.updatedAt,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
 
   Expression<bool> entitiesRefs(
-    Expression<bool> Function($EntitiesFilterComposer f) f,
-  ) {
+      Expression<bool> Function($EntitiesFilterComposer f) f) {
     final $EntitiesFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.entities,
-      getReferencedColumn: (t) => t.campaignId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $EntitiesFilterComposer(
-            $db: $db,
-            $table: $db.entities,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.entities,
+        getReferencedColumn: (t) => t.campaignId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $EntitiesFilterComposer(
+              $db: $db,
+              $table: $db.entities,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 
-  Expression<bool> mapsRefs(
-    Expression<bool> Function($MapsFilterComposer f) f,
-  ) {
-    final $MapsFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.maps,
-      getReferencedColumn: (t) => t.campaignId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $MapsFilterComposer(
-            $db: $db,
-            $table: $db.maps,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+  Expression<bool> gameMapsRefs(
+      Expression<bool> Function($GameMapsFilterComposer f) f) {
+    final $GameMapsFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.gameMaps,
+        getReferencedColumn: (t) => t.campaignId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $GameMapsFilterComposer(
+              $db: $db,
+              $table: $db.gameMaps,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 
   Expression<bool> sessionLogsRefs(
-    Expression<bool> Function($SessionLogsFilterComposer f) f,
-  ) {
+      Expression<bool> Function($SessionLogsFilterComposer f) f) {
     final $SessionLogsFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.sessionLogs,
-      getReferencedColumn: (t) => t.campaignId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $SessionLogsFilterComposer(
-            $db: $db,
-            $table: $db.sessionLogs,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.sessionLogs,
+        getReferencedColumn: (t) => t.campaignId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $SessionLogsFilterComposer(
+              $db: $db,
+              $table: $db.sessionLogs,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 }
@@ -3448,39 +3043,27 @@ class $CampaignsOrderingComposer extends Composer<_$AppDatabase, Campaigns> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get title => $composableBuilder(
-    column: $table.title,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.title, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get description => $composableBuilder(
-    column: $table.description,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.description, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get calendarSystem => $composableBuilder(
-    column: $table.calendarSystem,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.calendarSystem,
+      builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get currentInGameDate => $composableBuilder(
-    column: $table.currentInGameDate,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.currentInGameDate,
+      builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get updatedAt => $composableBuilder(
-    column: $table.updatedAt,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
 }
 
 class $CampaignsAnnotationComposer extends Composer<_$AppDatabase, Campaigns> {
@@ -3498,19 +3081,13 @@ class $CampaignsAnnotationComposer extends Composer<_$AppDatabase, Campaigns> {
       $composableBuilder(column: $table.title, builder: (column) => column);
 
   GeneratedColumn<String> get description => $composableBuilder(
-    column: $table.description,
-    builder: (column) => column,
-  );
+      column: $table.description, builder: (column) => column);
 
   GeneratedColumn<String> get calendarSystem => $composableBuilder(
-    column: $table.calendarSystem,
-    builder: (column) => column,
-  );
+      column: $table.calendarSystem, builder: (column) => column);
 
   GeneratedColumn<String> get currentInGameDate => $composableBuilder(
-    column: $table.currentInGameDate,
-    builder: (column) => column,
-  );
+      column: $table.currentInGameDate, builder: (column) => column);
 
   GeneratedColumn<int> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -3519,103 +3096,84 @@ class $CampaignsAnnotationComposer extends Composer<_$AppDatabase, Campaigns> {
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
 
   Expression<T> entitiesRefs<T extends Object>(
-    Expression<T> Function($EntitiesAnnotationComposer a) f,
-  ) {
+      Expression<T> Function($EntitiesAnnotationComposer a) f) {
     final $EntitiesAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.entities,
-      getReferencedColumn: (t) => t.campaignId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $EntitiesAnnotationComposer(
-            $db: $db,
-            $table: $db.entities,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.entities,
+        getReferencedColumn: (t) => t.campaignId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $EntitiesAnnotationComposer(
+              $db: $db,
+              $table: $db.entities,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 
-  Expression<T> mapsRefs<T extends Object>(
-    Expression<T> Function($MapsAnnotationComposer a) f,
-  ) {
-    final $MapsAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.maps,
-      getReferencedColumn: (t) => t.campaignId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $MapsAnnotationComposer(
-            $db: $db,
-            $table: $db.maps,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+  Expression<T> gameMapsRefs<T extends Object>(
+      Expression<T> Function($GameMapsAnnotationComposer a) f) {
+    final $GameMapsAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.gameMaps,
+        getReferencedColumn: (t) => t.campaignId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $GameMapsAnnotationComposer(
+              $db: $db,
+              $table: $db.gameMaps,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 
   Expression<T> sessionLogsRefs<T extends Object>(
-    Expression<T> Function($SessionLogsAnnotationComposer a) f,
-  ) {
+      Expression<T> Function($SessionLogsAnnotationComposer a) f) {
     final $SessionLogsAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.sessionLogs,
-      getReferencedColumn: (t) => t.campaignId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $SessionLogsAnnotationComposer(
-            $db: $db,
-            $table: $db.sessionLogs,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.sessionLogs,
+        getReferencedColumn: (t) => t.campaignId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $SessionLogsAnnotationComposer(
+              $db: $db,
+              $table: $db.sessionLogs,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 }
 
-class $CampaignsTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          Campaigns,
-          Campaign,
-          $CampaignsFilterComposer,
-          $CampaignsOrderingComposer,
-          $CampaignsAnnotationComposer,
-          $CampaignsCreateCompanionBuilder,
-          $CampaignsUpdateCompanionBuilder,
-          (Campaign, $CampaignsReferences),
-          Campaign,
-          PrefetchHooks Function({
-            bool entitiesRefs,
-            bool mapsRefs,
-            bool sessionLogsRefs,
-          })
-        > {
+class $CampaignsTableManager extends RootTableManager<
+    _$AppDatabase,
+    Campaigns,
+    Campaign,
+    $CampaignsFilterComposer,
+    $CampaignsOrderingComposer,
+    $CampaignsAnnotationComposer,
+    $CampaignsCreateCompanionBuilder,
+    $CampaignsUpdateCompanionBuilder,
+    (Campaign, $CampaignsReferences),
+    Campaign,
+    PrefetchHooks Function(
+        {bool entitiesRefs, bool gameMapsRefs, bool sessionLogsRefs})> {
   $CampaignsTableManager(_$AppDatabase db, Campaigns table)
-    : super(
-        TableManagerState(
+      : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -3624,172 +3182,149 @@ class $CampaignsTableManager
               $CampaignsOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $CampaignsAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<String> id = const Value.absent(),
-                Value<String> title = const Value.absent(),
-                Value<String?> description = const Value.absent(),
-                Value<String> calendarSystem = const Value.absent(),
-                Value<String?> currentInGameDate = const Value.absent(),
-                Value<int> createdAt = const Value.absent(),
-                Value<int> updatedAt = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => CampaignsCompanion(
-                id: id,
-                title: title,
-                description: description,
-                calendarSystem: calendarSystem,
-                currentInGameDate: currentInGameDate,
-                createdAt: createdAt,
-                updatedAt: updatedAt,
-                rowid: rowid,
-              ),
-          createCompanionCallback:
-              ({
-                required String id,
-                required String title,
-                Value<String?> description = const Value.absent(),
-                Value<String> calendarSystem = const Value.absent(),
-                Value<String?> currentInGameDate = const Value.absent(),
-                required int createdAt,
-                required int updatedAt,
-                Value<int> rowid = const Value.absent(),
-              }) => CampaignsCompanion.insert(
-                id: id,
-                title: title,
-                description: description,
-                calendarSystem: calendarSystem,
-                currentInGameDate: currentInGameDate,
-                createdAt: createdAt,
-                updatedAt: updatedAt,
-                rowid: rowid,
-              ),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String> title = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+            Value<String> calendarSystem = const Value.absent(),
+            Value<String?> currentInGameDate = const Value.absent(),
+            Value<int> createdAt = const Value.absent(),
+            Value<int> updatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              CampaignsCompanion(
+            id: id,
+            title: title,
+            description: description,
+            calendarSystem: calendarSystem,
+            currentInGameDate: currentInGameDate,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required String title,
+            Value<String?> description = const Value.absent(),
+            Value<String> calendarSystem = const Value.absent(),
+            Value<String?> currentInGameDate = const Value.absent(),
+            required int createdAt,
+            required int updatedAt,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              CampaignsCompanion.insert(
+            id: id,
+            title: title,
+            description: description,
+            calendarSystem: calendarSystem,
+            currentInGameDate: currentInGameDate,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            rowid: rowid,
+          ),
           withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (e.readTable(table), $CampaignsReferences(db, table, e)),
-              )
+              .map((e) =>
+                  (e.readTable(table), $CampaignsReferences(db, table, e)))
               .toList(),
-          prefetchHooksCallback:
-              ({
-                entitiesRefs = false,
-                mapsRefs = false,
-                sessionLogsRefs = false,
-              }) {
-                return PrefetchHooks(
-                  db: db,
-                  explicitlyWatchedTables: [
-                    if (entitiesRefs) db.entities,
-                    if (mapsRefs) db.maps,
-                    if (sessionLogsRefs) db.sessionLogs,
-                  ],
-                  addJoins: null,
-                  getPrefetchedDataCallback: (items) async {
-                    return [
-                      if (entitiesRefs)
-                        await $_getPrefetchedData<Campaign, Campaigns, Entity>(
-                          currentTable: table,
-                          referencedTable: $CampaignsReferences
-                              ._entitiesRefsTable(db),
-                          managerFromTypedResult: (p0) =>
-                              $CampaignsReferences(db, table, p0).entitiesRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.campaignId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                      if (mapsRefs)
-                        await $_getPrefetchedData<Campaign, Campaigns, Map>(
-                          currentTable: table,
-                          referencedTable: $CampaignsReferences._mapsRefsTable(
-                            db,
-                          ),
-                          managerFromTypedResult: (p0) =>
-                              $CampaignsReferences(db, table, p0).mapsRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.campaignId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                      if (sessionLogsRefs)
-                        await $_getPrefetchedData<
-                          Campaign,
-                          Campaigns,
-                          SessionLog
-                        >(
-                          currentTable: table,
-                          referencedTable: $CampaignsReferences
-                              ._sessionLogsRefsTable(db),
-                          managerFromTypedResult: (p0) => $CampaignsReferences(
-                            db,
-                            table,
-                            p0,
-                          ).sessionLogsRefs,
-                          referencedItemsForCurrentItem:
-                              (item, referencedItems) => referencedItems.where(
-                                (e) => e.campaignId == item.id,
-                              ),
-                          typedResults: items,
-                        ),
-                    ];
-                  },
-                );
+          prefetchHooksCallback: (
+              {entitiesRefs = false,
+              gameMapsRefs = false,
+              sessionLogsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (entitiesRefs) db.entities,
+                if (gameMapsRefs) db.gameMaps,
+                if (sessionLogsRefs) db.sessionLogs
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (entitiesRefs)
+                    await $_getPrefetchedData<Campaign, Campaigns, Entity>(
+                        currentTable: table,
+                        referencedTable:
+                            $CampaignsReferences._entitiesRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $CampaignsReferences(db, table, p0).entitiesRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.campaignId == item.id),
+                        typedResults: items),
+                  if (gameMapsRefs)
+                    await $_getPrefetchedData<Campaign, Campaigns, GameMap>(
+                        currentTable: table,
+                        referencedTable:
+                            $CampaignsReferences._gameMapsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $CampaignsReferences(db, table, p0).gameMapsRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.campaignId == item.id),
+                        typedResults: items),
+                  if (sessionLogsRefs)
+                    await $_getPrefetchedData<Campaign, Campaigns, SessionLog>(
+                        currentTable: table,
+                        referencedTable:
+                            $CampaignsReferences._sessionLogsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $CampaignsReferences(db, table, p0).sessionLogsRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.campaignId == item.id),
+                        typedResults: items)
+                ];
               },
-        ),
-      );
+            );
+          },
+        ));
 }
 
-typedef $CampaignsProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      Campaigns,
-      Campaign,
-      $CampaignsFilterComposer,
-      $CampaignsOrderingComposer,
-      $CampaignsAnnotationComposer,
-      $CampaignsCreateCompanionBuilder,
-      $CampaignsUpdateCompanionBuilder,
-      (Campaign, $CampaignsReferences),
-      Campaign,
-      PrefetchHooks Function({
-        bool entitiesRefs,
-        bool mapsRefs,
-        bool sessionLogsRefs,
-      })
-    >;
-typedef $EntitiesCreateCompanionBuilder =
-    EntitiesCompanion Function({
-      required String id,
-      required String campaignId,
-      required String type,
-      required String title,
-      required String slug,
-      Value<String?> bodyContent,
-      Value<String?> publicDescription,
-      Value<String?> metadata,
-      Value<String?> tags,
-      Value<double> completenessScore,
-      required int createdAt,
-      required int updatedAt,
-      Value<int> rowid,
-    });
-typedef $EntitiesUpdateCompanionBuilder =
-    EntitiesCompanion Function({
-      Value<String> id,
-      Value<String> campaignId,
-      Value<String> type,
-      Value<String> title,
-      Value<String> slug,
-      Value<String?> bodyContent,
-      Value<String?> publicDescription,
-      Value<String?> metadata,
-      Value<String?> tags,
-      Value<double> completenessScore,
-      Value<int> createdAt,
-      Value<int> updatedAt,
-      Value<int> rowid,
-    });
+typedef $CampaignsProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    Campaigns,
+    Campaign,
+    $CampaignsFilterComposer,
+    $CampaignsOrderingComposer,
+    $CampaignsAnnotationComposer,
+    $CampaignsCreateCompanionBuilder,
+    $CampaignsUpdateCompanionBuilder,
+    (Campaign, $CampaignsReferences),
+    Campaign,
+    PrefetchHooks Function(
+        {bool entitiesRefs, bool gameMapsRefs, bool sessionLogsRefs})>;
+typedef $EntitiesCreateCompanionBuilder = EntitiesCompanion Function({
+  required String id,
+  required String campaignId,
+  required String type,
+  required String title,
+  required String slug,
+  Value<String?> bodyContent,
+  Value<String?> publicDescription,
+  Value<String?> metadata,
+  Value<String?> tags,
+  Value<double> completenessScore,
+  Value<bool> isRevealed,
+  required int createdAt,
+  required int updatedAt,
+  Value<int> rowid,
+});
+typedef $EntitiesUpdateCompanionBuilder = EntitiesCompanion Function({
+  Value<String> id,
+  Value<String> campaignId,
+  Value<String> type,
+  Value<String> title,
+  Value<String> slug,
+  Value<String?> bodyContent,
+  Value<String?> publicDescription,
+  Value<String?> metadata,
+  Value<String?> tags,
+  Value<double> completenessScore,
+  Value<bool> isRevealed,
+  Value<int> createdAt,
+  Value<int> updatedAt,
+  Value<int> rowid,
+});
 
 final class $EntitiesReferences
     extends BaseReferences<_$AppDatabase, Entities, Entity> {
@@ -3797,40 +3332,31 @@ final class $EntitiesReferences
 
   static Campaigns _campaignIdTable(_$AppDatabase db) =>
       db.campaigns.createAlias(
-        $_aliasNameGenerator(db.entities.campaignId, db.campaigns.id),
-      );
+          $_aliasNameGenerator(db.entities.campaignId, db.campaigns.id));
 
   $CampaignsProcessedTableManager get campaignId {
     final $_column = $_itemColumn<String>('campaign_id')!;
 
-    final manager = $CampaignsTableManager(
-      $_db,
-      $_db.campaigns,
-    ).filter((f) => f.id.sqlEquals($_column));
+    final manager = $CampaignsTableManager($_db, $_db.campaigns)
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_campaignIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
+        manager.$state.copyWith(prefetchedData: [item]));
   }
 
   static MultiTypedResultKey<MapPins, List<MapPin>> _mapPinsRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.mapPins,
-    aliasName: $_aliasNameGenerator(db.entities.id, db.mapPins.entityId),
-  );
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.mapPins,
+          aliasName: $_aliasNameGenerator(db.entities.id, db.mapPins.entityId));
 
   $MapPinsProcessedTableManager get mapPinsRefs {
-    final manager = $MapPinsTableManager(
-      $_db,
-      $_db.mapPins,
-    ).filter((f) => f.entityId.id.sqlEquals($_itemColumn<String>('id')!));
+    final manager = $MapPinsTableManager($_db, $_db.mapPins)
+        .filter((f) => f.entityId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_mapPinsRefsTable($_db));
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
+        manager.$state.copyWith(prefetchedData: cache));
   }
 }
 
@@ -3843,105 +3369,81 @@ class $EntitiesFilterComposer extends Composer<_$AppDatabase, Entities> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get type => $composableBuilder(
-    column: $table.type,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.type, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get title => $composableBuilder(
-    column: $table.title,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.title, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get slug => $composableBuilder(
-    column: $table.slug,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.slug, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get bodyContent => $composableBuilder(
-    column: $table.bodyContent,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.bodyContent, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get publicDescription => $composableBuilder(
-    column: $table.publicDescription,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.publicDescription,
+      builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get metadata => $composableBuilder(
-    column: $table.metadata,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.metadata, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get tags => $composableBuilder(
-    column: $table.tags,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.tags, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<double> get completenessScore => $composableBuilder(
-    column: $table.completenessScore,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.completenessScore,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isRevealed => $composableBuilder(
+      column: $table.isRevealed, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get updatedAt => $composableBuilder(
-    column: $table.updatedAt,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
 
   $CampaignsFilterComposer get campaignId {
     final $CampaignsFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.campaignId,
-      referencedTable: $db.campaigns,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $CampaignsFilterComposer(
-            $db: $db,
-            $table: $db.campaigns,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.campaignId,
+        referencedTable: $db.campaigns,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $CampaignsFilterComposer(
+              $db: $db,
+              $table: $db.campaigns,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 
   Expression<bool> mapPinsRefs(
-    Expression<bool> Function($MapPinsFilterComposer f) f,
-  ) {
+      Expression<bool> Function($MapPinsFilterComposer f) f) {
     final $MapPinsFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.mapPins,
-      getReferencedColumn: (t) => t.entityId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $MapPinsFilterComposer(
-            $db: $db,
-            $table: $db.mapPins,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.mapPins,
+        getReferencedColumn: (t) => t.entityId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $MapPinsFilterComposer(
+              $db: $db,
+              $table: $db.mapPins,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 }
@@ -3955,80 +3457,60 @@ class $EntitiesOrderingComposer extends Composer<_$AppDatabase, Entities> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get type => $composableBuilder(
-    column: $table.type,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.type, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get title => $composableBuilder(
-    column: $table.title,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.title, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get slug => $composableBuilder(
-    column: $table.slug,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.slug, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get bodyContent => $composableBuilder(
-    column: $table.bodyContent,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.bodyContent, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get publicDescription => $composableBuilder(
-    column: $table.publicDescription,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.publicDescription,
+      builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get metadata => $composableBuilder(
-    column: $table.metadata,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.metadata, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get tags => $composableBuilder(
-    column: $table.tags,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.tags, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<double> get completenessScore => $composableBuilder(
-    column: $table.completenessScore,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.completenessScore,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isRevealed => $composableBuilder(
+      column: $table.isRevealed, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get updatedAt => $composableBuilder(
-    column: $table.updatedAt,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
 
   $CampaignsOrderingComposer get campaignId {
     final $CampaignsOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.campaignId,
-      referencedTable: $db.campaigns,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $CampaignsOrderingComposer(
-            $db: $db,
-            $table: $db.campaigns,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.campaignId,
+        referencedTable: $db.campaigns,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $CampaignsOrderingComposer(
+              $db: $db,
+              $table: $db.campaigns,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
@@ -4054,14 +3536,10 @@ class $EntitiesAnnotationComposer extends Composer<_$AppDatabase, Entities> {
       $composableBuilder(column: $table.slug, builder: (column) => column);
 
   GeneratedColumn<String> get bodyContent => $composableBuilder(
-    column: $table.bodyContent,
-    builder: (column) => column,
-  );
+      column: $table.bodyContent, builder: (column) => column);
 
   GeneratedColumn<String> get publicDescription => $composableBuilder(
-    column: $table.publicDescription,
-    builder: (column) => column,
-  );
+      column: $table.publicDescription, builder: (column) => column);
 
   GeneratedColumn<String> get metadata =>
       $composableBuilder(column: $table.metadata, builder: (column) => column);
@@ -4070,9 +3548,10 @@ class $EntitiesAnnotationComposer extends Composer<_$AppDatabase, Entities> {
       $composableBuilder(column: $table.tags, builder: (column) => column);
 
   GeneratedColumn<double> get completenessScore => $composableBuilder(
-    column: $table.completenessScore,
-    builder: (column) => column,
-  );
+      column: $table.completenessScore, builder: (column) => column);
+
+  GeneratedColumn<bool> get isRevealed => $composableBuilder(
+      column: $table.isRevealed, builder: (column) => column);
 
   GeneratedColumn<int> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -4082,71 +3561,60 @@ class $EntitiesAnnotationComposer extends Composer<_$AppDatabase, Entities> {
 
   $CampaignsAnnotationComposer get campaignId {
     final $CampaignsAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.campaignId,
-      referencedTable: $db.campaigns,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $CampaignsAnnotationComposer(
-            $db: $db,
-            $table: $db.campaigns,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.campaignId,
+        referencedTable: $db.campaigns,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $CampaignsAnnotationComposer(
+              $db: $db,
+              $table: $db.campaigns,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 
   Expression<T> mapPinsRefs<T extends Object>(
-    Expression<T> Function($MapPinsAnnotationComposer a) f,
-  ) {
+      Expression<T> Function($MapPinsAnnotationComposer a) f) {
     final $MapPinsAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.mapPins,
-      getReferencedColumn: (t) => t.entityId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $MapPinsAnnotationComposer(
-            $db: $db,
-            $table: $db.mapPins,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.mapPins,
+        getReferencedColumn: (t) => t.entityId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $MapPinsAnnotationComposer(
+              $db: $db,
+              $table: $db.mapPins,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 }
 
-class $EntitiesTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          Entities,
-          Entity,
-          $EntitiesFilterComposer,
-          $EntitiesOrderingComposer,
-          $EntitiesAnnotationComposer,
-          $EntitiesCreateCompanionBuilder,
-          $EntitiesUpdateCompanionBuilder,
-          (Entity, $EntitiesReferences),
-          Entity,
-          PrefetchHooks Function({bool campaignId, bool mapPinsRefs})
-        > {
+class $EntitiesTableManager extends RootTableManager<
+    _$AppDatabase,
+    Entities,
+    Entity,
+    $EntitiesFilterComposer,
+    $EntitiesOrderingComposer,
+    $EntitiesAnnotationComposer,
+    $EntitiesCreateCompanionBuilder,
+    $EntitiesUpdateCompanionBuilder,
+    (Entity, $EntitiesReferences),
+    Entity,
+    PrefetchHooks Function({bool campaignId, bool mapPinsRefs})> {
   $EntitiesTableManager(_$AppDatabase db, Entities table)
-    : super(
-        TableManagerState(
+      : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -4155,78 +3623,80 @@ class $EntitiesTableManager
               $EntitiesOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $EntitiesAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<String> id = const Value.absent(),
-                Value<String> campaignId = const Value.absent(),
-                Value<String> type = const Value.absent(),
-                Value<String> title = const Value.absent(),
-                Value<String> slug = const Value.absent(),
-                Value<String?> bodyContent = const Value.absent(),
-                Value<String?> publicDescription = const Value.absent(),
-                Value<String?> metadata = const Value.absent(),
-                Value<String?> tags = const Value.absent(),
-                Value<double> completenessScore = const Value.absent(),
-                Value<int> createdAt = const Value.absent(),
-                Value<int> updatedAt = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => EntitiesCompanion(
-                id: id,
-                campaignId: campaignId,
-                type: type,
-                title: title,
-                slug: slug,
-                bodyContent: bodyContent,
-                publicDescription: publicDescription,
-                metadata: metadata,
-                tags: tags,
-                completenessScore: completenessScore,
-                createdAt: createdAt,
-                updatedAt: updatedAt,
-                rowid: rowid,
-              ),
-          createCompanionCallback:
-              ({
-                required String id,
-                required String campaignId,
-                required String type,
-                required String title,
-                required String slug,
-                Value<String?> bodyContent = const Value.absent(),
-                Value<String?> publicDescription = const Value.absent(),
-                Value<String?> metadata = const Value.absent(),
-                Value<String?> tags = const Value.absent(),
-                Value<double> completenessScore = const Value.absent(),
-                required int createdAt,
-                required int updatedAt,
-                Value<int> rowid = const Value.absent(),
-              }) => EntitiesCompanion.insert(
-                id: id,
-                campaignId: campaignId,
-                type: type,
-                title: title,
-                slug: slug,
-                bodyContent: bodyContent,
-                publicDescription: publicDescription,
-                metadata: metadata,
-                tags: tags,
-                completenessScore: completenessScore,
-                createdAt: createdAt,
-                updatedAt: updatedAt,
-                rowid: rowid,
-              ),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String> campaignId = const Value.absent(),
+            Value<String> type = const Value.absent(),
+            Value<String> title = const Value.absent(),
+            Value<String> slug = const Value.absent(),
+            Value<String?> bodyContent = const Value.absent(),
+            Value<String?> publicDescription = const Value.absent(),
+            Value<String?> metadata = const Value.absent(),
+            Value<String?> tags = const Value.absent(),
+            Value<double> completenessScore = const Value.absent(),
+            Value<bool> isRevealed = const Value.absent(),
+            Value<int> createdAt = const Value.absent(),
+            Value<int> updatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              EntitiesCompanion(
+            id: id,
+            campaignId: campaignId,
+            type: type,
+            title: title,
+            slug: slug,
+            bodyContent: bodyContent,
+            publicDescription: publicDescription,
+            metadata: metadata,
+            tags: tags,
+            completenessScore: completenessScore,
+            isRevealed: isRevealed,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required String campaignId,
+            required String type,
+            required String title,
+            required String slug,
+            Value<String?> bodyContent = const Value.absent(),
+            Value<String?> publicDescription = const Value.absent(),
+            Value<String?> metadata = const Value.absent(),
+            Value<String?> tags = const Value.absent(),
+            Value<double> completenessScore = const Value.absent(),
+            Value<bool> isRevealed = const Value.absent(),
+            required int createdAt,
+            required int updatedAt,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              EntitiesCompanion.insert(
+            id: id,
+            campaignId: campaignId,
+            type: type,
+            title: title,
+            slug: slug,
+            bodyContent: bodyContent,
+            publicDescription: publicDescription,
+            metadata: metadata,
+            tags: tags,
+            completenessScore: completenessScore,
+            isRevealed: isRevealed,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            rowid: rowid,
+          ),
           withReferenceMapper: (p0) => p0
-              .map(
-                (e) => (e.readTable(table), $EntitiesReferences(db, table, e)),
-              )
+              .map((e) =>
+                  (e.readTable(table), $EntitiesReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({campaignId = false, mapPinsRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [if (mapPinsRefs) db.mapPins],
-              addJoins:
-                  <
-                    T extends TableManagerState<
+              addJoins: <
+                  T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -4237,118 +3707,98 @@ class $EntitiesTableManager
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (campaignId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.campaignId,
-                                referencedTable: $EntitiesReferences
-                                    ._campaignIdTable(db),
-                                referencedColumn: $EntitiesReferences
-                                    ._campaignIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
+                      dynamic>>(state) {
+                if (campaignId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.campaignId,
+                    referencedTable: $EntitiesReferences._campaignIdTable(db),
+                    referencedColumn:
+                        $EntitiesReferences._campaignIdTable(db).id,
+                  ) as T;
+                }
 
-                    return state;
-                  },
+                return state;
+              },
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (mapPinsRefs)
                     await $_getPrefetchedData<Entity, Entities, MapPin>(
-                      currentTable: table,
-                      referencedTable: $EntitiesReferences._mapPinsRefsTable(
-                        db,
-                      ),
-                      managerFromTypedResult: (p0) =>
-                          $EntitiesReferences(db, table, p0).mapPinsRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.entityId == item.id),
-                      typedResults: items,
-                    ),
+                        currentTable: table,
+                        referencedTable:
+                            $EntitiesReferences._mapPinsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $EntitiesReferences(db, table, p0).mapPinsRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.entityId == item.id),
+                        typedResults: items)
                 ];
               },
             );
           },
-        ),
-      );
+        ));
 }
 
-typedef $EntitiesProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      Entities,
-      Entity,
-      $EntitiesFilterComposer,
-      $EntitiesOrderingComposer,
-      $EntitiesAnnotationComposer,
-      $EntitiesCreateCompanionBuilder,
-      $EntitiesUpdateCompanionBuilder,
-      (Entity, $EntitiesReferences),
-      Entity,
-      PrefetchHooks Function({bool campaignId, bool mapPinsRefs})
-    >;
-typedef $EdgesCreateCompanionBuilder =
-    EdgesCompanion Function({
-      required String id,
-      required String sourceId,
-      required String targetId,
-      required String edgeType,
-      required int createdAt,
-      Value<int> rowid,
-    });
-typedef $EdgesUpdateCompanionBuilder =
-    EdgesCompanion Function({
-      Value<String> id,
-      Value<String> sourceId,
-      Value<String> targetId,
-      Value<String> edgeType,
-      Value<int> createdAt,
-      Value<int> rowid,
-    });
+typedef $EntitiesProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    Entities,
+    Entity,
+    $EntitiesFilterComposer,
+    $EntitiesOrderingComposer,
+    $EntitiesAnnotationComposer,
+    $EntitiesCreateCompanionBuilder,
+    $EntitiesUpdateCompanionBuilder,
+    (Entity, $EntitiesReferences),
+    Entity,
+    PrefetchHooks Function({bool campaignId, bool mapPinsRefs})>;
+typedef $EdgesCreateCompanionBuilder = EdgesCompanion Function({
+  required String id,
+  required String sourceId,
+  required String targetId,
+  required String edgeType,
+  required int createdAt,
+  Value<int> rowid,
+});
+typedef $EdgesUpdateCompanionBuilder = EdgesCompanion Function({
+  Value<String> id,
+  Value<String> sourceId,
+  Value<String> targetId,
+  Value<String> edgeType,
+  Value<int> createdAt,
+  Value<int> rowid,
+});
 
 final class $EdgesReferences
     extends BaseReferences<_$AppDatabase, Edges, Edge> {
   $EdgesReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static Entities _sourceIdTable(_$AppDatabase db) => db.entities.createAlias(
-    $_aliasNameGenerator(db.edges.sourceId, db.entities.id),
-  );
+  static Entities _sourceIdTable(_$AppDatabase db) => db.entities
+      .createAlias($_aliasNameGenerator(db.edges.sourceId, db.entities.id));
 
   $EntitiesProcessedTableManager get sourceId {
     final $_column = $_itemColumn<String>('source_id')!;
 
-    final manager = $EntitiesTableManager(
-      $_db,
-      $_db.entities,
-    ).filter((f) => f.id.sqlEquals($_column));
+    final manager = $EntitiesTableManager($_db, $_db.entities)
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_sourceIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
+        manager.$state.copyWith(prefetchedData: [item]));
   }
 
-  static Entities _targetIdTable(_$AppDatabase db) => db.entities.createAlias(
-    $_aliasNameGenerator(db.edges.targetId, db.entities.id),
-  );
+  static Entities _targetIdTable(_$AppDatabase db) => db.entities
+      .createAlias($_aliasNameGenerator(db.edges.targetId, db.entities.id));
 
   $EntitiesProcessedTableManager get targetId {
     final $_column = $_itemColumn<String>('target_id')!;
 
-    final manager = $EntitiesTableManager(
-      $_db,
-      $_db.entities,
-    ).filter((f) => f.id.sqlEquals($_column));
+    final manager = $EntitiesTableManager($_db, $_db.entities)
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_targetIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
+        manager.$state.copyWith(prefetchedData: [item]));
   }
 }
 
@@ -4361,63 +3811,51 @@ class $EdgesFilterComposer extends Composer<_$AppDatabase, Edges> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get edgeType => $composableBuilder(
-    column: $table.edgeType,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.edgeType, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
   $EntitiesFilterComposer get sourceId {
     final $EntitiesFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.sourceId,
-      referencedTable: $db.entities,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $EntitiesFilterComposer(
-            $db: $db,
-            $table: $db.entities,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.sourceId,
+        referencedTable: $db.entities,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $EntitiesFilterComposer(
+              $db: $db,
+              $table: $db.entities,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 
   $EntitiesFilterComposer get targetId {
     final $EntitiesFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.targetId,
-      referencedTable: $db.entities,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $EntitiesFilterComposer(
-            $db: $db,
-            $table: $db.entities,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.targetId,
+        referencedTable: $db.entities,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $EntitiesFilterComposer(
+              $db: $db,
+              $table: $db.entities,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
@@ -4431,63 +3869,51 @@ class $EdgesOrderingComposer extends Composer<_$AppDatabase, Edges> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get edgeType => $composableBuilder(
-    column: $table.edgeType,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.edgeType, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
   $EntitiesOrderingComposer get sourceId {
     final $EntitiesOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.sourceId,
-      referencedTable: $db.entities,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $EntitiesOrderingComposer(
-            $db: $db,
-            $table: $db.entities,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.sourceId,
+        referencedTable: $db.entities,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $EntitiesOrderingComposer(
+              $db: $db,
+              $table: $db.entities,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 
   $EntitiesOrderingComposer get targetId {
     final $EntitiesOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.targetId,
-      referencedTable: $db.entities,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $EntitiesOrderingComposer(
-            $db: $db,
-            $table: $db.entities,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.targetId,
+        referencedTable: $db.entities,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $EntitiesOrderingComposer(
+              $db: $db,
+              $table: $db.entities,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
@@ -4511,69 +3937,59 @@ class $EdgesAnnotationComposer extends Composer<_$AppDatabase, Edges> {
 
   $EntitiesAnnotationComposer get sourceId {
     final $EntitiesAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.sourceId,
-      referencedTable: $db.entities,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $EntitiesAnnotationComposer(
-            $db: $db,
-            $table: $db.entities,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.sourceId,
+        referencedTable: $db.entities,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $EntitiesAnnotationComposer(
+              $db: $db,
+              $table: $db.entities,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 
   $EntitiesAnnotationComposer get targetId {
     final $EntitiesAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.targetId,
-      referencedTable: $db.entities,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $EntitiesAnnotationComposer(
-            $db: $db,
-            $table: $db.entities,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.targetId,
+        referencedTable: $db.entities,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $EntitiesAnnotationComposer(
+              $db: $db,
+              $table: $db.entities,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
 
-class $EdgesTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          Edges,
-          Edge,
-          $EdgesFilterComposer,
-          $EdgesOrderingComposer,
-          $EdgesAnnotationComposer,
-          $EdgesCreateCompanionBuilder,
-          $EdgesUpdateCompanionBuilder,
-          (Edge, $EdgesReferences),
-          Edge,
-          PrefetchHooks Function({bool sourceId, bool targetId})
-        > {
+class $EdgesTableManager extends RootTableManager<
+    _$AppDatabase,
+    Edges,
+    Edge,
+    $EdgesFilterComposer,
+    $EdgesOrderingComposer,
+    $EdgesAnnotationComposer,
+    $EdgesCreateCompanionBuilder,
+    $EdgesUpdateCompanionBuilder,
+    (Edge, $EdgesReferences),
+    Edge,
+    PrefetchHooks Function({bool sourceId, bool targetId})> {
   $EdgesTableManager(_$AppDatabase db, Edges table)
-    : super(
-        TableManagerState(
+      : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -4582,38 +3998,38 @@ class $EdgesTableManager
               $EdgesOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $EdgesAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<String> id = const Value.absent(),
-                Value<String> sourceId = const Value.absent(),
-                Value<String> targetId = const Value.absent(),
-                Value<String> edgeType = const Value.absent(),
-                Value<int> createdAt = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => EdgesCompanion(
-                id: id,
-                sourceId: sourceId,
-                targetId: targetId,
-                edgeType: edgeType,
-                createdAt: createdAt,
-                rowid: rowid,
-              ),
-          createCompanionCallback:
-              ({
-                required String id,
-                required String sourceId,
-                required String targetId,
-                required String edgeType,
-                required int createdAt,
-                Value<int> rowid = const Value.absent(),
-              }) => EdgesCompanion.insert(
-                id: id,
-                sourceId: sourceId,
-                targetId: targetId,
-                edgeType: edgeType,
-                createdAt: createdAt,
-                rowid: rowid,
-              ),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String> sourceId = const Value.absent(),
+            Value<String> targetId = const Value.absent(),
+            Value<String> edgeType = const Value.absent(),
+            Value<int> createdAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              EdgesCompanion(
+            id: id,
+            sourceId: sourceId,
+            targetId: targetId,
+            edgeType: edgeType,
+            createdAt: createdAt,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required String sourceId,
+            required String targetId,
+            required String edgeType,
+            required int createdAt,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              EdgesCompanion.insert(
+            id: id,
+            sourceId: sourceId,
+            targetId: targetId,
+            edgeType: edgeType,
+            createdAt: createdAt,
+            rowid: rowid,
+          ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), $EdgesReferences(db, table, e)))
               .toList(),
@@ -4621,9 +4037,8 @@ class $EdgesTableManager
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
+              addJoins: <
+                  T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -4634,128 +4049,105 @@ class $EdgesTableManager
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (sourceId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.sourceId,
-                                referencedTable: $EdgesReferences
-                                    ._sourceIdTable(db),
-                                referencedColumn: $EdgesReferences
-                                    ._sourceIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
-                    if (targetId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.targetId,
-                                referencedTable: $EdgesReferences
-                                    ._targetIdTable(db),
-                                referencedColumn: $EdgesReferences
-                                    ._targetIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
+                      dynamic>>(state) {
+                if (sourceId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.sourceId,
+                    referencedTable: $EdgesReferences._sourceIdTable(db),
+                    referencedColumn: $EdgesReferences._sourceIdTable(db).id,
+                  ) as T;
+                }
+                if (targetId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.targetId,
+                    referencedTable: $EdgesReferences._targetIdTable(db),
+                    referencedColumn: $EdgesReferences._targetIdTable(db).id,
+                  ) as T;
+                }
 
-                    return state;
-                  },
+                return state;
+              },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ),
-      );
+        ));
 }
 
-typedef $EdgesProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      Edges,
-      Edge,
-      $EdgesFilterComposer,
-      $EdgesOrderingComposer,
-      $EdgesAnnotationComposer,
-      $EdgesCreateCompanionBuilder,
-      $EdgesUpdateCompanionBuilder,
-      (Edge, $EdgesReferences),
-      Edge,
-      PrefetchHooks Function({bool sourceId, bool targetId})
-    >;
-typedef $MapsCreateCompanionBuilder =
-    MapsCompanion Function({
-      required String id,
-      required String campaignId,
-      required String title,
-      required String imagePath,
-      required int width,
-      required int height,
-      Value<String?> fogMask,
-      required int createdAt,
-      Value<int> rowid,
-    });
-typedef $MapsUpdateCompanionBuilder =
-    MapsCompanion Function({
-      Value<String> id,
-      Value<String> campaignId,
-      Value<String> title,
-      Value<String> imagePath,
-      Value<int> width,
-      Value<int> height,
-      Value<String?> fogMask,
-      Value<int> createdAt,
-      Value<int> rowid,
-    });
+typedef $EdgesProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    Edges,
+    Edge,
+    $EdgesFilterComposer,
+    $EdgesOrderingComposer,
+    $EdgesAnnotationComposer,
+    $EdgesCreateCompanionBuilder,
+    $EdgesUpdateCompanionBuilder,
+    (Edge, $EdgesReferences),
+    Edge,
+    PrefetchHooks Function({bool sourceId, bool targetId})>;
+typedef $GameMapsCreateCompanionBuilder = GameMapsCompanion Function({
+  required String id,
+  required String campaignId,
+  required String title,
+  required String imagePath,
+  required int width,
+  required int height,
+  Value<String?> fogMask,
+  required int createdAt,
+  Value<int> rowid,
+});
+typedef $GameMapsUpdateCompanionBuilder = GameMapsCompanion Function({
+  Value<String> id,
+  Value<String> campaignId,
+  Value<String> title,
+  Value<String> imagePath,
+  Value<int> width,
+  Value<int> height,
+  Value<String?> fogMask,
+  Value<int> createdAt,
+  Value<int> rowid,
+});
 
-final class $MapsReferences extends BaseReferences<_$AppDatabase, Maps, Map> {
-  $MapsReferences(super.$_db, super.$_table, super.$_typedResult);
+final class $GameMapsReferences
+    extends BaseReferences<_$AppDatabase, GameMaps, GameMap> {
+  $GameMapsReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static Campaigns _campaignIdTable(_$AppDatabase db) => db.campaigns
-      .createAlias($_aliasNameGenerator(db.maps.campaignId, db.campaigns.id));
+  static Campaigns _campaignIdTable(_$AppDatabase db) =>
+      db.campaigns.createAlias(
+          $_aliasNameGenerator(db.gameMaps.campaignId, db.campaigns.id));
 
   $CampaignsProcessedTableManager get campaignId {
     final $_column = $_itemColumn<String>('campaign_id')!;
 
-    final manager = $CampaignsTableManager(
-      $_db,
-      $_db.campaigns,
-    ).filter((f) => f.id.sqlEquals($_column));
+    final manager = $CampaignsTableManager($_db, $_db.campaigns)
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_campaignIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
+        manager.$state.copyWith(prefetchedData: [item]));
   }
 
   static MultiTypedResultKey<MapPins, List<MapPin>> _mapPinsRefsTable(
-    _$AppDatabase db,
-  ) => MultiTypedResultKey.fromTable(
-    db.mapPins,
-    aliasName: $_aliasNameGenerator(db.maps.id, db.mapPins.mapId),
-  );
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.mapPins,
+          aliasName: $_aliasNameGenerator(db.gameMaps.id, db.mapPins.mapId));
 
   $MapPinsProcessedTableManager get mapPinsRefs {
-    final manager = $MapPinsTableManager(
-      $_db,
-      $_db.mapPins,
-    ).filter((f) => f.mapId.id.sqlEquals($_itemColumn<String>('id')!));
+    final manager = $MapPinsTableManager($_db, $_db.mapPins)
+        .filter((f) => f.mapId.id.sqlEquals($_itemColumn<String>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_mapPinsRefsTable($_db));
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: cache),
-    );
+        manager.$state.copyWith(prefetchedData: cache));
   }
 }
 
-class $MapsFilterComposer extends Composer<_$AppDatabase, Maps> {
-  $MapsFilterComposer({
+class $GameMapsFilterComposer extends Composer<_$AppDatabase, GameMaps> {
+  $GameMapsFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -4763,91 +4155,70 @@ class $MapsFilterComposer extends Composer<_$AppDatabase, Maps> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get title => $composableBuilder(
-    column: $table.title,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.title, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get imagePath => $composableBuilder(
-    column: $table.imagePath,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.imagePath, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get width => $composableBuilder(
-    column: $table.width,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.width, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get height => $composableBuilder(
-    column: $table.height,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.height, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get fogMask => $composableBuilder(
-    column: $table.fogMask,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.fogMask, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
   $CampaignsFilterComposer get campaignId {
     final $CampaignsFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.campaignId,
-      referencedTable: $db.campaigns,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $CampaignsFilterComposer(
-            $db: $db,
-            $table: $db.campaigns,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.campaignId,
+        referencedTable: $db.campaigns,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $CampaignsFilterComposer(
+              $db: $db,
+              $table: $db.campaigns,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 
   Expression<bool> mapPinsRefs(
-    Expression<bool> Function($MapPinsFilterComposer f) f,
-  ) {
+      Expression<bool> Function($MapPinsFilterComposer f) f) {
     final $MapPinsFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.mapPins,
-      getReferencedColumn: (t) => t.mapId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $MapPinsFilterComposer(
-            $db: $db,
-            $table: $db.mapPins,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.mapPins,
+        getReferencedColumn: (t) => t.mapId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $MapPinsFilterComposer(
+              $db: $db,
+              $table: $db.mapPins,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 }
 
-class $MapsOrderingComposer extends Composer<_$AppDatabase, Maps> {
-  $MapsOrderingComposer({
+class $GameMapsOrderingComposer extends Composer<_$AppDatabase, GameMaps> {
+  $GameMapsOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -4855,66 +4226,49 @@ class $MapsOrderingComposer extends Composer<_$AppDatabase, Maps> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get title => $composableBuilder(
-    column: $table.title,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.title, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get imagePath => $composableBuilder(
-    column: $table.imagePath,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.imagePath, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get width => $composableBuilder(
-    column: $table.width,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.width, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get height => $composableBuilder(
-    column: $table.height,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.height, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get fogMask => $composableBuilder(
-    column: $table.fogMask,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.fogMask, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
   $CampaignsOrderingComposer get campaignId {
     final $CampaignsOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.campaignId,
-      referencedTable: $db.campaigns,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $CampaignsOrderingComposer(
-            $db: $db,
-            $table: $db.campaigns,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.campaignId,
+        referencedTable: $db.campaigns,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $CampaignsOrderingComposer(
+              $db: $db,
+              $table: $db.campaigns,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
 
-class $MapsAnnotationComposer extends Composer<_$AppDatabase, Maps> {
-  $MapsAnnotationComposer({
+class $GameMapsAnnotationComposer extends Composer<_$AppDatabase, GameMaps> {
+  $GameMapsAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -4944,133 +4298,122 @@ class $MapsAnnotationComposer extends Composer<_$AppDatabase, Maps> {
 
   $CampaignsAnnotationComposer get campaignId {
     final $CampaignsAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.campaignId,
-      referencedTable: $db.campaigns,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $CampaignsAnnotationComposer(
-            $db: $db,
-            $table: $db.campaigns,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.campaignId,
+        referencedTable: $db.campaigns,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $CampaignsAnnotationComposer(
+              $db: $db,
+              $table: $db.campaigns,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 
   Expression<T> mapPinsRefs<T extends Object>(
-    Expression<T> Function($MapPinsAnnotationComposer a) f,
-  ) {
+      Expression<T> Function($MapPinsAnnotationComposer a) f) {
     final $MapPinsAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.id,
-      referencedTable: $db.mapPins,
-      getReferencedColumn: (t) => t.mapId,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $MapPinsAnnotationComposer(
-            $db: $db,
-            $table: $db.mapPins,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.mapPins,
+        getReferencedColumn: (t) => t.mapId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $MapPinsAnnotationComposer(
+              $db: $db,
+              $table: $db.mapPins,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 }
 
-class $MapsTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          Maps,
-          Map,
-          $MapsFilterComposer,
-          $MapsOrderingComposer,
-          $MapsAnnotationComposer,
-          $MapsCreateCompanionBuilder,
-          $MapsUpdateCompanionBuilder,
-          (Map, $MapsReferences),
-          Map,
-          PrefetchHooks Function({bool campaignId, bool mapPinsRefs})
-        > {
-  $MapsTableManager(_$AppDatabase db, Maps table)
-    : super(
-        TableManagerState(
+class $GameMapsTableManager extends RootTableManager<
+    _$AppDatabase,
+    GameMaps,
+    GameMap,
+    $GameMapsFilterComposer,
+    $GameMapsOrderingComposer,
+    $GameMapsAnnotationComposer,
+    $GameMapsCreateCompanionBuilder,
+    $GameMapsUpdateCompanionBuilder,
+    (GameMap, $GameMapsReferences),
+    GameMap,
+    PrefetchHooks Function({bool campaignId, bool mapPinsRefs})> {
+  $GameMapsTableManager(_$AppDatabase db, GameMaps table)
+      : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $MapsFilterComposer($db: db, $table: table),
+              $GameMapsFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $MapsOrderingComposer($db: db, $table: table),
+              $GameMapsOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $MapsAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<String> id = const Value.absent(),
-                Value<String> campaignId = const Value.absent(),
-                Value<String> title = const Value.absent(),
-                Value<String> imagePath = const Value.absent(),
-                Value<int> width = const Value.absent(),
-                Value<int> height = const Value.absent(),
-                Value<String?> fogMask = const Value.absent(),
-                Value<int> createdAt = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => MapsCompanion(
-                id: id,
-                campaignId: campaignId,
-                title: title,
-                imagePath: imagePath,
-                width: width,
-                height: height,
-                fogMask: fogMask,
-                createdAt: createdAt,
-                rowid: rowid,
-              ),
-          createCompanionCallback:
-              ({
-                required String id,
-                required String campaignId,
-                required String title,
-                required String imagePath,
-                required int width,
-                required int height,
-                Value<String?> fogMask = const Value.absent(),
-                required int createdAt,
-                Value<int> rowid = const Value.absent(),
-              }) => MapsCompanion.insert(
-                id: id,
-                campaignId: campaignId,
-                title: title,
-                imagePath: imagePath,
-                width: width,
-                height: height,
-                fogMask: fogMask,
-                createdAt: createdAt,
-                rowid: rowid,
-              ),
+              $GameMapsAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String> campaignId = const Value.absent(),
+            Value<String> title = const Value.absent(),
+            Value<String> imagePath = const Value.absent(),
+            Value<int> width = const Value.absent(),
+            Value<int> height = const Value.absent(),
+            Value<String?> fogMask = const Value.absent(),
+            Value<int> createdAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              GameMapsCompanion(
+            id: id,
+            campaignId: campaignId,
+            title: title,
+            imagePath: imagePath,
+            width: width,
+            height: height,
+            fogMask: fogMask,
+            createdAt: createdAt,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required String campaignId,
+            required String title,
+            required String imagePath,
+            required int width,
+            required int height,
+            Value<String?> fogMask = const Value.absent(),
+            required int createdAt,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              GameMapsCompanion.insert(
+            id: id,
+            campaignId: campaignId,
+            title: title,
+            imagePath: imagePath,
+            width: width,
+            height: height,
+            fogMask: fogMask,
+            createdAt: createdAt,
+            rowid: rowid,
+          ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), $MapsReferences(db, table, e)))
+              .map((e) =>
+                  (e.readTable(table), $GameMapsReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({campaignId = false, mapPinsRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [if (mapPinsRefs) db.mapPins],
-              addJoins:
-                  <
-                    T extends TableManagerState<
+              addJoins: <
+                  T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -5081,119 +4424,102 @@ class $MapsTableManager
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (campaignId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.campaignId,
-                                referencedTable: $MapsReferences
-                                    ._campaignIdTable(db),
-                                referencedColumn: $MapsReferences
-                                    ._campaignIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
+                      dynamic>>(state) {
+                if (campaignId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.campaignId,
+                    referencedTable: $GameMapsReferences._campaignIdTable(db),
+                    referencedColumn:
+                        $GameMapsReferences._campaignIdTable(db).id,
+                  ) as T;
+                }
 
-                    return state;
-                  },
+                return state;
+              },
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (mapPinsRefs)
-                    await $_getPrefetchedData<Map, Maps, MapPin>(
-                      currentTable: table,
-                      referencedTable: $MapsReferences._mapPinsRefsTable(db),
-                      managerFromTypedResult: (p0) =>
-                          $MapsReferences(db, table, p0).mapPinsRefs,
-                      referencedItemsForCurrentItem: (item, referencedItems) =>
-                          referencedItems.where((e) => e.mapId == item.id),
-                      typedResults: items,
-                    ),
+                    await $_getPrefetchedData<GameMap, GameMaps, MapPin>(
+                        currentTable: table,
+                        referencedTable:
+                            $GameMapsReferences._mapPinsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $GameMapsReferences(db, table, p0).mapPinsRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.mapId == item.id),
+                        typedResults: items)
                 ];
               },
             );
           },
-        ),
-      );
+        ));
 }
 
-typedef $MapsProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      Maps,
-      Map,
-      $MapsFilterComposer,
-      $MapsOrderingComposer,
-      $MapsAnnotationComposer,
-      $MapsCreateCompanionBuilder,
-      $MapsUpdateCompanionBuilder,
-      (Map, $MapsReferences),
-      Map,
-      PrefetchHooks Function({bool campaignId, bool mapPinsRefs})
-    >;
-typedef $MapPinsCreateCompanionBuilder =
-    MapPinsCompanion Function({
-      required String id,
-      required String mapId,
-      Value<String?> entityId,
-      required double x,
-      required double y,
-      Value<String> icon,
-      required int createdAt,
-      Value<int> rowid,
-    });
-typedef $MapPinsUpdateCompanionBuilder =
-    MapPinsCompanion Function({
-      Value<String> id,
-      Value<String> mapId,
-      Value<String?> entityId,
-      Value<double> x,
-      Value<double> y,
-      Value<String> icon,
-      Value<int> createdAt,
-      Value<int> rowid,
-    });
+typedef $GameMapsProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    GameMaps,
+    GameMap,
+    $GameMapsFilterComposer,
+    $GameMapsOrderingComposer,
+    $GameMapsAnnotationComposer,
+    $GameMapsCreateCompanionBuilder,
+    $GameMapsUpdateCompanionBuilder,
+    (GameMap, $GameMapsReferences),
+    GameMap,
+    PrefetchHooks Function({bool campaignId, bool mapPinsRefs})>;
+typedef $MapPinsCreateCompanionBuilder = MapPinsCompanion Function({
+  required String id,
+  required String mapId,
+  Value<String?> entityId,
+  required double x,
+  required double y,
+  Value<String> icon,
+  required int createdAt,
+  Value<int> rowid,
+});
+typedef $MapPinsUpdateCompanionBuilder = MapPinsCompanion Function({
+  Value<String> id,
+  Value<String> mapId,
+  Value<String?> entityId,
+  Value<double> x,
+  Value<double> y,
+  Value<String> icon,
+  Value<int> createdAt,
+  Value<int> rowid,
+});
 
 final class $MapPinsReferences
     extends BaseReferences<_$AppDatabase, MapPins, MapPin> {
   $MapPinsReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static Maps _mapIdTable(_$AppDatabase db) =>
-      db.maps.createAlias($_aliasNameGenerator(db.mapPins.mapId, db.maps.id));
+  static GameMaps _mapIdTable(_$AppDatabase db) => db.gameMaps
+      .createAlias($_aliasNameGenerator(db.mapPins.mapId, db.gameMaps.id));
 
-  $MapsProcessedTableManager get mapId {
+  $GameMapsProcessedTableManager get mapId {
     final $_column = $_itemColumn<String>('map_id')!;
 
-    final manager = $MapsTableManager(
-      $_db,
-      $_db.maps,
-    ).filter((f) => f.id.sqlEquals($_column));
+    final manager = $GameMapsTableManager($_db, $_db.gameMaps)
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_mapIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
+        manager.$state.copyWith(prefetchedData: [item]));
   }
 
-  static Entities _entityIdTable(_$AppDatabase db) => db.entities.createAlias(
-    $_aliasNameGenerator(db.mapPins.entityId, db.entities.id),
-  );
+  static Entities _entityIdTable(_$AppDatabase db) => db.entities
+      .createAlias($_aliasNameGenerator(db.mapPins.entityId, db.entities.id));
 
   $EntitiesProcessedTableManager? get entityId {
     final $_column = $_itemColumn<String>('entity_id');
     if ($_column == null) return null;
-    final manager = $EntitiesTableManager(
-      $_db,
-      $_db.entities,
-    ).filter((f) => f.id.sqlEquals($_column));
+    final manager = $EntitiesTableManager($_db, $_db.entities)
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_entityIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
+        manager.$state.copyWith(prefetchedData: [item]));
   }
 }
 
@@ -5206,73 +4532,57 @@ class $MapPinsFilterComposer extends Composer<_$AppDatabase, MapPins> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<double> get x => $composableBuilder(
-    column: $table.x,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.x, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<double> get y => $composableBuilder(
-    column: $table.y,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.y, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get icon => $composableBuilder(
-    column: $table.icon,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.icon, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
-  $MapsFilterComposer get mapId {
-    final $MapsFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.mapId,
-      referencedTable: $db.maps,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $MapsFilterComposer(
-            $db: $db,
-            $table: $db.maps,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+  $GameMapsFilterComposer get mapId {
+    final $GameMapsFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.mapId,
+        referencedTable: $db.gameMaps,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $GameMapsFilterComposer(
+              $db: $db,
+              $table: $db.gameMaps,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 
   $EntitiesFilterComposer get entityId {
     final $EntitiesFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.entityId,
-      referencedTable: $db.entities,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $EntitiesFilterComposer(
-            $db: $db,
-            $table: $db.entities,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.entityId,
+        referencedTable: $db.entities,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $EntitiesFilterComposer(
+              $db: $db,
+              $table: $db.entities,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
@@ -5286,73 +4596,57 @@ class $MapPinsOrderingComposer extends Composer<_$AppDatabase, MapPins> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<double> get x => $composableBuilder(
-    column: $table.x,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.x, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<double> get y => $composableBuilder(
-    column: $table.y,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.y, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get icon => $composableBuilder(
-    column: $table.icon,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.icon, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
-  $MapsOrderingComposer get mapId {
-    final $MapsOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.mapId,
-      referencedTable: $db.maps,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $MapsOrderingComposer(
-            $db: $db,
-            $table: $db.maps,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+  $GameMapsOrderingComposer get mapId {
+    final $GameMapsOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.mapId,
+        referencedTable: $db.gameMaps,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $GameMapsOrderingComposer(
+              $db: $db,
+              $table: $db.gameMaps,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 
   $EntitiesOrderingComposer get entityId {
     final $EntitiesOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.entityId,
-      referencedTable: $db.entities,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $EntitiesOrderingComposer(
-            $db: $db,
-            $table: $db.entities,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.entityId,
+        referencedTable: $db.entities,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $EntitiesOrderingComposer(
+              $db: $db,
+              $table: $db.entities,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
@@ -5380,71 +4674,61 @@ class $MapPinsAnnotationComposer extends Composer<_$AppDatabase, MapPins> {
   GeneratedColumn<int> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
-  $MapsAnnotationComposer get mapId {
-    final $MapsAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.mapId,
-      referencedTable: $db.maps,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $MapsAnnotationComposer(
-            $db: $db,
-            $table: $db.maps,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+  $GameMapsAnnotationComposer get mapId {
+    final $GameMapsAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.mapId,
+        referencedTable: $db.gameMaps,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $GameMapsAnnotationComposer(
+              $db: $db,
+              $table: $db.gameMaps,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 
   $EntitiesAnnotationComposer get entityId {
     final $EntitiesAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.entityId,
-      referencedTable: $db.entities,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $EntitiesAnnotationComposer(
-            $db: $db,
-            $table: $db.entities,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.entityId,
+        referencedTable: $db.entities,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $EntitiesAnnotationComposer(
+              $db: $db,
+              $table: $db.entities,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
 
-class $MapPinsTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          MapPins,
-          MapPin,
-          $MapPinsFilterComposer,
-          $MapPinsOrderingComposer,
-          $MapPinsAnnotationComposer,
-          $MapPinsCreateCompanionBuilder,
-          $MapPinsUpdateCompanionBuilder,
-          (MapPin, $MapPinsReferences),
-          MapPin,
-          PrefetchHooks Function({bool mapId, bool entityId})
-        > {
+class $MapPinsTableManager extends RootTableManager<
+    _$AppDatabase,
+    MapPins,
+    MapPin,
+    $MapPinsFilterComposer,
+    $MapPinsOrderingComposer,
+    $MapPinsAnnotationComposer,
+    $MapPinsCreateCompanionBuilder,
+    $MapPinsUpdateCompanionBuilder,
+    (MapPin, $MapPinsReferences),
+    MapPin,
+    PrefetchHooks Function({bool mapId, bool entityId})> {
   $MapPinsTableManager(_$AppDatabase db, MapPins table)
-    : super(
-        TableManagerState(
+      : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -5453,58 +4737,56 @@ class $MapPinsTableManager
               $MapPinsOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $MapPinsAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<String> id = const Value.absent(),
-                Value<String> mapId = const Value.absent(),
-                Value<String?> entityId = const Value.absent(),
-                Value<double> x = const Value.absent(),
-                Value<double> y = const Value.absent(),
-                Value<String> icon = const Value.absent(),
-                Value<int> createdAt = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => MapPinsCompanion(
-                id: id,
-                mapId: mapId,
-                entityId: entityId,
-                x: x,
-                y: y,
-                icon: icon,
-                createdAt: createdAt,
-                rowid: rowid,
-              ),
-          createCompanionCallback:
-              ({
-                required String id,
-                required String mapId,
-                Value<String?> entityId = const Value.absent(),
-                required double x,
-                required double y,
-                Value<String> icon = const Value.absent(),
-                required int createdAt,
-                Value<int> rowid = const Value.absent(),
-              }) => MapPinsCompanion.insert(
-                id: id,
-                mapId: mapId,
-                entityId: entityId,
-                x: x,
-                y: y,
-                icon: icon,
-                createdAt: createdAt,
-                rowid: rowid,
-              ),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String> mapId = const Value.absent(),
+            Value<String?> entityId = const Value.absent(),
+            Value<double> x = const Value.absent(),
+            Value<double> y = const Value.absent(),
+            Value<String> icon = const Value.absent(),
+            Value<int> createdAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              MapPinsCompanion(
+            id: id,
+            mapId: mapId,
+            entityId: entityId,
+            x: x,
+            y: y,
+            icon: icon,
+            createdAt: createdAt,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required String mapId,
+            Value<String?> entityId = const Value.absent(),
+            required double x,
+            required double y,
+            Value<String> icon = const Value.absent(),
+            required int createdAt,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              MapPinsCompanion.insert(
+            id: id,
+            mapId: mapId,
+            entityId: entityId,
+            x: x,
+            y: y,
+            icon: icon,
+            createdAt: createdAt,
+            rowid: rowid,
+          ),
           withReferenceMapper: (p0) => p0
               .map(
-                (e) => (e.readTable(table), $MapPinsReferences(db, table, e)),
-              )
+                  (e) => (e.readTable(table), $MapPinsReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({mapId = false, entityId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
+              addJoins: <
+                  T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -5515,84 +4797,66 @@ class $MapPinsTableManager
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (mapId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.mapId,
-                                referencedTable: $MapPinsReferences._mapIdTable(
-                                  db,
-                                ),
-                                referencedColumn: $MapPinsReferences
-                                    ._mapIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
-                    if (entityId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.entityId,
-                                referencedTable: $MapPinsReferences
-                                    ._entityIdTable(db),
-                                referencedColumn: $MapPinsReferences
-                                    ._entityIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
+                      dynamic>>(state) {
+                if (mapId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.mapId,
+                    referencedTable: $MapPinsReferences._mapIdTable(db),
+                    referencedColumn: $MapPinsReferences._mapIdTable(db).id,
+                  ) as T;
+                }
+                if (entityId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.entityId,
+                    referencedTable: $MapPinsReferences._entityIdTable(db),
+                    referencedColumn: $MapPinsReferences._entityIdTable(db).id,
+                  ) as T;
+                }
 
-                    return state;
-                  },
+                return state;
+              },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ),
-      );
+        ));
 }
 
-typedef $MapPinsProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      MapPins,
-      MapPin,
-      $MapPinsFilterComposer,
-      $MapPinsOrderingComposer,
-      $MapPinsAnnotationComposer,
-      $MapPinsCreateCompanionBuilder,
-      $MapPinsUpdateCompanionBuilder,
-      (MapPin, $MapPinsReferences),
-      MapPin,
-      PrefetchHooks Function({bool mapId, bool entityId})
-    >;
-typedef $SessionLogsCreateCompanionBuilder =
-    SessionLogsCompanion Function({
-      required String id,
-      required String campaignId,
-      required int sessionNumber,
-      Value<String?> inGameDate,
-      Value<String?> rawNotes,
-      Value<String?> formattedSummary,
-      required int createdAt,
-      Value<int> rowid,
-    });
-typedef $SessionLogsUpdateCompanionBuilder =
-    SessionLogsCompanion Function({
-      Value<String> id,
-      Value<String> campaignId,
-      Value<int> sessionNumber,
-      Value<String?> inGameDate,
-      Value<String?> rawNotes,
-      Value<String?> formattedSummary,
-      Value<int> createdAt,
-      Value<int> rowid,
-    });
+typedef $MapPinsProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    MapPins,
+    MapPin,
+    $MapPinsFilterComposer,
+    $MapPinsOrderingComposer,
+    $MapPinsAnnotationComposer,
+    $MapPinsCreateCompanionBuilder,
+    $MapPinsUpdateCompanionBuilder,
+    (MapPin, $MapPinsReferences),
+    MapPin,
+    PrefetchHooks Function({bool mapId, bool entityId})>;
+typedef $SessionLogsCreateCompanionBuilder = SessionLogsCompanion Function({
+  required String id,
+  required String campaignId,
+  required int sessionNumber,
+  Value<String?> inGameDate,
+  Value<String?> rawNotes,
+  Value<String?> formattedSummary,
+  required int createdAt,
+  Value<int> rowid,
+});
+typedef $SessionLogsUpdateCompanionBuilder = SessionLogsCompanion Function({
+  Value<String> id,
+  Value<String> campaignId,
+  Value<int> sessionNumber,
+  Value<String?> inGameDate,
+  Value<String?> rawNotes,
+  Value<String?> formattedSummary,
+  Value<int> createdAt,
+  Value<int> rowid,
+});
 
 final class $SessionLogsReferences
     extends BaseReferences<_$AppDatabase, SessionLogs, SessionLog> {
@@ -5600,21 +4864,17 @@ final class $SessionLogsReferences
 
   static Campaigns _campaignIdTable(_$AppDatabase db) =>
       db.campaigns.createAlias(
-        $_aliasNameGenerator(db.sessionLogs.campaignId, db.campaigns.id),
-      );
+          $_aliasNameGenerator(db.sessionLogs.campaignId, db.campaigns.id));
 
   $CampaignsProcessedTableManager get campaignId {
     final $_column = $_itemColumn<String>('campaign_id')!;
 
-    final manager = $CampaignsTableManager(
-      $_db,
-      $_db.campaigns,
-    ).filter((f) => f.id.sqlEquals($_column));
+    final manager = $CampaignsTableManager($_db, $_db.campaigns)
+        .filter((f) => f.id.sqlEquals($_column));
     final item = $_typedResult.readTableOrNull(_campaignIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
-      manager.$state.copyWith(prefetchedData: [item]),
-    );
+        manager.$state.copyWith(prefetchedData: [item]));
   }
 }
 
@@ -5627,55 +4887,41 @@ class $SessionLogsFilterComposer extends Composer<_$AppDatabase, SessionLogs> {
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnFilters<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get sessionNumber => $composableBuilder(
-    column: $table.sessionNumber,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.sessionNumber, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get inGameDate => $composableBuilder(
-    column: $table.inGameDate,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.inGameDate, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get rawNotes => $composableBuilder(
-    column: $table.rawNotes,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.rawNotes, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get formattedSummary => $composableBuilder(
-    column: $table.formattedSummary,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.formattedSummary,
+      builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnFilters(column),
-  );
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
 
   $CampaignsFilterComposer get campaignId {
     final $CampaignsFilterComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.campaignId,
-      referencedTable: $db.campaigns,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $CampaignsFilterComposer(
-            $db: $db,
-            $table: $db.campaigns,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.campaignId,
+        referencedTable: $db.campaigns,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $CampaignsFilterComposer(
+              $db: $db,
+              $table: $db.campaigns,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
@@ -5690,55 +4936,42 @@ class $SessionLogsOrderingComposer
     super.$removeJoinBuilderFromRootComposer,
   });
   ColumnOrderings<String> get id => $composableBuilder(
-    column: $table.id,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get sessionNumber => $composableBuilder(
-    column: $table.sessionNumber,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.sessionNumber,
+      builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get inGameDate => $composableBuilder(
-    column: $table.inGameDate,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.inGameDate, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get rawNotes => $composableBuilder(
-    column: $table.rawNotes,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.rawNotes, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get formattedSummary => $composableBuilder(
-    column: $table.formattedSummary,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.formattedSummary,
+      builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get createdAt => $composableBuilder(
-    column: $table.createdAt,
-    builder: (column) => ColumnOrderings(column),
-  );
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
   $CampaignsOrderingComposer get campaignId {
     final $CampaignsOrderingComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.campaignId,
-      referencedTable: $db.campaigns,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $CampaignsOrderingComposer(
-            $db: $db,
-            $table: $db.campaigns,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.campaignId,
+        referencedTable: $db.campaigns,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $CampaignsOrderingComposer(
+              $db: $db,
+              $table: $db.campaigns,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
@@ -5756,68 +4989,55 @@ class $SessionLogsAnnotationComposer
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<int> get sessionNumber => $composableBuilder(
-    column: $table.sessionNumber,
-    builder: (column) => column,
-  );
+      column: $table.sessionNumber, builder: (column) => column);
 
   GeneratedColumn<String> get inGameDate => $composableBuilder(
-    column: $table.inGameDate,
-    builder: (column) => column,
-  );
+      column: $table.inGameDate, builder: (column) => column);
 
   GeneratedColumn<String> get rawNotes =>
       $composableBuilder(column: $table.rawNotes, builder: (column) => column);
 
   GeneratedColumn<String> get formattedSummary => $composableBuilder(
-    column: $table.formattedSummary,
-    builder: (column) => column,
-  );
+      column: $table.formattedSummary, builder: (column) => column);
 
   GeneratedColumn<int> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
   $CampaignsAnnotationComposer get campaignId {
     final $CampaignsAnnotationComposer composer = $composerBuilder(
-      composer: this,
-      getCurrentColumn: (t) => t.campaignId,
-      referencedTable: $db.campaigns,
-      getReferencedColumn: (t) => t.id,
-      builder:
-          (
-            joinBuilder, {
-            $addJoinBuilderToRootComposer,
-            $removeJoinBuilderFromRootComposer,
-          }) => $CampaignsAnnotationComposer(
-            $db: $db,
-            $table: $db.campaigns,
-            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-            joinBuilder: joinBuilder,
-            $removeJoinBuilderFromRootComposer:
-                $removeJoinBuilderFromRootComposer,
-          ),
-    );
+        composer: this,
+        getCurrentColumn: (t) => t.campaignId,
+        referencedTable: $db.campaigns,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $CampaignsAnnotationComposer(
+              $db: $db,
+              $table: $db.campaigns,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
 
-class $SessionLogsTableManager
-    extends
-        RootTableManager<
-          _$AppDatabase,
-          SessionLogs,
-          SessionLog,
-          $SessionLogsFilterComposer,
-          $SessionLogsOrderingComposer,
-          $SessionLogsAnnotationComposer,
-          $SessionLogsCreateCompanionBuilder,
-          $SessionLogsUpdateCompanionBuilder,
-          (SessionLog, $SessionLogsReferences),
-          SessionLog,
-          PrefetchHooks Function({bool campaignId})
-        > {
+class $SessionLogsTableManager extends RootTableManager<
+    _$AppDatabase,
+    SessionLogs,
+    SessionLog,
+    $SessionLogsFilterComposer,
+    $SessionLogsOrderingComposer,
+    $SessionLogsAnnotationComposer,
+    $SessionLogsCreateCompanionBuilder,
+    $SessionLogsUpdateCompanionBuilder,
+    (SessionLog, $SessionLogsReferences),
+    SessionLog,
+    PrefetchHooks Function({bool campaignId})> {
   $SessionLogsTableManager(_$AppDatabase db, SessionLogs table)
-    : super(
-        TableManagerState(
+      : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
@@ -5826,59 +5046,56 @@ class $SessionLogsTableManager
               $SessionLogsOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
               $SessionLogsAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback:
-              ({
-                Value<String> id = const Value.absent(),
-                Value<String> campaignId = const Value.absent(),
-                Value<int> sessionNumber = const Value.absent(),
-                Value<String?> inGameDate = const Value.absent(),
-                Value<String?> rawNotes = const Value.absent(),
-                Value<String?> formattedSummary = const Value.absent(),
-                Value<int> createdAt = const Value.absent(),
-                Value<int> rowid = const Value.absent(),
-              }) => SessionLogsCompanion(
-                id: id,
-                campaignId: campaignId,
-                sessionNumber: sessionNumber,
-                inGameDate: inGameDate,
-                rawNotes: rawNotes,
-                formattedSummary: formattedSummary,
-                createdAt: createdAt,
-                rowid: rowid,
-              ),
-          createCompanionCallback:
-              ({
-                required String id,
-                required String campaignId,
-                required int sessionNumber,
-                Value<String?> inGameDate = const Value.absent(),
-                Value<String?> rawNotes = const Value.absent(),
-                Value<String?> formattedSummary = const Value.absent(),
-                required int createdAt,
-                Value<int> rowid = const Value.absent(),
-              }) => SessionLogsCompanion.insert(
-                id: id,
-                campaignId: campaignId,
-                sessionNumber: sessionNumber,
-                inGameDate: inGameDate,
-                rawNotes: rawNotes,
-                formattedSummary: formattedSummary,
-                createdAt: createdAt,
-                rowid: rowid,
-              ),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String> campaignId = const Value.absent(),
+            Value<int> sessionNumber = const Value.absent(),
+            Value<String?> inGameDate = const Value.absent(),
+            Value<String?> rawNotes = const Value.absent(),
+            Value<String?> formattedSummary = const Value.absent(),
+            Value<int> createdAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              SessionLogsCompanion(
+            id: id,
+            campaignId: campaignId,
+            sessionNumber: sessionNumber,
+            inGameDate: inGameDate,
+            rawNotes: rawNotes,
+            formattedSummary: formattedSummary,
+            createdAt: createdAt,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required String campaignId,
+            required int sessionNumber,
+            Value<String?> inGameDate = const Value.absent(),
+            Value<String?> rawNotes = const Value.absent(),
+            Value<String?> formattedSummary = const Value.absent(),
+            required int createdAt,
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              SessionLogsCompanion.insert(
+            id: id,
+            campaignId: campaignId,
+            sessionNumber: sessionNumber,
+            inGameDate: inGameDate,
+            rawNotes: rawNotes,
+            formattedSummary: formattedSummary,
+            createdAt: createdAt,
+            rowid: rowid,
+          ),
           withReferenceMapper: (p0) => p0
-              .map(
-                (e) =>
-                    (e.readTable(table), $SessionLogsReferences(db, table, e)),
-              )
+              .map((e) =>
+                  (e.readTable(table), $SessionLogsReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({campaignId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
-              addJoins:
-                  <
-                    T extends TableManagerState<
+              addJoins: <
+                  T extends TableManagerState<
                       dynamic,
                       dynamic,
                       dynamic,
@@ -5889,48 +5106,40 @@ class $SessionLogsTableManager
                       dynamic,
                       dynamic,
                       dynamic,
-                      dynamic
-                    >
-                  >(state) {
-                    if (campaignId) {
-                      state =
-                          state.withJoin(
-                                currentTable: table,
-                                currentColumn: table.campaignId,
-                                referencedTable: $SessionLogsReferences
-                                    ._campaignIdTable(db),
-                                referencedColumn: $SessionLogsReferences
-                                    ._campaignIdTable(db)
-                                    .id,
-                              )
-                              as T;
-                    }
+                      dynamic>>(state) {
+                if (campaignId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.campaignId,
+                    referencedTable:
+                        $SessionLogsReferences._campaignIdTable(db),
+                    referencedColumn:
+                        $SessionLogsReferences._campaignIdTable(db).id,
+                  ) as T;
+                }
 
-                    return state;
-                  },
+                return state;
+              },
               getPrefetchedDataCallback: (items) async {
                 return [];
               },
             );
           },
-        ),
-      );
+        ));
 }
 
-typedef $SessionLogsProcessedTableManager =
-    ProcessedTableManager<
-      _$AppDatabase,
-      SessionLogs,
-      SessionLog,
-      $SessionLogsFilterComposer,
-      $SessionLogsOrderingComposer,
-      $SessionLogsAnnotationComposer,
-      $SessionLogsCreateCompanionBuilder,
-      $SessionLogsUpdateCompanionBuilder,
-      (SessionLog, $SessionLogsReferences),
-      SessionLog,
-      PrefetchHooks Function({bool campaignId})
-    >;
+typedef $SessionLogsProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    SessionLogs,
+    SessionLog,
+    $SessionLogsFilterComposer,
+    $SessionLogsOrderingComposer,
+    $SessionLogsAnnotationComposer,
+    $SessionLogsCreateCompanionBuilder,
+    $SessionLogsUpdateCompanionBuilder,
+    (SessionLog, $SessionLogsReferences),
+    SessionLog,
+    PrefetchHooks Function({bool campaignId})>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -5940,7 +5149,8 @@ class $AppDatabaseManager {
   $EntitiesTableManager get entities =>
       $EntitiesTableManager(_db, _db.entities);
   $EdgesTableManager get edges => $EdgesTableManager(_db, _db.edges);
-  $MapsTableManager get maps => $MapsTableManager(_db, _db.maps);
+  $GameMapsTableManager get gameMaps =>
+      $GameMapsTableManager(_db, _db.gameMaps);
   $MapPinsTableManager get mapPins => $MapPinsTableManager(_db, _db.mapPins);
   $SessionLogsTableManager get sessionLogs =>
       $SessionLogsTableManager(_db, _db.sessionLogs);

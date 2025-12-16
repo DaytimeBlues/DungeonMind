@@ -7,6 +7,7 @@ import '../../features/campaigns/campaign_list_screen.dart';
 import '../../features/campaigns/campaign_detail_screen.dart';
 import '../../features/entities/entity_list_screen.dart';
 import '../../features/entities/entity_detail_screen.dart';
+import '../../features/maps/map_screen.dart';
 
 /// App router configuration using go_router
 final routerProvider = Provider<GoRouter>((ref) {
@@ -51,7 +52,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: '/maps',
             name: 'maps',
-            builder: (context, state) => const _PlaceholderScreen(title: 'Maps'),
+            builder: (context, state) => const MapScreen(),
           ),
           // Session logs tab
           GoRoute(

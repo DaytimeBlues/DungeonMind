@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:drift/drift.dart';
 import 'package:uuid/uuid.dart';
 
 import '../database/database.dart';
@@ -45,6 +46,7 @@ class EntityRepository {
     String? publicDescription,
     Map<String, dynamic>? metadata,
     List<String>? tags,
+    bool isRevealed = false,
   }) async {
     final now = DateTime.now().millisecondsSinceEpoch;
     final slug = _generateSlug(title);
@@ -66,6 +68,7 @@ class EntityRepository {
         metadata: metadata,
         tags: tags,
       )),
+      isRevealed: Value(isRevealed),
       createdAt: now,
       updatedAt: now,
     );
@@ -82,6 +85,7 @@ class EntityRepository {
     String? publicDescription,
     Map<String, dynamic>? metadata,
     List<String>? tags,
+    bool? isRevealed,
   }) async {
     final now = DateTime.now().millisecondsSinceEpoch;
     final existing = await getEntityById(id);
@@ -107,6 +111,7 @@ class EntityRepository {
         metadata: metadata != null ? Value(jsonEncode(metadata)) : const Value.absent(),
         tags: tags != null ? Value(tags.join(',')) : const Value.absent(),
         completenessScore: Value(newScore),
+        isRevealed: isRevealed != null ? Value(isRevealed) : const Value.absent(),
         updatedAt: Value(now),
       ),
     );

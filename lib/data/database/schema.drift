@@ -24,6 +24,7 @@ CREATE TABLE entities (
   metadata TEXT,
   tags TEXT,
   completeness_score REAL NOT NULL DEFAULT 0.0,
+  is_revealed BOOLEAN NOT NULL DEFAULT FALSE,
   created_at INTEGER NOT NULL,
   updated_at INTEGER NOT NULL
 );
@@ -45,7 +46,7 @@ CREATE INDEX idx_edges_source ON edges(source_id);
 CREATE INDEX idx_edges_target ON edges(target_id);
 
 -- Map data
-CREATE TABLE maps (
+CREATE TABLE game_maps (
   id TEXT NOT NULL PRIMARY KEY,
   campaign_id TEXT NOT NULL REFERENCES campaigns(id) ON DELETE CASCADE,
   title TEXT NOT NULL,
@@ -59,7 +60,7 @@ CREATE TABLE maps (
 -- Map pins (link to entities)
 CREATE TABLE map_pins (
   id TEXT NOT NULL PRIMARY KEY,
-  map_id TEXT NOT NULL REFERENCES maps(id) ON DELETE CASCADE,
+  map_id TEXT NOT NULL REFERENCES game_maps(id) ON DELETE CASCADE,
   entity_id TEXT REFERENCES entities(id) ON DELETE SET NULL,
   x REAL NOT NULL,
   y REAL NOT NULL,
@@ -92,8 +93,8 @@ edgesBySource: SELECT * FROM edges WHERE source_id = :sourceId;
 edgesByTarget: SELECT * FROM edges WHERE target_id = :targetId;
 edgesBetween: SELECT * FROM edges WHERE (source_id = :id1 AND target_id = :id2) OR (source_id = :id2 AND target_id = :id1);
 
-mapsByCampaign: SELECT * FROM maps WHERE campaign_id = :campaignId ORDER BY title;
-mapById: SELECT * FROM maps WHERE id = :id;
+mapsByCampaign: SELECT * FROM game_maps WHERE campaign_id = :campaignId ORDER BY title;
+mapById: SELECT * FROM game_maps WHERE id = :id;
 
 pinsByMap: SELECT * FROM map_pins WHERE map_id = :mapId;
 pinsByEntity: SELECT * FROM map_pins WHERE entity_id = :entityId;
