@@ -1,3 +1,4 @@
+import '../../core/data/simulation_script.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -19,10 +20,27 @@ class CampaignListScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Campaigns'),
+        centerTitle: true,
         actions: [
           IconButton(
+            icon: const Icon(Icons.bug_report),
+            tooltip: 'Run Simulation',
+            onPressed: () async {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Running simulation...')),
+              );
+              final script = ref.read(simulationScriptProvider);
+              await script.runFullSimulation();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Simulation complete! Refreshing...')),
+              );
+              // Trigger refresh via provider invalidation if needed, or if stream handles it.
+              // Stream will auto-update.
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () => _showCreateCampaignDialog(context, ref),
+            onPressed: () => context.pushNamed('create-campaign'),
             tooltip: 'New Campaign',
           ),
         ],

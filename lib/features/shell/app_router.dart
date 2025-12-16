@@ -8,6 +8,7 @@ import '../../features/campaigns/campaign_detail_screen.dart';
 import '../../features/entities/entity_list_screen.dart';
 import '../../features/entities/entity_detail_screen.dart';
 import '../../features/maps/map_screen.dart';
+import '../../features/compendium/compendium_screen.dart';
 
 /// App router configuration using go_router
 final routerProvider = Provider<GoRouter>((ref) {
@@ -32,6 +33,16 @@ final routerProvider = Provider<GoRouter>((ref) {
               final id = state.pathParameters['id']!;
               return CampaignDetailScreen(campaignId: id);
             },
+            routes: [
+               GoRoute(
+                 path: 'compendium',
+                 name: 'compendium',
+                 builder: (context, state) {
+                   final id = state.pathParameters['id']!;
+                   return CompendiumScreen(campaignId: id);
+                 },
+               ),
+            ],
           ),
           // Entities tab
           GoRoute(

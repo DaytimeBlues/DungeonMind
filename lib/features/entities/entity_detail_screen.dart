@@ -8,10 +8,141 @@ import '../../providers/entity_providers.dart';
 import '../../data/models/entity_types.dart';
 import '../../core/utils/wikilink_utils.dart';
 import '../../core/services/ai_service.dart';
+import 'widgets/metadata_editor.dart';
 import '../../core/theme/catppuccin_colors.dart';
+// ... imports
+import 'widgets/metadata_editor.dart';
 
-/// Detail screen for viewing and editing a single entity
-class EntityDetailScreen extends ConsumerStatefulWidget {
+// ... inside _EntityDetailScreenState
+  // State for form
+  bool _isEditing = false;
+  bool _hasChanges = false;
+  late TextEditingController _bodyController;
+  late TextEditingController _publicDescController;
+  late TabController _tabController;
+  
+  // Track current entity to reset form when navigating
+  String? _currentEntityId;
+  bool _isRevealed = false;
+  Map<String, dynamic> _metadata = {}; // Local metadata state
+
+// ... inside build method, data: (entity) block
+        final entityType = EntityType.fromString(entity.type);
+        // Parse metadata once per entity load
+        final dbMetadata = ref.read(entityRepositoryProvider).parseMetadata(entity);
+
+        if (_currentEntityId != entity.id) {
+          _currentEntityId = entity.id;
+          _bodyController.text = entity.bodyContent ?? '';
+          _publicDescController.text = entity.publicDescription ?? '';
+          _isRevealed = entity.isRevealed;
+          _metadata = Map.from(dbMetadata); // Init local copy
+        }
+
+// ... inside _saveChanges
+  Future<void> _saveChanges(String entityId) async {
+    final repo = ref.read(entityRepositoryProvider);
+    await repo.updateEntity(
+      id: entityId,
+      bodyContent: _bodyController.text,
+      publicDescription: _publicDescController.text,
+      isRevealed: _isRevealed,
+      metadata: _metadata, // Save metadata
+    );
+    setState(() {
+      _isEditing = false;
+      _hasChanges = false;
+    });
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Changes saved')),
+      );
+    }
+  }
+
+// ... inside TabBarView children
+              _StatsTab(
+                entityType: entityType, 
+                metadata: _metadata, 
+                isEditing: _isEditing,
+                onMetadataChanged: (val) {
+                  setState(() {
+                    _metadata = val;
+                    _hasChanges = true;
+                  });
+                },
+              ),
+
+// ... _StatsTab definition
+class _StatsTab extends StatelessWidget {
+  final EntityType entityType;
+  final Map<String, dynamic> metadata;
+  final bool isEditing;
+  final ValueChanged<Map<String, dynamic>> onMetadataChanged;
+
+  const _StatsTab({
+    required this.entityType, 
+    required this.metadata,
+    required this.isEditing,
+    required this.onMetadataChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (isEditing) {
+      return SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: MetadataEditor(
+          metadata: metadata,
+          onChanged: onMetadataChanged,
+        ),
+      );
+    }
+
+    if (metadata.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.analytics_outlined,
+              size: 48,
+              color: CatppuccinColors.overlay0,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'No stats defined',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Tap edit to add stats (HP, AC, etc.)',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
+        ),
+      );
+    }
+
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: metadata.entries.map((entry) {
+        return Card(
+          margin: const EdgeInsets.only(bottom: 8),
+          child: ListTile(
+            title: Text(entry.key),
+            trailing: Text(
+              entry.value.toString(),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: CatppuccinColors.mauve,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+}
   final String entityId;
 
   const EntityDetailScreen({super.key, required this.entityId});
@@ -72,15 +203,20 @@ class _EntityDetailScreenState extends ConsumerState<EntityDetailScreen>
         }
 
         // If entity changed, update controllers
+        // Parse metadata once per entity load
+        final dbMetadata = ref.read(entityRepositoryProvider).parseMetadata(entity);
+
         if (_currentEntityId != entity.id) {
           _currentEntityId = entity.id;
           _bodyController.text = entity.bodyContent ?? '';
           _publicDescController.text = entity.publicDescription ?? '';
           _isRevealed = entity.isRevealed;
+          _metadata = Map.from(dbMetadata);
         }
         
         final entityType = EntityType.fromString(entity.type);
-        final metadata = ref.read(entityRepositoryProvider).parseMetadata(entity);
+        // dbMetadata is unused here as we use _metadata now
+
 
         return Scaffold(
           appBar: AppBar(
@@ -158,7 +294,17 @@ class _EntityDetailScreenState extends ConsumerState<EntityDetailScreen>
                 onLinkTap: (href) => _handleLinkTap(href, entity.campaignId),
               ),
               // Stats tab
-              _StatsTab(entityType: entityType, metadata: metadata),
+              _StatsTab(
+                entityType: entityType, 
+                metadata: _metadata,
+                isEditing: _isEditing,
+                onMetadataChanged: (val) {
+                   setState(() {
+                     _metadata = val;
+                     _hasChanges = true;
+                   });
+                },
+              ),
               // Links tab
               _LinksTab(entityId: entity.id),
             ],
@@ -193,6 +339,7 @@ class _EntityDetailScreenState extends ConsumerState<EntityDetailScreen>
       bodyContent: _bodyController.text,
       publicDescription: _publicDescController.text,
       isRevealed: _isRevealed,
+      metadata: _metadata,
     );
     setState(() {
       _isEditing = false;
@@ -548,11 +695,28 @@ class _ContentTab extends StatelessWidget {
 class _StatsTab extends StatelessWidget {
   final EntityType entityType;
   final Map<String, dynamic> metadata;
+  final bool isEditing;
+  final ValueChanged<Map<String, dynamic>> onMetadataChanged;
 
-  const _StatsTab({required this.entityType, required this.metadata});
+  const _StatsTab({
+    required this.entityType,
+    required this.metadata,
+    required this.isEditing,
+    required this.onMetadataChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
+    if (isEditing) {
+      return SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: MetadataEditor(
+          metadata: metadata,
+          onChanged: onMetadataChanged,
+        ),
+      );
+    }
+
     if (metadata.isEmpty) {
       return Center(
         child: Column(
@@ -570,7 +734,7 @@ class _StatsTab extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Stats will appear here for combat-ready entities',
+              'Tap edit to add stats',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],

@@ -5,7 +5,9 @@ enum EntityType {
   item('Item', 'sword'),
   lore('Lore', 'book-open'),
   event('Event', 'calendar'),
-  faction('Faction', 'users');
+  faction('Faction', 'users'),
+  spell('Spell', 'sparkles'),
+  monster('Monster', 'skull');
 
   const EntityType(this.displayName, this.iconName);
   

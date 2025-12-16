@@ -52,6 +52,16 @@ class EntityListScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Entities'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.menu_book, color: CatppuccinColors.mauve),
+            tooltip: 'SRD Compendium',
+            onPressed: () => context.goNamed(
+              'compendium', 
+              pathParameters: {'id': campaignId},
+            ),
+          ),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(100),
           child: Column(
