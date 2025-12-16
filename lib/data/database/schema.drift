@@ -1,0 +1,101 @@
+-- DungeonMind Database Schema
+-- Entity-Component-System (ECS) architecture for flexible TTRPG data
+
+-- Campaigns table
+CREATE TABLE campaigns (
+  id TEXT NOT NULL PRIMARY KEY,
+  title TEXT NOT NULL,
+  description TEXT,
+  calendar_system TEXT NOT NULL DEFAULT 'gregorian',
+  current_in_game_date TEXT,
+  created_at INTEGER NOT NULL,
+  updated_at INTEGER NOT NULL
+);
+
+-- Polymorphic entities (NPCs, Locations, Items, Lore, Events, Factions)
+CREATE TABLE entities (
+  id TEXT NOT NULL PRIMARY KEY,
+  campaign_id TEXT NOT NULL REFERENCES campaigns(id) ON DELETE CASCADE,
+  type TEXT NOT NULL,
+  title TEXT NOT NULL,
+  slug TEXT NOT NULL,
+  body_content TEXT,
+  public_description TEXT,
+  metadata TEXT,
+  tags TEXT,
+  completeness_score REAL NOT NULL DEFAULT 0.0,
+  created_at INTEGER NOT NULL,
+  updated_at INTEGER NOT NULL
+);
+
+CREATE INDEX idx_entities_campaign ON entities(campaign_id);
+CREATE INDEX idx_entities_slug ON entities(slug);
+CREATE INDEX idx_entities_type ON entities(type);
+
+-- Edge graph for bi-directional linking
+CREATE TABLE edges (
+  id TEXT NOT NULL PRIMARY KEY,
+  source_id TEXT NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
+  target_id TEXT NOT NULL REFERENCES entities(id) ON DELETE CASCADE,
+  edge_type TEXT NOT NULL,
+  created_at INTEGER NOT NULL
+);
+
+CREATE INDEX idx_edges_source ON edges(source_id);
+CREATE INDEX idx_edges_target ON edges(target_id);
+
+-- Map data
+CREATE TABLE maps (
+  id TEXT NOT NULL PRIMARY KEY,
+  campaign_id TEXT NOT NULL REFERENCES campaigns(id) ON DELETE CASCADE,
+  title TEXT NOT NULL,
+  image_path TEXT NOT NULL,
+  width INTEGER NOT NULL,
+  height INTEGER NOT NULL,
+  fog_mask TEXT,
+  created_at INTEGER NOT NULL
+);
+
+-- Map pins (link to entities)
+CREATE TABLE map_pins (
+  id TEXT NOT NULL PRIMARY KEY,
+  map_id TEXT NOT NULL REFERENCES maps(id) ON DELETE CASCADE,
+  entity_id TEXT REFERENCES entities(id) ON DELETE SET NULL,
+  x REAL NOT NULL,
+  y REAL NOT NULL,
+  icon TEXT NOT NULL DEFAULT 'default',
+  created_at INTEGER NOT NULL
+);
+
+-- Session logs with timestamps
+CREATE TABLE session_logs (
+  id TEXT NOT NULL PRIMARY KEY,
+  campaign_id TEXT NOT NULL REFERENCES campaigns(id) ON DELETE CASCADE,
+  session_number INTEGER NOT NULL,
+  in_game_date TEXT,
+  raw_notes TEXT,
+  formatted_summary TEXT,
+  created_at INTEGER NOT NULL
+);
+
+-- Drift Queries
+allCampaigns: SELECT * FROM campaigns ORDER BY updated_at DESC;
+campaignById: SELECT * FROM campaigns WHERE id = :id;
+
+entitiesByCampaign: SELECT * FROM entities WHERE campaign_id = :campaignId ORDER BY title;
+entitiesByCampaignAndType: SELECT * FROM entities WHERE campaign_id = :campaignId AND type = :type ORDER BY title;
+entityById: SELECT * FROM entities WHERE id = :id;
+entityBySlug: SELECT * FROM entities WHERE campaign_id = :campaignId AND slug = :slug;
+searchEntities: SELECT * FROM entities WHERE campaign_id = :campaignId AND (title LIKE '%' || :query || '%' OR body_content LIKE '%' || :query || '%') ORDER BY title;
+
+edgesBySource: SELECT * FROM edges WHERE source_id = :sourceId;
+edgesByTarget: SELECT * FROM edges WHERE target_id = :targetId;
+edgesBetween: SELECT * FROM edges WHERE (source_id = :id1 AND target_id = :id2) OR (source_id = :id2 AND target_id = :id1);
+
+mapsByCampaign: SELECT * FROM maps WHERE campaign_id = :campaignId ORDER BY title;
+mapById: SELECT * FROM maps WHERE id = :id;
+
+pinsByMap: SELECT * FROM map_pins WHERE map_id = :mapId;
+pinsByEntity: SELECT * FROM map_pins WHERE entity_id = :entityId;
+
+sessionLogsByCampaign: SELECT * FROM session_logs WHERE campaign_id = :campaignId ORDER BY session_number DESC;
