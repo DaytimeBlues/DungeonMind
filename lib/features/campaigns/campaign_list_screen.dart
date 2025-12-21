@@ -8,6 +8,7 @@ import '../../providers/database_provider.dart';
 import '../../providers/campaign_providers.dart';
 import '../../data/models/entity_types.dart';
 import '../../core/theme/catppuccin_colors.dart';
+import '../../core/theme/grimoire_scaffold.dart';
 
 /// Screen showing all campaigns with ability to create new ones
 class CampaignListScreen extends ConsumerWidget {
@@ -17,7 +18,7 @@ class CampaignListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final campaignsAsync = ref.watch(campaignsProvider);
 
-    return Scaffold(
+    return GrimoireScaffold(
       appBar: AppBar(
         title: const Text('Campaigns'),
         centerTitle: true,

@@ -1,186 +1,128 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'catppuccin_colors.dart';
+class _VoidColors {
+  static const Color voidBlack = Color(0xFF050505);
+  static const Color deepSlate = Color(0xFF0A0A0F); // Slightly lighter void for cards
+  static const Color starlight = Color(0xFFE0E0E0);
+  static const Color starlightDim = Color(0xFFAAAAAA);
+  static const Color arcanePurple = Color(0xFF7B2CDA);
+  static const Color runeCyan = Color(0xFF00E5FF);
+  static const Color bloodRed = Color(0xFFCF6679); // Muted red for errors
+  static const Color border = Color(0xFF1E1E24);
+}
 
-/// App theme using Catppuccin colors for ADHD-friendly "Calm Computing"
+/// App theme implementing the "Void-Bound Grimoire" aesthetic
 class AppTheme {
   AppTheme._();
 
   static ThemeData get darkTheme {
+    final baseTextTheme = GoogleFonts.ebGaramondTextTheme(ThemeData.dark().textTheme);
+    final displayTextTheme = GoogleFonts.cinzelDecorativeTextTheme(baseTextTheme);
+
     return ThemeData(
       useMaterial3: true,
       brightness: Brightness.dark,
-      colorScheme: ColorScheme.dark(
-        primary: CatppuccinColors.mauve,
-        onPrimary: CatppuccinColors.crust,
-        secondary: CatppuccinColors.teal,
-        onSecondary: CatppuccinColors.crust,
-        tertiary: CatppuccinColors.peach,
-        onTertiary: CatppuccinColors.crust,
-        error: CatppuccinColors.red,
-        onError: CatppuccinColors.crust,
-        surface: CatppuccinColors.surface0,
-        onSurface: CatppuccinColors.text,
-        surfaceContainerHighest: CatppuccinColors.surface1,
-        outline: CatppuccinColors.overlay0,
-        shadow: CatppuccinColors.crust,
-      ),
-      scaffoldBackgroundColor: CatppuccinColors.base,
-      cardColor: CatppuccinColors.surface0,
-      dividerColor: CatppuccinColors.surface1,
+      scaffoldBackgroundColor: _VoidColors.voidBlack,
+      cardColor: _VoidColors.deepSlate,
+      dividerColor: _VoidColors.border,
       
-      // Typography using Inter for readability
-      textTheme: GoogleFonts.interTextTheme(
-        const TextTheme(
-          displayLarge: TextStyle(color: CatppuccinColors.text),
-          displayMedium: TextStyle(color: CatppuccinColors.text),
-          displaySmall: TextStyle(color: CatppuccinColors.text),
-          headlineLarge: TextStyle(color: CatppuccinColors.text),
-          headlineMedium: TextStyle(color: CatppuccinColors.text),
-          headlineSmall: TextStyle(color: CatppuccinColors.text),
-          titleLarge: TextStyle(color: CatppuccinColors.text),
-          titleMedium: TextStyle(color: CatppuccinColors.text),
-          titleSmall: TextStyle(color: CatppuccinColors.text),
-          bodyLarge: TextStyle(color: CatppuccinColors.text),
-          bodyMedium: TextStyle(color: CatppuccinColors.subtext1),
-          bodySmall: TextStyle(color: CatppuccinColors.subtext0),
-          labelLarge: TextStyle(color: CatppuccinColors.text),
-          labelMedium: TextStyle(color: CatppuccinColors.subtext1),
-          labelSmall: TextStyle(color: CatppuccinColors.subtext0),
-        ),
+      colorScheme: const ColorScheme.dark(
+        primary: _VoidColors.arcanePurple,
+        onPrimary: Colors.white,
+        secondary: _VoidColors.runeCyan,
+        onSecondary: Colors.black, // High contrast on cyan
+        surface: _VoidColors.deepSlate,
+        onSurface: _VoidColors.starlight,
+        error: _VoidColors.bloodRed,
+        outline: _VoidColors.border,
+      ),
+
+      // Typography
+      textTheme: baseTextTheme.copyWith(
+        displayLarge: displayTextTheme.displayLarge?.copyWith(color: _VoidColors.starlight),
+        displayMedium: displayTextTheme.displayMedium?.copyWith(color: _VoidColors.starlight),
+        displaySmall: displayTextTheme.displaySmall?.copyWith(color: _VoidColors.starlight),
+        headlineLarge: displayTextTheme.headlineLarge?.copyWith(color: _VoidColors.starlight),
+        headlineMedium: displayTextTheme.headlineMedium?.copyWith(color: _VoidColors.starlight),
+        headlineSmall: displayTextTheme.headlineSmall?.copyWith(color: _VoidColors.starlight),
+        titleLarge: displayTextTheme.titleLarge?.copyWith(color: _VoidColors.runeCyan, fontWeight: FontWeight.bold),
+        titleMedium: baseTextTheme.titleMedium?.copyWith(color: _VoidColors.starlight, fontSize: 18),
+        titleSmall: baseTextTheme.titleSmall?.copyWith(color: _VoidColors.starlightDim, letterSpacing: 1.0),
+        bodyLarge: baseTextTheme.bodyLarge?.copyWith(color: _VoidColors.starlight, fontSize: 16),
+        bodyMedium: baseTextTheme.bodyMedium?.copyWith(color: _VoidColors.starlightDim),
       ),
 
       // AppBar
       appBarTheme: AppBarTheme(
-        backgroundColor: CatppuccinColors.mantle,
-        foregroundColor: CatppuccinColors.text,
-        elevation: 0,
-        centerTitle: false,
-        titleTextStyle: GoogleFonts.inter(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: CatppuccinColors.text,
+        backgroundColor: _VoidColors.voidBlack,
+        foregroundColor: _VoidColors.starlight,
+        centerTitle: true,
+        scrolledUnderElevation: 0,
+        titleTextStyle: displayTextTheme.headlineSmall?.copyWith(
+          color: _VoidColors.starlight,
+          letterSpacing: 1.5,
         ),
-      ),
-
-      // Navigation Rail (Desktop)
-      navigationRailTheme: NavigationRailThemeData(
-        backgroundColor: CatppuccinColors.mantle,
-        selectedIconTheme: const IconThemeData(color: CatppuccinColors.mauve),
-        unselectedIconTheme: const IconThemeData(color: CatppuccinColors.overlay1),
-        selectedLabelTextStyle: GoogleFonts.inter(
-          color: CatppuccinColors.mauve,
-          fontWeight: FontWeight.w500,
-        ),
-        unselectedLabelTextStyle: GoogleFonts.inter(
-          color: CatppuccinColors.overlay1,
-        ),
-        indicatorColor: CatppuccinColors.surface1,
-      ),
-
-      // Navigation Bar (Mobile)
-      navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: CatppuccinColors.mantle,
-        indicatorColor: CatppuccinColors.surface1,
-        iconTheme: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) {
-            return const IconThemeData(color: CatppuccinColors.mauve);
-          }
-          return const IconThemeData(color: CatppuccinColors.overlay1);
-        }),
-        labelTextStyle: WidgetStateProperty.resolveWith((states) {
-          if (states.contains(WidgetState.selected)) {
-            return GoogleFonts.inter(
-              color: CatppuccinColors.mauve,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            );
-          }
-          return GoogleFonts.inter(
-            color: CatppuccinColors.overlay1,
-            fontSize: 12,
-          );
-        }),
+        iconTheme: const IconThemeData(color: _VoidColors.starlightDim),
       ),
 
       // Cards
       cardTheme: CardThemeData(
-        color: CatppuccinColors.surface0,
+        color: _VoidColors.deepSlate,
         elevation: 0,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: const BorderSide(color: CatppuccinColors.surface1),
+          borderRadius: BorderRadius.circular(4), // Brutalist sharp corners? Or slight round?
+          // Let's go with slight round 4px for "refined" look, not full pill
+          side: const BorderSide(color: _VoidColors.border),
         ),
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
       ),
-
-      // Floating Action Button
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        backgroundColor: CatppuccinColors.mauve,
-        foregroundColor: CatppuccinColors.crust,
-        elevation: 2,
-      ),
-
-      // Input Decoration
+      
+      // Inputs
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: CatppuccinColors.surface0,
+        fillColor: _VoidColors.deepSlate,
+        labelStyle: TextStyle(color: _VoidColors.starlightDim, fontFamily: GoogleFonts.ebGaramond().fontFamily),
+        hintStyle: TextStyle(color: _VoidColors.starlightDim.withOpacity(0.5)),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: CatppuccinColors.surface1),
+          borderRadius: BorderRadius.circular(4),
+          borderSide: const BorderSide(color: _VoidColors.border),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: CatppuccinColors.surface1),
+          borderRadius: BorderRadius.circular(4),
+          borderSide: const BorderSide(color: _VoidColors.border),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: CatppuccinColors.mauve, width: 2),
+          borderRadius: BorderRadius.circular(4),
+          borderSide: const BorderSide(color: _VoidColors.arcanePurple, width: 1.5),
         ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(color: CatppuccinColors.red),
-        ),
-        labelStyle: const TextStyle(color: CatppuccinColors.subtext0),
-        hintStyle: const TextStyle(color: CatppuccinColors.overlay0),
       ),
 
+      // FAB
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: _VoidColors.arcanePurple,
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(12))), // Diamond-ish squash
+      ),
+      
       // Chips
       chipTheme: ChipThemeData(
-        backgroundColor: CatppuccinColors.surface1,
-        labelStyle: GoogleFonts.inter(color: CatppuccinColors.text),
-        side: BorderSide.none,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+        backgroundColor: _VoidColors.deepSlate,
+        labelStyle: baseTextTheme.bodyMedium?.copyWith(color: _VoidColors.starlight),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+          side: BorderSide(color: _VoidColors.border),
         ),
+        selectedColor: _VoidColors.arcanePurple.withOpacity(0.2),
       ),
-
-      // List Tiles
-      listTileTheme: const ListTileThemeData(
-        iconColor: CatppuccinColors.subtext0,
-        textColor: CatppuccinColors.text,
-      ),
-
-      // Snack Bar
-      snackBarTheme: SnackBarThemeData(
-        backgroundColor: CatppuccinColors.surface1,
-        contentTextStyle: GoogleFonts.inter(color: CatppuccinColors.text),
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-
+      
       // Dialog
       dialogTheme: DialogThemeData(
-        backgroundColor: CatppuccinColors.surface0,
+        backgroundColor: _VoidColors.deepSlate,
+        titleTextStyle: displayTextTheme.headlineSmall?.copyWith(color: _VoidColors.starlight),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        titleTextStyle: GoogleFonts.inter(
-          color: CatppuccinColors.text,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
+            borderRadius: BorderRadius.circular(4),
+            side: const BorderSide(color: _VoidColors.arcanePurple, width: 0.5),
         ),
       ),
     );
