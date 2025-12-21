@@ -5,8 +5,17 @@ import 'core/theme/app_theme.dart';
 import 'features/shell/app_router.dart';
 
 void main() {
+  print('DungeonMind: Starting App...');
   WidgetsFlutterBinding.ensureInitialized();
+  print('DungeonMind: Widgets Initialized');
+  
+  FlutterError.onError = (details) {
+    print('DungeonMind FlutterError: ${details.exception}');
+    print('Stack: ${details.stack}');
+  };
+  
   runApp(const ProviderScope(child: DungeonMindApp()));
+  print('DungeonMind: runApp called');
 }
 
 /// Root application widget
@@ -15,7 +24,9 @@ class DungeonMindApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print('DungeonMind: DungeonMindApp.build() called');
     final router = ref.watch(routerProvider);
+    print('DungeonMind: Router obtained');
 
     return MaterialApp.router(
       title: 'DungeonMind',
@@ -25,3 +36,5 @@ class DungeonMindApp extends ConsumerWidget {
     );
   }
 }
+
+

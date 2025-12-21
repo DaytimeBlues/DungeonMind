@@ -5,6 +5,7 @@ import '../../core/services/srd_service.dart';
 import '../../core/theme/catppuccin_colors.dart';
 import '../../data/models/entity_types.dart';
 import '../../providers/entity_providers.dart';
+import '../../providers/database_provider.dart';
 
 class CompendiumScreen extends ConsumerStatefulWidget {
   final String campaignId;
@@ -53,6 +54,15 @@ class _CompendiumScreenState extends ConsumerState<CompendiumScreen> with Single
     super.dispose();
   }
 
+  EntityType _getTypeForIndex(int index) {
+    switch (index) {
+      case 0: return EntityType.spell;
+      case 1: return EntityType.monster;
+      case 2: return EntityType.item;
+      default: return EntityType.item;
+    }
+  }
+
   Future<void> _performSearch() async {
     final query = _searchController.text.trim();
     if (query.isEmpty) return;
@@ -64,12 +74,11 @@ class _CompendiumScreenState extends ConsumerState<CompendiumScreen> with Single
 
     try {
       final service = ref.read(srdServiceProvider);
-      // Map tab index to category
-      final category = SrdService.categories[_tabController.index];
-      final results = await service.search(category, query);
+      final type = _getTypeForIndex(_tabController.index);
+      final results = await service.search(query, type: type);
       
       setState(() {
-        _results = results;
+        _results = results.cast<Map<String, dynamic>>();
         _isLoading = false;
       });
     } catch (e) {
@@ -80,9 +89,8 @@ class _CompendiumScreenState extends ConsumerState<CompendiumScreen> with Single
     }
   }
 
-  Future<void> _importItem(String url, String name, String category) async {
+  Future<void> _importItem(String index, String name, EntityType type) async {
     try {
-      // Show loading
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Importing...')),
       );
@@ -90,30 +98,23 @@ class _CompendiumScreenState extends ConsumerState<CompendiumScreen> with Single
       final service = ref.read(srdServiceProvider);
       final repo = ref.read(entityRepositoryProvider);
       
-      // Fetch details
-      final data = await service.getDetail(url);
-      final metadata = service.convertToMetadata(category, data);
+      // Fetch details: index and type string ('Spell', 'Monster')
+      final typeStr = type == EntityType.spell ? 'Spell' : type == EntityType.monster ? 'Monster' : 'Item';
+      final data = await service.getDetail(index, typeStr);
+      final metadata = service.convertToMetadata(data);
 
-      // Determine contents based on category
+      // Determine contents
       String publicDesc = '';
       String bodyContent = '';
-      EntityType type = EntityType.item;
 
-      if (category == 'spells') {
-        type = EntityType.spell;
-        publicDesc = (data['desc'] as List?)?.join('\n\n') ?? '';
-        bodyContent = 'Imported from SRD. Higher Level: ${(data['higher_level'] as List?)?.join('\n') ?? 'None'}';
-      } else if (category == 'monsters') {
-        type = EntityType.monster; // Using new type
-        publicDesc = 'Size: ${data['size']} ${data['type']}, ${data['alignment']}';
-        // Construct body from actions
-        final actions = (data['actions'] as List?)?.map((a) => '### ${a['name']}\n${a['desc']}').join('\n\n') ?? '';
-        final special = (data['special_abilities'] as List?)?.map((a) => '**${a['name']}**: ${a['desc']}').join('\n\n') ?? '';
-        bodyContent = '## Abilities\n$special\n\n## Actions\n$actions';
+      if (type == EntityType.spell) {
+        publicDesc = (data['description'] ?? '');
+        bodyContent = '## Stats\n- Level: ${data['level']}\n- School: ${data['level_school']}\n- Casting Time: ${data['casting_time']}\n- Range: ${data['range']}\n- Components: ${data['components']}\n- Duration: ${data['duration']}';
+      } else if (type == EntityType.monster) {
+        publicDesc = data['description'] ?? '';
+        bodyContent = '## Stats\n- AC: ${data['ac']}\n- HP: ${data['hp']}\n- Speed: ${data['speed']}\n- CR: ${data['cr']}';
       } else {
-        type = EntityType.item; // Magic Items / Equipment
-        publicDesc = (data['desc'] as List?)?.join('\n\n') ?? '';
-        bodyContent = 'Rarity: ${data['rarity']?['name'] ?? 'Unknown'}';
+        publicDesc = data['description'] ?? '';
       }
 
       // Create Entity
@@ -124,7 +125,7 @@ class _CompendiumScreenState extends ConsumerState<CompendiumScreen> with Single
         publicDescription: publicDesc,
         bodyContent: bodyContent,
         metadata: metadata,
-        isRevealed: true, // Compendium imports usually known? Or assume revealed.
+        isRevealed: true,
       );
 
       if (mounted) {
@@ -150,8 +151,6 @@ class _CompendiumScreenState extends ConsumerState<CompendiumScreen> with Single
   }
 
   void _showDetailPreview(Map<String, dynamic> result) {
-    // Basic confirmation dialog before import
-    // Ideally we fetch details to show PREVIEW, but for MVP we just confirm.
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -165,9 +164,9 @@ class _CompendiumScreenState extends ConsumerState<CompendiumScreen> with Single
             onPressed: () {
               Navigator.pop(context);
               _importItem(
-                result['url'], 
+                result['index'], 
                 result['name'], 
-                SrdService.categories[_tabController.index],
+                _getTypeForIndex(_tabController.index),
               );
             },
           ),

@@ -40,6 +40,11 @@ final selectedEntityProvider = FutureProvider<Entity?>((ref) async {
   return ref.watch(entityRepositoryProvider).getEntityById(id);
 });
 
+/// Watch a specific entity by ID
+final entityProvider = StreamProvider.family<Entity?, String>((ref, id) {
+  return ref.watch(entityRepositoryProvider).watchEntity(id);
+});
+
 /// Watch edges for the currently selected entity
 final selectedEntityEdgesProvider = StreamProvider<List<Edge>>((ref) {
   final id = ref.watch(selectedEntityIdProvider);

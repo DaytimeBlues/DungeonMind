@@ -16,6 +16,11 @@ class CampaignRepository {
     return _db.allCampaigns().watch();
   }
 
+  /// Get all campaigns (one-time fetch)
+  Future<List<Campaign>> getAllCampaigns() {
+    return _db.allCampaigns().get();
+  }
+
   /// Get a single campaign by ID
   Future<Campaign?> getCampaignById(String id) async {
     return _db.campaignById(id).getSingleOrNull();

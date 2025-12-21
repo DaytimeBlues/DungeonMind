@@ -6,6 +6,7 @@ import '../../data/models/entity_types.dart';
 import '../../providers/entity_providers.dart';
 import '../../providers/campaign_providers.dart';
 import '../../providers/map_providers.dart';
+import '../../providers/database_provider.dart';
 
 final simulationScriptProvider = Provider((ref) => SimulationScript(ref));
 

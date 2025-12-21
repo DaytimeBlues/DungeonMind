@@ -302,6 +302,10 @@ class _EntityIcon extends StatelessWidget {
         return CatppuccinColors.yellow;
       case EntityType.faction:
         return CatppuccinColors.teal;
+      case EntityType.spell:
+        return CatppuccinColors.mauve;
+      case EntityType.monster:
+        return CatppuccinColors.red;
     }
   }
 
@@ -318,7 +322,11 @@ class _EntityIcon extends StatelessWidget {
       case EntityType.event:
         return Icons.event;
       case EntityType.faction:
-        return Icons.groups;
+        return Icons.flag;
+      case EntityType.spell:
+        return Icons.auto_awesome;
+      case EntityType.monster:
+        return Icons.pets;
     }
   }
 }

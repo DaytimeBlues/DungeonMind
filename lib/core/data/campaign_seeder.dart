@@ -4,6 +4,7 @@ import '../../data/repositories/map_repository.dart';
 import '../../data/models/entity_types.dart';
 import '../../providers/entity_providers.dart';
 import '../../providers/map_providers.dart';
+import '../../providers/database_provider.dart';
 
 final campaignSeederProvider = Provider((ref) => CampaignSeeder(ref));
 

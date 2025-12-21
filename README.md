@@ -1,46 +1,63 @@
-# DungeonMind 🎲
+# DungeonMind - D&D Campaign Manager
 
-A neuro-inclusive, cross-platform Campaign Management System for Dungeon Masters with ADHD.
+A Flutter-based web application for managing D&D campaigns with AI assistance.
+
+🌐 **Live Demo**: https://gen-lang-client-0511073879.web.app
 
 ## Features
 
-- **ECS Database Architecture** – Polymorphic entities (NPCs, Locations, Items, Lore, Events, Factions) with bi-directional wiki-style linking
-- **Reactive State Management** – Riverpod providers for real-time updates
-- **Adaptive UI** – NavigationRail on desktop, BottomNavBar on mobile
-- **Catppuccin Theme** – Calm pastel colors for reduced cognitive load
-- **Completeness Scoring** – Visual progress indicators to encourage filling in lore
-- **Calendar Presets** – Gregorian, Harptos (Forgotten Realms), Exandrian (Critical Role)
+- 📚 **Campaign Management** - Create and organize multiple campaigns
+- 👥 **Entity Tracking** - NPCs, locations, items, and more with wikilink connections
+- 🗺️ **Interactive Maps** - Fog of war support for exploration
+- 🎲 **AI Assistant** - Gemini-powered suggestions and content generation
+- 📖 **SRD Integration** - Import from D&D 5e SRD
+
+## Quick Start
+
+### Run Locally
+```bash
+flutter run -d chrome
+```
+
+### Build for Web
+```bash
+flutter build web --release
+```
+
+### Deploy to Firebase
+```bash
+firebase deploy --only hosting
+```
 
 ## Tech Stack
 
-- **Flutter** – Cross-platform native performance
-- **Drift (SQLite)** – Local-first relational database with graph capabilities
-- **Riverpod** – Reactive state management
-- **go_router** – Type-safe navigation
-- **Material 3** – Modern design system
+- **Flutter 3.38** - Cross-platform UI framework
+- **Riverpod** - State management
+- **Drift** - SQLite database with web support
+- **go_router** - Navigation
+- **Gemini AI** - Content generation
 
-## Getting Started
+## Project Structure
 
-### Prerequisites
-
-- Flutter SDK 3.24+
-- Windows Developer Mode enabled (for Windows builds)
-
-### Run
-
-```bash
-flutter pub get
-dart run build_runner build
-flutter run
+```
+lib/
+├── core/           # Theme, utilities, services
+├── data/           # Database, models, repositories
+├── features/       # Screen implementations
+│   ├── campaigns/
+│   ├── entities/
+│   ├── maps/
+│   └── shell/
+└── providers/      # Riverpod providers
 ```
 
-## Roadmap
+## Contributing
 
-- [ ] Phase 4: `[[wikilink]]` parsing with auto-linking
-- [ ] Phase 5: Interactive maps with Fog of War
-- [ ] Phase 6: Gemini AI logic checker
-- [ ] Phase 7: Gamification (streaks, animations)
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
 ## License
 
-MIT
+MIT License

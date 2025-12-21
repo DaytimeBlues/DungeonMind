@@ -32,6 +32,11 @@ class EntityRepository {
     return _db.entityById(id).getSingleOrNull();
   }
 
+  /// Watch a single entity by ID
+  Stream<Entity?> watchEntity(String id) {
+    return (_db.select(_db.entities)..where((e) => e.id.equals(id))).watchSingleOrNull();
+  }
+
   /// Get entity by slug (for wiki linking)
   Future<Entity?> getEntityBySlug(String campaignId, String slug) async {
     return _db.entityBySlug(campaignId, slug.toLowerCase()).getSingleOrNull();

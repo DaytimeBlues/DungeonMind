@@ -16,38 +16,24 @@ class CampaignListScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print('DungeonMind: CampaignListScreen.build()');
     final campaignsAsync = ref.watch(campaignsProvider);
-
+    
     return GrimoireScaffold(
       appBar: AppBar(
         title: const Text('Campaigns'),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: const Icon(Icons.bug_report),
-            tooltip: 'Run Simulation',
-            onPressed: () async {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Running simulation...')),
-              );
-              final script = ref.read(simulationScriptProvider);
-              await script.runFullSimulation();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Simulation complete! Refreshing...')),
-              );
-              // Trigger refresh via provider invalidation if needed, or if stream handles it.
-              // Stream will auto-update.
-            },
-          ),
-          IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () => context.pushNamed('create-campaign'),
+            onPressed: () => _showCreateCampaignDialog(context, ref),
             tooltip: 'New Campaign',
           ),
         ],
       ),
       body: campaignsAsync.when(
         data: (campaigns) {
+          print('DungeonMind: Campaigns loaded: ${campaigns.length}');
           if (campaigns.isEmpty) {
             return Center(
               child: Column(
@@ -56,10 +42,9 @@ class CampaignListScreen extends ConsumerWidget {
                   Icon(
                     Icons.auto_awesome,
                     size: 80,
-                    color: CatppuccinColors.mauve.withOpacity(0.5),
-                  )
-                      .animate(onPlay: (c) => c.repeat(reverse: true))
-                      .scale(begin: const Offset(1, 1), end: const Offset(1.1, 1.1), duration: 2.seconds),
+                    color: CatppuccinColors.mauve.withValues(alpha: 0.5),
+                  ).animate(onPlay: (c) => c.repeat(reverse: true))
+                   .scale(begin: const Offset(1, 1), end: const Offset(1.1, 1.1), duration: 2.seconds),
                   const SizedBox(height: 24),
                   Text(
                     'No campaigns yet',
@@ -94,7 +79,7 @@ class CampaignListScreen extends ConsumerWidget {
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: CatppuccinColors.mauve.withOpacity(0.1),
+                      color: CatppuccinColors.mauve.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: const Icon(
@@ -120,39 +105,48 @@ class CampaignListScreen extends ConsumerWidget {
                       : null,
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    // Set as selected campaign and navigate
                     ref.read(selectedCampaignIdProvider.notifier).state = campaign.id;
                     context.go('/entities');
                   },
                 ),
-              )
-                  .animate()
-                  .fadeIn(delay: (index * 50).ms)
-                  .slideX(begin: 0.1, end: 0, delay: (index * 50).ms);
+              ).animate()
+               .fadeIn(delay: (index * 50).ms)
+               .slideX(begin: 0.1, end: 0, delay: (index * 50).ms);
             },
           );
         },
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
+        loading: () => const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.error_outline, size: 48, color: CatppuccinColors.red),
-              const SizedBox(height: 16),
-              Text('Error: $error'),
+              CircularProgressIndicator(),
+              SizedBox(height: 16),
+              Text('Loading campaigns...'),
             ],
           ),
         ),
+        error: (error, stack) {
+          print('DungeonMind: Campaigns error: $error');
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error_outline, size: 48, color: CatppuccinColors.red),
+                const SizedBox(height: 16),
+                Text('Error loading campaigns'),
+                const SizedBox(height: 8),
+                FilledButton(
+                  onPressed: () => ref.invalidate(campaignsProvider),
+                  child: const Text('Retry'),
+                ),
+              ],
+            ),
+          );
+        },
       ),
-      floatingActionButton: campaignsAsync.valueOrNull?.isNotEmpty == true
-          ? FloatingActionButton.extended(
-              onPressed: () => _showCreateCampaignDialog(context, ref),
-              icon: const Icon(Icons.add),
-              label: const Text('New Campaign'),
-            )
-          : null,
     );
   }
+
 
   void _showCreateCampaignDialog(BuildContext context, WidgetRef ref) {
     final titleController = TextEditingController();
